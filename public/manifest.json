@@ -1,0 +1,21 @@
+{
+  "short_name": "Railmonk",
+  "name": "Railmonk - IRCTC Refund, Tatkal & Berth Tools",
+  "description": "Free Indian Railways tools: IRCTC cancellation refunds, Tatkal charges, TDR eligibility, booking dates, and berth positions",
+  "icons": [
+    {
+      "src": "railmonk-logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#1a2332",
+  "background_color": "#ffffff",
+  "categories": ["travel", "utilities"],
+  "lang": "en-IN",
+  "scope": "/",
+  "orientation": "portrait-primary"
+}

@@ -1,0 +1,154 @@
+/* AdSense Component Styles */
+
+.adsense-container {
+  margin: 0 auto;
+  max-width: 100%;
+  position: relative;
+}
+
+.adsense-container .adsbygoogle {
+  display: block;
+  text-align: center;
+}
+
+/* Loading Animation */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+.adsense-loading {
+  animation: pulse 2s infinite;
+}
+
+/* Fallback Content Styles */
+.adsense-fallback {
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 1rem;
+  font-size: 0.9rem;
+  min-height: 90px;
+  position: relative;
+  overflow: hidden;
+}
+
+.adsense-fallback::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+.adsense-fallback-content {
+  position: relative;
+  z-index: 2;
+}
+
+.adsense-fallback-icon {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.adsense-fallback-title {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  color: #374151;
+}
+
+.adsense-fallback-text {
+  font-size: 0.8rem;
+  opacity: 0.8;
+  line-height: 1.4;
+}
+
+/* Responsive AdSense Styles */
+@media (max-width: 768px) {
+  .adsense-container {
+    margin: 0.5rem 0;
+  }
+  
+  .adsense-fallback {
+    min-height: 60px;
+    padding: 0.75rem;
+    font-size: 0.8rem;
+  }
+  
+  .adsense-fallback-icon {
+    font-size: 1.2rem;
+  }
+}
+
+/* Ad format specific styles */
+.adsense-banner {
+  min-height: 90px;
+  max-width: 728px;
+  margin: 0 auto;
+}
+
+.adsense-rectangle {
+  min-height: 250px;
+  width: 300px;
+  margin: 0 auto;
+}
+
+.adsense-leaderboard {
+  min-height: 90px;
+  max-width: 728px;
+  margin: 0 auto;
+}
+
+.adsense-mobile-banner {
+  min-height: 50px;
+  width: 100%;
+  max-width: 320px;
+  margin: 0 auto;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .adsense-fallback {
+    background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+    border-color: #475569;
+    color: #94a3b8;
+  }
+  
+  .adsense-fallback-title {
+    color: #e2e8f0;
+  }
+}
+
+/* Hide ads in print */
+@media print {
+  .adsense-container {
+    display: none !important;
+  }
+}

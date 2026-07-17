@@ -1,0 +1,8 @@
+# Robots.txt for Railmonk
+
+User-agent: *
+Allow: /
+
+Disallow: /cdn-cgi/
+
+Sitemap: https://railmonk.com/sitemap.xml

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <!-- Railmonk mark: front-facing locomotive on a navy plate -->
+  <rect x="2" y="2" width="60" height="60" rx="14" fill="#1a2332"/>
+  <!-- loco body -->
+  <rect x="16" y="12" width="32" height="34" rx="9" fill="#ea580c"/>
+  <!-- roof stripe -->
+  <rect x="16" y="12" width="32" height="7" rx="3.5" fill="#fdba74"/>
+  <!-- windshield -->
+  <rect x="21" y="21" width="22" height="11" rx="4" fill="#fff7ed"/>
+  <!-- headlights -->
+  <circle cx="24.5" cy="39" r="2.6" fill="#fff7ed"/>
+  <circle cx="39.5" cy="39" r="2.6" fill="#fff7ed"/>
+  <!-- cow-catcher / bumper -->
+  <path d="M20 46h24l4 7H16z" fill="#fdba74"/>
+  <!-- rails -->
+  <rect x="12" y="55.5" width="40" height="2.4" rx="1.2" fill="#94a3b8"/>
+  <rect x="18" y="51.5" width="28" height="2.2" rx="1.1" fill="#64748b"/>
+</svg>

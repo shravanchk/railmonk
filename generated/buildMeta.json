@@ -1,0 +1,10 @@
+{
+  "buildTimestamp": "2026-06-28T00:00:00.000Z",
+  "buildDate": "2026-06-28",
+  "version": "2.0.0",
+  "dataFreshness": {
+    "marketData": "2026-06-28",
+    "financialNews": "2026-06-28",
+    "latestAvailable": "2026-06-28"
+  }
+}
