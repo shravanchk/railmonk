@@ -4,9 +4,17 @@ export default function Document() {
   return (
     <Html lang="en">
       <Head>
-        {/* Google Analytics: create a GA4 property for railmonk.com and add its
-            G-XXXX tag here. (Upaman's tag was intentionally removed so railmonk
-            traffic doesn't pollute that property.) */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-7XZQLXDYQ1" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-7XZQLXDYQ1');
+            `
+          }}
+        />
         <meta charSet="utf-8" />
         <meta name="google-adsense-account" content="ca-pub-3543327769912677" />
         <meta name="theme-color" content="#1a2332" />
