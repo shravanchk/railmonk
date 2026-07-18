@@ -7,11 +7,11 @@ import { cn } from '../ui/cn';
 type NavLink = { label: string; href: string };
 
 const TOOLS: NavLink[] = [
-  { label: 'IRCTC Booking Date Calculator', href: '/irctc-calculator' },
-  { label: 'Cancellation Refund Calculator', href: '/irctc-cancellation-calculator' },
-  { label: 'Tatkal Charges Calculator', href: '/tatkal-charges-calculator' },
-  { label: 'TDR Refund Checker', href: '/tdr-refund-checker' },
-  { label: 'Berth Position Finder', href: '/berth-position-finder' },
+  { label: 'IRCTC Booking Date Calculator', href: '/rail/irctc-calculator' },
+  { label: 'Cancellation Refund Calculator', href: '/rail/irctc-cancellation-calculator' },
+  { label: 'Tatkal Charges Calculator', href: '/rail/tatkal-charges-calculator' },
+  { label: 'TDR Refund Checker', href: '/rail/tdr-refund-checker' },
+  { label: 'Berth Position Finder', href: '/rail/berth-position-finder' },
 ];
 
 const RESOURCES: NavLink[] = [

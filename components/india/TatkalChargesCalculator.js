@@ -84,7 +84,7 @@ const TatkalChargesCalculator = () => {
 
   const softwareSchema = buildSoftwareApplicationSchema({
     name: 'Tatkal Charges Calculator',
-    url: 'https://railmonk.com/tatkal-charges-calculator',
+    url: 'https://railmonk.com/rail/tatkal-charges-calculator',
     description: 'Calculate the extra Tatkal charge on Indian Railways tickets — 10%/30% of basic fare with class-wise min/max caps, per passenger.',
     applicationCategory: 'TravelApplication',
     featureList: [
@@ -96,7 +96,7 @@ const TatkalChargesCalculator = () => {
   });
   const breadcrumbSchema = buildBreadcrumbSchema([
     { name: 'Home', item: 'https://railmonk.com/' },
-    { name: 'Tatkal Charges Calculator', item: 'https://railmonk.com/tatkal-charges-calculator' }
+    { name: 'Tatkal Charges Calculator', item: 'https://railmonk.com/rail/tatkal-charges-calculator' }
   ]);
 
   return (
@@ -104,10 +104,10 @@ const TatkalChargesCalculator = () => {
       <Head>
         <title>Tatkal Charges Calculator — Extra Cost of Tatkal Tickets | Railmonk</title>
         <meta name="description" content="How much extra does a Tatkal ticket cost? Calculate the Tatkal charge for SL, 3A, 2A, CC, EC and 2S — percentage of basic fare with class-wise min/max caps, per passenger." />
-        <link rel="canonical" href="https://railmonk.com/tatkal-charges-calculator" />
+        <link rel="canonical" href="https://railmonk.com/rail/tatkal-charges-calculator" />
         <meta property="og:title" content="Tatkal Charges Calculator | Railmonk" />
         <meta property="og:description" content="Calculate the exact Tatkal premium for your train class — 10%/30% of basic fare with min/max caps." />
-        <meta property="og:url" content="https://railmonk.com/tatkal-charges-calculator" />
+        <meta property="og:url" content="https://railmonk.com/rail/tatkal-charges-calculator" />
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary_large_image" />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }} />
@@ -274,7 +274,7 @@ const TatkalChargesCalculator = () => {
             cancellation</strong> — the whole fare including the surcharge is forfeited — and no changes of name or
             boarding are permitted beyond what IRCTC allows for all tickets. Budget for Tatkal only when the trip is
             certain, and check our{' '}
-            <a href="/irctc-cancellation-calculator" className="font-medium text-brand-600 underline underline-offset-2 hover:text-brand-700 dark:text-brand-300">cancellation calculator</a>{' '}
+            <a href="/rail/irctc-cancellation-calculator" className="font-medium text-brand-600 underline underline-offset-2 hover:text-brand-700 dark:text-brand-300">cancellation calculator</a>{' '}
             for what a general-quota ticket would return instead.
           </p>
         </div>
@@ -329,10 +329,10 @@ const TatkalChargesCalculator = () => {
             )}
             faqItems={seoFaqItems}
             relatedLinks={[
-              { label: 'IRCTC Advance Booking Calculator', href: '/irctc-calculator' },
-              { label: 'IRCTC Cancellation Calculator', href: '/irctc-cancellation-calculator' },
-              { label: 'TDR Refund Checker', href: '/tdr-refund-checker' },
-              { label: 'Train Berth Position Finder', href: '/berth-position-finder' }
+              { label: 'IRCTC Advance Booking Calculator', href: '/rail/irctc-calculator' },
+              { label: 'IRCTC Cancellation Calculator', href: '/rail/irctc-cancellation-calculator' },
+              { label: 'TDR Refund Checker', href: '/rail/tdr-refund-checker' },
+              { label: 'Train Berth Position Finder', href: '/rail/berth-position-finder' }
             ]}
           />
         </div>

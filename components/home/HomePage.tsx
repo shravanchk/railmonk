@@ -20,31 +20,31 @@ import Reveal from '../ui/Reveal';
 
 const TOOLS = [
   {
-    href: '/irctc-calculator',
+    href: '/rail/irctc-calculator',
     title: 'IRCTC Booking Date Calculator',
     desc: 'Find the exact date and time your ticket window opens — general quota and Tatkal — so you are ready the second booking starts.',
     Icon: CalendarClock,
   },
   {
-    href: '/irctc-cancellation-calculator',
+    href: '/rail/irctc-cancellation-calculator',
     title: 'Cancellation Refund Calculator',
     desc: 'See the rupee amount you will actually get back before you cancel, using the official refund slabs for every class and timing.',
     Icon: TicketX,
   },
   {
-    href: '/tatkal-charges-calculator',
+    href: '/rail/tatkal-charges-calculator',
     title: 'Tatkal Charges Calculator',
     desc: 'Know the real Tatkal premium over the base fare for your class and distance before you pay it.',
     Icon: Zap,
   },
   {
-    href: '/tdr-refund-checker',
+    href: '/rail/tdr-refund-checker',
     title: 'TDR Refund Checker',
     desc: 'Check whether your situation qualifies for a TDR refund, what share you can claim, and the filing deadline that applies.',
     Icon: FileCheck,
   },
   {
-    href: '/berth-position-finder',
+    href: '/rail/berth-position-finder',
     title: 'Berth Position Finder',
     desc: 'Turn a seat number into its coach layout position — lower, middle, upper, side — before you board.',
     Icon: BedDouble,
@@ -105,14 +105,14 @@ export default function HomePage() {
               </p>
               <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
                 <Link
-                  href="/irctc-cancellation-calculator"
+                  href="/rail/irctc-cancellation-calculator"
                   className="inline-flex items-center gap-2 rounded-xl bg-brand-600 px-5 py-3 text-sm font-semibold text-white shadow-lift transition hover:bg-brand-700"
                 >
                   Calculate my refund
                   <ArrowRight className="h-4 w-4" />
                 </Link>
                 <Link
-                  href="/guides/irctc-booking-strategy"
+                  href="/rail/guides/irctc-booking-strategy"
                   className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-ink-soft transition hover:border-brand-300 hover:text-brand-700 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
                 >
                   Read the booking strategy guide
@@ -144,7 +144,7 @@ export default function HomePage() {
                     </span>
                   </Card>
                 ))}
-                <Card href="/guides/irctc-booking-strategy" className="bg-gradient-to-br from-brand-600 to-brand-800 p-6 text-white dark:from-brand-700 dark:to-brand-900">
+                <Card href="/rail/guides/irctc-booking-strategy" className="bg-gradient-to-br from-brand-600 to-brand-800 p-6 text-white dark:from-brand-700 dark:to-brand-900">
                   <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-white/15 text-white">
                     <Sparkles className="h-5 w-5" />
                   </span>

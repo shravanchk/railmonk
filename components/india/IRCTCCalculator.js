@@ -221,7 +221,7 @@ const IRCTCCalculator = () => {
   ];
   const softwareSchema = buildSoftwareApplicationSchema({
     name: 'IRCTC Advance Booking Calculator',
-    url: 'https://railmonk.com/irctc-calculator',
+    url: 'https://railmonk.com/rail/irctc-calculator',
     description: 'Calculate IRCTC booking window dates and timing guidance for regular and Tatkal bookings.',
     applicationCategory: 'TravelApplication',
     featureList: [
@@ -233,7 +233,7 @@ const IRCTCCalculator = () => {
   });
   const breadcrumbSchema = buildBreadcrumbSchema([
     { name: 'Home', item: 'https://railmonk.com/' },
-    { name: 'IRCTC Calculator', item: 'https://railmonk.com/irctc-calculator' }
+    { name: 'IRCTC Calculator', item: 'https://railmonk.com/rail/irctc-calculator' }
   ]);
 
   const daysUntil = getDaysUntilBooking();
@@ -255,10 +255,10 @@ const IRCTCCalculator = () => {
         <title>IRCTC Booking Charges Calculator | Train Ticket Fee Tool | Railmonk</title>
         <meta name="description" content="IRCTC Booking Charges Calculator. Compute convenience fees & payment gateway charges for train ticket classes (Sleeper, 3A, 2A, CC, etc)." />
         <meta name="keywords" content="IRCTC calculator, train booking charges, railway ticket fees, IRCTC convenience fee" />
-        <link rel="canonical" href="https://railmonk.com/irctc-calculator" />
+        <link rel="canonical" href="https://railmonk.com/rail/irctc-calculator" />
         <meta property="og:title" content="IRCTC Booking Charges Calculator | Railmonk" />
         <meta property="og:description" content="Calculate IRCTC booking & payment gateway charges for all classes." />
-        <meta property="og:url" content="https://railmonk.com/irctc-calculator" />
+        <meta property="og:url" content="https://railmonk.com/rail/irctc-calculator" />
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="IRCTC Booking Charges Calculator | Railmonk" />
@@ -580,7 +580,7 @@ END:VCALENDAR`}
             fixed pricing with demand-based fares altogether. When comparing the &ldquo;cost of a ticket,&rdquo;
             be clear which of the three layers moved. And if plans change after booking, cancellation has its own
             fee structure — the{' '}
-            <a href="/irctc-cancellation-calculator" className="font-medium text-brand-600 underline underline-offset-2 hover:text-brand-700 dark:text-brand-300">IRCTC cancellation charges calculator</a>{' '}
+            <a href="/rail/irctc-cancellation-calculator" className="font-medium text-brand-600 underline underline-offset-2 hover:text-brand-700 dark:text-brand-300">IRCTC cancellation charges calculator</a>{' '}
             estimates your refund under the April 2026 72h/24h/8h rules.
           </p>
 
@@ -590,8 +590,8 @@ END:VCALENDAR`}
             and book at opening. If the date is inside the 60-day window already, check the general quota first
             and treat Tatkal as the fallback it was designed to be. Booking Tatkal anyway? Check the real premium
             with the{' '}
-            <a href="/tatkal-charges-calculator" className="font-medium text-brand-600 underline underline-offset-2 hover:text-brand-700 dark:text-brand-300">Tatkal charges calculator</a>, and know your exit cost up front with the{' '}
-            <a href="/irctc-cancellation-calculator" className="font-medium text-brand-600 underline underline-offset-2 hover:text-brand-700 dark:text-brand-300">cancellation refund calculator</a>.
+            <a href="/rail/tatkal-charges-calculator" className="font-medium text-brand-600 underline underline-offset-2 hover:text-brand-700 dark:text-brand-300">Tatkal charges calculator</a>, and know your exit cost up front with the{' '}
+            <a href="/rail/irctc-cancellation-calculator" className="font-medium text-brand-600 underline underline-offset-2 hover:text-brand-700 dark:text-brand-300">cancellation refund calculator</a>.
           </p>
         </div>
 
@@ -640,11 +640,11 @@ END:VCALENDAR`}
             )}
             faqItems={seoFaqItems}
             relatedLinks={[
-              { label: 'IRCTC Cancellation Charges Calculator', href: '/irctc-cancellation-calculator' },
-              { label: 'Tatkal Charges Calculator', href: '/tatkal-charges-calculator' },
-              { label: 'TDR Refund Checker', href: '/tdr-refund-checker' },
-              { label: 'Train Berth Position Finder', href: '/berth-position-finder' },
-              { label: 'IRCTC and Booking Strategy Guide', href: '/guides/irctc-booking-strategy' }
+              { label: 'IRCTC Cancellation Charges Calculator', href: '/rail/irctc-cancellation-calculator' },
+              { label: 'Tatkal Charges Calculator', href: '/rail/tatkal-charges-calculator' },
+              { label: 'TDR Refund Checker', href: '/rail/tdr-refund-checker' },
+              { label: 'Train Berth Position Finder', href: '/rail/berth-position-finder' },
+              { label: 'IRCTC and Booking Strategy Guide', href: '/rail/guides/irctc-booking-strategy' }
             ]}
           />
         </div>

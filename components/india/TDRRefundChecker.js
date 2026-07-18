@@ -51,7 +51,7 @@ const TDRRefundChecker = () => {
 
   const softwareSchema = buildSoftwareApplicationSchema({
     name: 'TDR Refund Eligibility Checker',
-    url: 'https://railmonk.com/tdr-refund-checker',
+    url: 'https://railmonk.com/rail/tdr-refund-checker',
     description: 'Check whether your IRCTC situation qualifies for a TDR refund — late trains, AC failure, RAC/waitlist, partial travel — with the exact filing deadline for each case.',
     applicationCategory: 'TravelApplication',
     featureList: [
@@ -63,7 +63,7 @@ const TDRRefundChecker = () => {
   });
   const breadcrumbSchema = buildBreadcrumbSchema([
     { name: 'Home', item: 'https://railmonk.com/' },
-    { name: 'TDR Refund Checker', item: 'https://railmonk.com/tdr-refund-checker' }
+    { name: 'TDR Refund Checker', item: 'https://railmonk.com/rail/tdr-refund-checker' }
   ]);
 
   return (
@@ -71,10 +71,10 @@ const TDRRefundChecker = () => {
       <Head>
         <title>TDR Refund Checker — Am I Eligible for an IRCTC Refund? | Railmonk</title>
         <meta name="description" content="Check if your situation qualifies for an IRCTC TDR refund: train 3+ hours late, AC failure, RAC/waitlist not travelled, partial group travel, missed connection — with exact filing deadlines." />
-        <link rel="canonical" href="https://railmonk.com/tdr-refund-checker" />
+        <link rel="canonical" href="https://railmonk.com/rail/tdr-refund-checker" />
         <meta property="og:title" content="TDR Refund Eligibility Checker | Railmonk" />
         <meta property="og:description" content="Pick your situation and see whether a TDR refund applies, how much comes back, and the filing deadline." />
-        <meta property="og:url" content="https://railmonk.com/tdr-refund-checker" />
+        <meta property="og:url" content="https://railmonk.com/rail/tdr-refund-checker" />
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary_large_image" />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }} />
@@ -221,7 +221,7 @@ const TDRRefundChecker = () => {
             inside 8 hours of departure refunds nothing, and picking a TDR reason that did not actually occur just
             produces a rejection two months later. If you are deciding whether to cancel a ticket you can still
             cancel normally, our{' '}
-            <a href="/irctc-cancellation-calculator" className="font-medium text-brand-600 underline underline-offset-2 hover:text-brand-700 dark:text-brand-300">cancellation charges calculator</a>{' '}
+            <a href="/rail/irctc-cancellation-calculator" className="font-medium text-brand-600 underline underline-offset-2 hover:text-brand-700 dark:text-brand-300">cancellation charges calculator</a>{' '}
             shows exactly what each timing window returns.
           </p>
         </div>
@@ -277,10 +277,10 @@ const TDRRefundChecker = () => {
             )}
             faqItems={seoFaqItems}
             relatedLinks={[
-              { label: 'IRCTC Cancellation Calculator', href: '/irctc-cancellation-calculator' },
-              { label: 'IRCTC Advance Booking Calculator', href: '/irctc-calculator' },
-              { label: 'Tatkal Charges Calculator', href: '/tatkal-charges-calculator' },
-              { label: 'Train Berth Position Finder', href: '/berth-position-finder' }
+              { label: 'IRCTC Cancellation Calculator', href: '/rail/irctc-cancellation-calculator' },
+              { label: 'IRCTC Advance Booking Calculator', href: '/rail/irctc-calculator' },
+              { label: 'Tatkal Charges Calculator', href: '/rail/tatkal-charges-calculator' },
+              { label: 'Train Berth Position Finder', href: '/rail/berth-position-finder' }
             ]}
           />
         </div>

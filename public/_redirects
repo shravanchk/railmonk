@@ -1,0 +1,7 @@
+# Flat launch URLs (July 2026) moved under /rail/ ahead of multi-mode expansion.
+/irctc-calculator /rail/irctc-calculator 301
+/irctc-cancellation-calculator /rail/irctc-cancellation-calculator 301
+/tatkal-charges-calculator /rail/tatkal-charges-calculator 301
+/tdr-refund-checker /rail/tdr-refund-checker 301
+/berth-position-finder /rail/berth-position-finder 301
+/guides/irctc-booking-strategy /rail/guides/irctc-booking-strategy 301

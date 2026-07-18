@@ -8,7 +8,7 @@ const GUIDES = [
   {
     title: 'IRCTC Booking Strategy',
     desc: 'A preparation system for regular and Tatkal train bookings — windows, quotas, and confirmation odds.',
-    href: '/guides/irctc-booking-strategy',
+    href: '/rail/guides/irctc-booking-strategy',
   },
 ];
 

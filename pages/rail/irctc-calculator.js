@@ -1,4 +1,4 @@
-import PageComponent from '../components/india/BerthPositionFinder';
+import PageComponent from '../../components/india/IRCTCCalculator';
 
 export default function RoutePage() {
   return <PageComponent />;

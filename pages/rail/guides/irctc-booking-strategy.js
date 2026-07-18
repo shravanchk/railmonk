@@ -1,5 +1,5 @@
-import GuidePageLayout, { sectionTitleStyle } from '../../components/guides/GuidePageLayout';
-import Callout from '../../components/guides/Callout';
+import GuidePageLayout, { sectionTitleStyle } from '../../../components/guides/GuidePageLayout';
+import Callout from '../../../components/guides/Callout';
 
 const articleSchema = {
   '@context': 'https://schema.org',
@@ -10,7 +10,7 @@ const articleSchema = {
   publisher: { '@type': 'Organization', name: 'Railmonk' },
   datePublished: '2026-07-06',
   dateModified: '2026-07-06',
-  mainEntityOfPage: 'https://railmonk.com/guides/irctc-booking-strategy'
+  mainEntityOfPage: 'https://railmonk.com/rail/guides/irctc-booking-strategy'
 };
 
 export default function IrctcBookingStrategyGuide() {
@@ -18,7 +18,7 @@ export default function IrctcBookingStrategyGuide() {
     <GuidePageLayout
       title="IRCTC Booking Strategy Guide"
       description="Improve booking success with a preparation system for regular and Tatkal IRCTC tickets: windows, backups, and payment readiness."
-      canonicalPath="/guides/irctc-booking-strategy"
+      canonicalPath="/rail/guides/irctc-booking-strategy"
       reviewedOn="July 6, 2026"
       articleSchema={articleSchema}
     >
@@ -69,7 +69,7 @@ export default function IrctcBookingStrategyGuide() {
       <h2 style={sectionTitleStyle}>How to use Railmonk tools together</h2>
       <Callout>
         <ol>
-          <li>Use the <a href="/irctc-calculator">IRCTC Booking Calculator</a> to get the opening window and planning context.</li>
+          <li>Use the <a href="/rail/irctc-calculator">IRCTC Booking Calculator</a> to get the opening window and planning context.</li>
           <li>Keep backup options in advance and estimate schedule constraints.</li>
           <li>Review assumptions on the <a href="/about">About page</a>.</li>
         </ol>

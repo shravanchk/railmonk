@@ -213,7 +213,7 @@ const IRCTCCancellationCalculator = () => {
 
   const softwareSchema = buildSoftwareApplicationSchema({
     name: 'IRCTC Cancellation Charges Calculator',
-    url: 'https://railmonk.com/irctc-cancellation-calculator',
+    url: 'https://railmonk.com/rail/irctc-cancellation-calculator',
     description: 'Estimate IRCTC train ticket refund and cancellation charge under the April 2026 rules — 72h/24h/8h slabs, class-wise flat charges, RAC/WL clerkage, and Tatkal.',
     applicationCategory: 'TravelApplication',
     featureList: [
@@ -226,7 +226,7 @@ const IRCTCCancellationCalculator = () => {
   });
   const breadcrumbSchema = buildBreadcrumbSchema([
     { name: 'Home', item: 'https://railmonk.com/' },
-    { name: 'IRCTC Cancellation Calculator', item: 'https://railmonk.com/irctc-cancellation-calculator' }
+    { name: 'IRCTC Cancellation Calculator', item: 'https://railmonk.com/rail/irctc-cancellation-calculator' }
   ]);
 
   const modeBtn = (mode, label) => (
@@ -249,10 +249,10 @@ const IRCTCCancellationCalculator = () => {
       <Head>
         <title>IRCTC Cancellation Charges Calculator — April 2026 Refund Rules | Railmonk</title>
         <meta name="description" content="Estimate your IRCTC train ticket refund under the new April 2026 rules: 72h/24h/8h cancellation slabs, class-wise flat charges with GST, RAC/waitlist clerkage, and Tatkal no-refund cases." />
-        <link rel="canonical" href="https://railmonk.com/irctc-cancellation-calculator" />
+        <link rel="canonical" href="https://railmonk.com/rail/irctc-cancellation-calculator" />
         <meta property="og:title" content="IRCTC Cancellation Charges Calculator — April 2026 Rules | Railmonk" />
         <meta property="og:description" content="How much refund will you get if you cancel your train ticket? Computes the new 72h/24h/8h slabs, flat charges, RAC/WL clerkage, and Tatkal rules." />
-        <meta property="og:url" content="https://railmonk.com/irctc-cancellation-calculator" />
+        <meta property="og:url" content="https://railmonk.com/rail/irctc-cancellation-calculator" />
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary_large_image" />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }} />
@@ -535,7 +535,7 @@ const IRCTCCancellationCalculator = () => {
             The flip side of cancellation timing is booking timing. If your travel dates might shift, the shape of
             these rules argues for booking early anyway — a cancellation 72+ hours out costs only the flat charge —
             and deciding by the 72-hour mark. Our{' '}
-            <a href="/irctc-calculator" className="font-medium text-brand-600 underline underline-offset-2 hover:text-brand-700 dark:text-brand-300">IRCTC advance booking calculator</a>{' '}
+            <a href="/rail/irctc-calculator" className="font-medium text-brand-600 underline underline-offset-2 hover:text-brand-700 dark:text-brand-300">IRCTC advance booking calculator</a>{' '}
             tells you exactly when the 60-day general window (and the one-day Tatkal window) opens for your journey
             date, so you can plan both ends of the trip.
           </p>
@@ -592,10 +592,10 @@ const IRCTCCancellationCalculator = () => {
             )}
             faqItems={seoFaqItems}
             relatedLinks={[
-              { label: 'IRCTC Advance Booking Calculator', href: '/irctc-calculator' },
-              { label: 'TDR Refund Checker', href: '/tdr-refund-checker' },
-              { label: 'Tatkal Charges Calculator', href: '/tatkal-charges-calculator' },
-              { label: 'IRCTC and Booking Strategy Guide', href: '/guides/irctc-booking-strategy' },
+              { label: 'IRCTC Advance Booking Calculator', href: '/rail/irctc-calculator' },
+              { label: 'TDR Refund Checker', href: '/rail/tdr-refund-checker' },
+              { label: 'Tatkal Charges Calculator', href: '/rail/tatkal-charges-calculator' },
+              { label: 'IRCTC and Booking Strategy Guide', href: '/rail/guides/irctc-booking-strategy' },
               { label: 'All Rail Tools', href: '/' }
             ]}
           />

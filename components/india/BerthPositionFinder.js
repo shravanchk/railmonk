@@ -114,7 +114,7 @@ const BerthPositionFinder = () => {
 
   const softwareSchema = buildSoftwareApplicationSchema({
     name: 'Train Berth Position Finder',
-    url: 'https://railmonk.com/berth-position-finder',
+    url: 'https://railmonk.com/rail/berth-position-finder',
     description: 'Find out whether an Indian Railways berth number is lower, middle, upper, side lower, or side upper — for Sleeper, AC 3-Tier, AC 2-Tier, and AC First — with a visual bay diagram.',
     applicationCategory: 'TravelApplication',
     featureList: [
@@ -126,7 +126,7 @@ const BerthPositionFinder = () => {
   });
   const breadcrumbSchema = buildBreadcrumbSchema([
     { name: 'Home', item: 'https://railmonk.com/' },
-    { name: 'Berth Position Finder', item: 'https://railmonk.com/berth-position-finder' }
+    { name: 'Berth Position Finder', item: 'https://railmonk.com/rail/berth-position-finder' }
   ]);
 
   return (
@@ -134,10 +134,10 @@ const BerthPositionFinder = () => {
       <Head>
         <title>Train Berth Position Finder — Lower, Middle, Upper or Side? | Railmonk</title>
         <meta name="description" content="Enter your coach class and berth number to see if it's a lower, middle, upper, side lower, or side upper berth — with a visual bay diagram for SL, 3A, 2A, and 1A coaches." />
-        <link rel="canonical" href="https://railmonk.com/berth-position-finder" />
+        <link rel="canonical" href="https://railmonk.com/rail/berth-position-finder" />
         <meta property="og:title" content="Train Berth Position Finder | Railmonk" />
         <meta property="og:description" content="Is berth 23 a side lower? Find your berth's position in Sleeper, AC 3-Tier, AC 2-Tier, and AC First coaches." />
-        <meta property="og:url" content="https://railmonk.com/berth-position-finder" />
+        <meta property="og:url" content="https://railmonk.com/rail/berth-position-finder" />
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary_large_image" />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }} />
@@ -275,7 +275,7 @@ const BerthPositionFinder = () => {
             side lowers get shared with RAC passengers in Sleeper; side uppers have the least headroom. If the
             allotment matters — say, travelling with elderly parents — book early enough to use the lower-berth
             preference, and check our{' '}
-            <a href="/irctc-calculator" className="font-medium text-brand-600 underline underline-offset-2 hover:text-brand-700 dark:text-brand-300">advance booking calculator</a>{' '}
+            <a href="/rail/irctc-calculator" className="font-medium text-brand-600 underline underline-offset-2 hover:text-brand-700 dark:text-brand-300">advance booking calculator</a>{' '}
             for exactly when the window opens.
           </p>
         </div>
@@ -323,10 +323,10 @@ const BerthPositionFinder = () => {
             )}
             faqItems={seoFaqItems}
             relatedLinks={[
-              { label: 'IRCTC Advance Booking Calculator', href: '/irctc-calculator' },
-              { label: 'IRCTC Cancellation Calculator', href: '/irctc-cancellation-calculator' },
-              { label: 'Tatkal Charges Calculator', href: '/tatkal-charges-calculator' },
-              { label: 'TDR Refund Checker', href: '/tdr-refund-checker' }
+              { label: 'IRCTC Advance Booking Calculator', href: '/rail/irctc-calculator' },
+              { label: 'IRCTC Cancellation Calculator', href: '/rail/irctc-cancellation-calculator' },
+              { label: 'Tatkal Charges Calculator', href: '/rail/tatkal-charges-calculator' },
+              { label: 'TDR Refund Checker', href: '/rail/tdr-refund-checker' }
             ]}
           />
         </div>
