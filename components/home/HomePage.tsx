@@ -110,7 +110,7 @@ export default function HomePage() {
       <div className="bg-white font-sans text-ink dark:bg-slate-900">
         {/* Hero */}
         <section className="relative overflow-hidden border-b border-slate-200/70 bg-gradient-to-b from-brand-50 via-white to-white dark:border-slate-800 dark:from-slate-800/60 dark:via-slate-900 dark:to-slate-900">
-          <Container className="py-16 sm:py-20">
+          <Container className="pb-28 pt-16 sm:pb-32 sm:pt-20">
             <div className="mx-auto max-w-3xl text-center">
               <p className="inline-flex items-center gap-2 rounded-full border border-brand-200 bg-white px-4 py-1.5 text-xs font-semibold uppercase tracking-wide text-brand-700 shadow-soft dark:border-slate-700 dark:bg-slate-800 dark:text-brand-400">
                 <TrainFront className="h-3.5 w-3.5" />
@@ -140,6 +140,71 @@ export default function HomePage() {
               </div>
             </div>
           </Container>
+
+          {/* Animated train crossing the hero on its track */}
+          <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0">
+            <div className="hero-train absolute bottom-[9px] left-0 text-ink dark:text-slate-400">
+              <svg width="160" height="48" viewBox="0 0 160 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                {/* steam puffs above the chimney */}
+                <g fill="currentColor" opacity="0.55">
+                  <circle className="hero-steam" cx="141" cy="10" r="3" />
+                  <circle className="hero-steam hero-steam-2" cx="143" cy="9" r="2.4" />
+                  <circle className="hero-steam hero-steam-3" cx="139" cy="11" r="2" />
+                </g>
+                {/* coaches */}
+                <rect x="2" y="18" width="44" height="20" rx="4" fill="currentColor" />
+                <rect x="8" y="23" width="8" height="6" rx="1.5" fill="#fff7ed" />
+                <rect x="20" y="23" width="8" height="6" rx="1.5" fill="#fff7ed" />
+                <rect x="32" y="23" width="8" height="6" rx="1.5" fill="#fff7ed" />
+                <rect x="52" y="18" width="44" height="20" rx="4" fill="currentColor" />
+                <rect x="58" y="23" width="8" height="6" rx="1.5" fill="#fff7ed" />
+                <rect x="70" y="23" width="8" height="6" rx="1.5" fill="#fff7ed" />
+                <rect x="82" y="23" width="8" height="6" rx="1.5" fill="#fff7ed" />
+                {/* couplers */}
+                <rect x="46" y="26" width="6" height="4" fill="currentColor" opacity="0.7" />
+                <rect x="96" y="26" width="6" height="4" fill="currentColor" opacity="0.7" />
+                {/* locomotive (facing right) */}
+                <rect x="102" y="20" width="52" height="18" rx="4" fill="#ea580c" />
+                <rect x="102" y="10" width="22" height="14" rx="3" fill="#c2410c" />
+                <rect x="106" y="13" width="7" height="6" rx="1.5" fill="#fff7ed" />
+                <rect x="136" y="8" width="7" height="12" rx="2" fill="#c2410c" />
+                <path d="M154 38V26l6 12h-6z" fill="#c2410c" />
+                {/* wheels with a spoke so the spin reads */}
+                <g className="hero-train-wheel">
+                  <circle cx="12" cy="40" r="5" fill="currentColor" />
+                  <line x1="12" y1="36.5" x2="12" y2="43.5" stroke="#fff7ed" strokeWidth="1.4" />
+                </g>
+                <g className="hero-train-wheel">
+                  <circle cx="36" cy="40" r="5" fill="currentColor" />
+                  <line x1="36" y1="36.5" x2="36" y2="43.5" stroke="#fff7ed" strokeWidth="1.4" />
+                </g>
+                <g className="hero-train-wheel">
+                  <circle cx="62" cy="40" r="5" fill="currentColor" />
+                  <line x1="62" y1="36.5" x2="62" y2="43.5" stroke="#fff7ed" strokeWidth="1.4" />
+                </g>
+                <g className="hero-train-wheel">
+                  <circle cx="86" cy="40" r="5" fill="currentColor" />
+                  <line x1="86" y1="36.5" x2="86" y2="43.5" stroke="#fff7ed" strokeWidth="1.4" />
+                </g>
+                <g className="hero-train-wheel">
+                  <circle cx="112" cy="40" r="5" fill="#7c2d12" />
+                  <line x1="112" y1="36.5" x2="112" y2="43.5" stroke="#fff7ed" strokeWidth="1.4" />
+                </g>
+                <g className="hero-train-wheel">
+                  <circle cx="132" cy="40" r="5" fill="#7c2d12" />
+                  <line x1="132" y1="36.5" x2="132" y2="43.5" stroke="#fff7ed" strokeWidth="1.4" />
+                </g>
+                <g className="hero-train-wheel">
+                  <circle cx="148" cy="40" r="5" fill="#7c2d12" />
+                  <line x1="148" y1="36.5" x2="148" y2="43.5" stroke="#fff7ed" strokeWidth="1.4" />
+                </g>
+              </svg>
+            </div>
+            {/* rail */}
+            <div className="h-[2px] w-full bg-slate-300/90 dark:bg-slate-700" />
+            {/* sleepers */}
+            <div className="h-[5px] w-full bg-[repeating-linear-gradient(90deg,rgba(148,163,184,0.55)_0px,rgba(148,163,184,0.55)_8px,transparent_8px,transparent_26px)] dark:bg-[repeating-linear-gradient(90deg,rgba(51,65,85,0.9)_0px,rgba(51,65,85,0.9)_8px,transparent_8px,transparent_26px)]" />
+          </div>
         </section>
 
         {/* Tool grid */}

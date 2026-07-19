@@ -2721,3 +2721,47 @@ body.dark-theme .calculator-info-section ul {
 body.dark-theme .calculator-info-section a {
   color: #93c5fd;
 }
+
+/* Homepage hero train: glides along the track at the hero's bottom edge. */
+@keyframes heroTrainAcross {
+  0% { transform: translateX(-190px); }
+  100% { transform: translateX(calc(100vw + 30px)); }
+}
+
+@keyframes heroWheelSpin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes heroSteam {
+  0% { transform: translate(0, 0) scale(0.5); opacity: 0; }
+  20% { opacity: 0.5; }
+  100% { transform: translate(-16px, -20px) scale(1.4); opacity: 0; }
+}
+
+.hero-train {
+  animation: heroTrainAcross 26s linear infinite;
+  will-change: transform;
+}
+
+.hero-train-wheel {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: heroWheelSpin 0.9s linear infinite;
+}
+
+.hero-steam {
+  animation: heroSteam 2.2s ease-out infinite;
+}
+.hero-steam-2 { animation-delay: 0.7s; }
+.hero-steam-3 { animation-delay: 1.4s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-train,
+  .hero-train-wheel,
+  .hero-steam {
+    animation: none;
+  }
+  /* Park the train in view instead of hiding it. */
+  .hero-train { transform: translateX(14vw); }
+  .hero-steam { opacity: 0.35; }
+}
