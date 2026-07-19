@@ -2722,46 +2722,63 @@ body.dark-theme .calculator-info-section a {
   color: #93c5fd;
 }
 
-/* Homepage hero train: glides along the track at the hero's bottom edge. */
-@keyframes heroTrainAcross {
-  0% { transform: translateX(-190px); }
-  100% { transform: translateX(calc(100vw + 30px)); }
+/* Homepage hero journey line: a signal dot travels the route; stations pulse
+   as it passes. Timing contract: the dot crosses the full width linearly in
+   12s, so a station at left X% flashes when its delay-adjusted keyframe (the
+   3% mark) lands at t = 12s * X/100. */
+@keyframes journeyDotTravel {
+  0% { transform: translateX(-40px); opacity: 0; }
+  4% { opacity: 1; }
+  96% { opacity: 1; }
+  100% { transform: translateX(100vw); opacity: 0; }
 }
 
-@keyframes heroWheelSpin {
-  to { transform: rotate(360deg); }
+@keyframes journeyStationPulse {
+  0%, 6%, 100% {
+    transform: scale(1);
+    background-color: var(--station-base);
+    box-shadow: 0 0 0 0 rgba(234, 88, 12, 0);
+  }
+  3% {
+    transform: scale(1.8);
+    background-color: #ea580c;
+    box-shadow: 0 0 12px 3px rgba(234, 88, 12, 0.45);
+  }
 }
 
-@keyframes heroSteam {
-  0% { transform: translate(0, 0) scale(0.5); opacity: 0; }
-  20% { opacity: 0.5; }
-  100% { transform: translate(-16px, -20px) scale(1.4); opacity: 0; }
-}
-
-.hero-train {
-  animation: heroTrainAcross 26s linear infinite;
+.journey-dot {
+  animation: journeyDotTravel 12s linear infinite;
   will-change: transform;
+  box-shadow: 0 0 10px 2px rgba(234, 88, 12, 0.55);
 }
 
-.hero-train-wheel {
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: heroWheelSpin 0.9s linear infinite;
+/* Comet tail behind the traveling dot. */
+.journey-dot::after {
+  content: '';
+  position: absolute;
+  right: 100%;
+  top: 50%;
+  height: 2px;
+  width: 56px;
+  margin-top: -1px;
+  background: linear-gradient(to left, rgba(234, 88, 12, 0.5), transparent);
 }
 
-.hero-steam {
-  animation: heroSteam 2.2s ease-out infinite;
+.journey-station {
+  --station-base: #cbd5e1;
+  background-color: var(--station-base);
+  animation: journeyStationPulse 12s linear infinite;
 }
-.hero-steam-2 { animation-delay: 0.7s; }
-.hero-steam-3 { animation-delay: 1.4s; }
+
+body.dark-theme .journey-station {
+  --station-base: #475569;
+}
 
 @media (prefers-reduced-motion: reduce) {
-  .hero-train,
-  .hero-train-wheel,
-  .hero-steam {
+  .journey-dot,
+  .journey-station {
     animation: none;
   }
-  /* Park the train in view instead of hiding it. */
-  .hero-train { transform: translateX(14vw); }
-  .hero-steam { opacity: 0.35; }
+  /* Park the dot at the second station instead of hiding it. */
+  .journey-dot { transform: translateX(36vw); opacity: 1; }
 }
