@@ -79,6 +79,16 @@ const TatkalChargesCalculator = () => {
       question: 'Is the Tatkal charge per ticket or per passenger?',
       answer:
         'Per passenger. A family of four in AC 3-Tier pays four separate Tatkal charges, each computed from the basic fare with the class min/max applied individually.'
+    },
+    {
+      question: 'How many passengers can one Tatkal ticket cover?',
+      answer:
+        'A maximum of 4 passengers per Tatkal ticket (versus 6 on a general booking). If your group is larger, you need multiple tickets — booked in separate transactions, each racing the same quota.'
+    },
+    {
+      question: 'Do I need Aadhaar authentication to book Tatkal?',
+      answer:
+        'For the opening window, effectively yes. Since July 2025, only Aadhaar-authenticated IRCTC accounts can book Tatkal online during the first 30 minutes after the window opens (10:00–10:30 AM for AC, 11:00–11:30 AM for non-AC), with OTP-based verification at booking. Authorised agents are also blocked in that first half hour. Verify your account on IRCTC well before the travel day — not on the morning of the booking.'
     }
   ];
 

@@ -46,6 +46,16 @@ const TDRRefundChecker = () => {
       question: 'Do I need a TTE certificate?',
       answer:
         'For on-board issues — AC failure, travelling in a lower class, part of a group not travelling — yes, ask the TTE for a certificate during the journey. The certificate number goes into the TDR and claims without one are much more likely to be rejected.'
+    },
+    {
+      question: 'How do I check my TDR status?',
+      answer:
+        'Log in to irctc.co.in and go to My Account → My Transactions → TDR History. Each claim shows its current stage — registered, forwarded to railway, or refunded/rejected — against the TDR reference number you received when filing.'
+    },
+    {
+      question: 'What if my TDR is rejected?',
+      answer:
+        'The rejection reason appears in TDR History — most rejections are a mismatched reason, a missed deadline, or a missing TTE certificate. If the facts genuinely support your claim (for example, the train really was 3+ hours late), raise it with IRCTC customer care (care@irctc.co.in) or through RailMadad citing the TDR reference number and the train’s actual running data. There is no fee to escalate, but a claim rejected on deadline grounds is rarely reversed.'
     }
   ];
 

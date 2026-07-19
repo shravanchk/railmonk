@@ -109,6 +109,16 @@ const BerthPositionFinder = () => {
       question: 'Is there a side middle berth?',
       answer:
         'Some AC 3-Tier Economy (3E) coach builds added a side middle berth, but layouts vary by production batch, so this finder does not cover 3E. In SL, 3A, 2A, and 1A there is no side middle.'
+    },
+    {
+      question: 'How many berths does each coach type have?',
+      answer:
+        'Sleeper (SL): 72 berths in ICF coaches, up to 78–81 in LHB builds. AC 3-Tier (3A): 64 in ICF, 72 in LHB. AC 3-Tier Economy (3E): around 80. AC 2-Tier (2A): 46–54 depending on build, and AC First (1A): 18–24 in cabins. The repeating bay pattern is what lets a berth number map to a position.'
+    },
+    {
+      question: 'Can I choose my berth while booking on IRCTC?',
+      answer:
+        'You can state a preference (lower, upper, side lower…), but it is honoured only if a matching berth is free at booking time — it is never guaranteed. Two exceptions work in your favour: the senior-citizen lower-berth quota, and booking early in the ARP window when the coach is still empty. This finder tells you what the number you were allotted actually is.'
     }
   ];
 

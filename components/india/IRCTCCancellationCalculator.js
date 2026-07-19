@@ -208,6 +208,16 @@ const IRCTCCancellationCalculator = () => {
       question: 'Until when can I cancel a ticket online?',
       answer:
         'Under the April 2026 rules, online self-service cancellation for confirmed tickets closes 8 hours before scheduled departure (RAC and waitlisted tickets can be cancelled up to 30 minutes before). After the cutoff, the only route to any refund is a TDR claim with a valid reason.'
+    },
+    {
+      question: 'Is the IRCTC convenience fee refunded when I cancel?',
+      answer:
+        'No. The convenience fee charged at booking (it varies by class and payment method) is a per-booking service charge and is never refunded — not on cancellation, and not even when a fully waitlisted ticket is auto-cancelled at charting. Only the fare portion, minus the applicable cancellation charge or clerkage, comes back.'
+    },
+    {
+      question: 'Can I cancel just one passenger from a group ticket?',
+      answer:
+        'Yes. Partial cancellation is available online before chart preparation — select only the passengers you want to drop, and the cancellation charge or slab deduction applies per cancelled passenger while the rest of the ticket stays valid. After the chart, partially unused tickets move to TDR territory (with a TTE certificate for passengers who did not travel).'
     }
   ];
 
@@ -510,6 +520,18 @@ const IRCTCCancellationCalculator = () => {
             cancellation closes 8 hours before departure</strong> for confirmed tickets. Past that point the only
             path to any refund is a TDR (Ticket Deposit Receipt) claim with a valid reason — a manual process that
             typically takes 60–90 days.
+          </p>
+
+          <h3 className="mt-8 font-display text-lg font-semibold text-ink dark:text-white">When the money actually arrives</h3>
+          <p className="mt-3">
+            The refund clock starts at cancellation (or at charting, for auto-cancelled waitlisted tickets), and how
+            fast the money lands depends on how you paid. Refunds to the <strong className="text-ink dark:text-white">IRCTC
+            eWallet or iPay</strong> are near-instant. <strong className="text-ink dark:text-white">UPI and card</strong> refunds
+            typically credit in 3–5 banking days, and <strong className="text-ink dark:text-white">net banking</strong> can
+            take up to 7. The outlier is the <strong className="text-ink dark:text-white">TDR route</strong>: because every
+            claim is manually verified against train running records, 60–90 days is normal, not a delay. If an ordinary
+            cancellation refund has not arrived after a week, check the transaction status in your IRCTC account history
+            before raising it with customer care — the deduction breakdown shown there is also what this calculator estimates.
           </p>
 
           <h3 className="mt-8 font-display text-lg font-semibold text-ink dark:text-white">Two worked examples</h3>
