@@ -643,6 +643,7 @@ END:VCALENDAR`}
               { label: 'IRCTC Cancellation Charges Calculator', href: '/rail/irctc-cancellation-calculator' },
               { label: 'Tatkal Charges Calculator', href: '/rail/tatkal-charges-calculator' },
               { label: 'TDR Refund Checker', href: '/rail/tdr-refund-checker' },
+              { label: 'Waitlist Confirmation Chances', href: '/rail/waitlist-confirmation-chances' },
               { label: 'Train Berth Position Finder', href: '/rail/berth-position-finder' },
               { label: 'IRCTC and Booking Strategy Guide', href: '/rail/guides/irctc-booking-strategy' }
             ]}

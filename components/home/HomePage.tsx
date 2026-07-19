@@ -7,6 +7,7 @@ import {
   BedDouble,
   CalendarClock,
   FileCheck,
+  ListOrdered,
   ShieldCheck,
   Sparkles,
   TicketX,
@@ -48,6 +49,12 @@ const TOOLS = [
     title: 'Berth Position Finder',
     desc: 'Turn a seat number into its coach layout position — lower, middle, upper, side — before you board.',
     Icon: BedDouble,
+  },
+  {
+    href: '/rail/waitlist-confirmation-chances',
+    title: 'Waitlist Confirmation Chances',
+    desc: 'Decode GNWL, RLWL, PQWL, TQWL and RAC — and get an honest estimate of whether your waitlisted ticket will confirm.',
+    Icon: ListOrdered,
   },
 ];
 

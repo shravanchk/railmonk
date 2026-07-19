@@ -594,6 +594,7 @@ const IRCTCCancellationCalculator = () => {
             relatedLinks={[
               { label: 'IRCTC Advance Booking Calculator', href: '/rail/irctc-calculator' },
               { label: 'TDR Refund Checker', href: '/rail/tdr-refund-checker' },
+              { label: 'Waitlist Confirmation Chances', href: '/rail/waitlist-confirmation-chances' },
               { label: 'Tatkal Charges Calculator', href: '/rail/tatkal-charges-calculator' },
               { label: 'IRCTC and Booking Strategy Guide', href: '/rail/guides/irctc-booking-strategy' },
               { label: 'All Rail Tools', href: '/' }

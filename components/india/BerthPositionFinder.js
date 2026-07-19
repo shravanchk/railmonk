@@ -326,7 +326,8 @@ const BerthPositionFinder = () => {
               { label: 'IRCTC Advance Booking Calculator', href: '/rail/irctc-calculator' },
               { label: 'IRCTC Cancellation Calculator', href: '/rail/irctc-cancellation-calculator' },
               { label: 'Tatkal Charges Calculator', href: '/rail/tatkal-charges-calculator' },
-              { label: 'TDR Refund Checker', href: '/rail/tdr-refund-checker' }
+              { label: 'TDR Refund Checker', href: '/rail/tdr-refund-checker' },
+              { label: 'Waitlist Confirmation Chances', href: '/rail/waitlist-confirmation-chances' }
             ]}
           />
         </div>

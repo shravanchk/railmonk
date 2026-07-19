@@ -280,6 +280,7 @@ const TDRRefundChecker = () => {
               { label: 'IRCTC Cancellation Calculator', href: '/rail/irctc-cancellation-calculator' },
               { label: 'IRCTC Advance Booking Calculator', href: '/rail/irctc-calculator' },
               { label: 'Tatkal Charges Calculator', href: '/rail/tatkal-charges-calculator' },
+              { label: 'Waitlist Confirmation Chances', href: '/rail/waitlist-confirmation-chances' },
               { label: 'Train Berth Position Finder', href: '/rail/berth-position-finder' }
             ]}
           />
