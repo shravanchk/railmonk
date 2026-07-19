@@ -14,6 +14,7 @@ const COLUMNS: Col[] = [
       { label: 'TDR Refund Checker', href: '/rail/tdr-refund-checker' },
       { label: 'Berth Position Finder', href: '/rail/berth-position-finder' },
       { label: 'Waitlist Confirmation Chances', href: '/rail/waitlist-confirmation-chances' },
+      { label: 'Coach Position Finder', href: '/rail/coach-position-finder' },
     ],
   },
   {

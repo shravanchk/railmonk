@@ -8,6 +8,7 @@ import {
   CalendarClock,
   FileCheck,
   ListOrdered,
+  MapPin,
   ShieldCheck,
   Sparkles,
   TicketX,
@@ -55,6 +56,12 @@ const TOOLS = [
     title: 'Waitlist Confirmation Chances',
     desc: 'Decode GNWL, RLWL, PQWL, TQWL and RAC — and get an honest estimate of whether your waitlisted ticket will confirm.',
     Icon: ListOrdered,
+  },
+  {
+    href: '/rail/coach-position-finder',
+    title: 'Coach Position Finder',
+    desc: 'See where coach S4, B2 or A1 typically stands — front, middle, or rear — so you wait at the right end of the platform.',
+    Icon: MapPin,
   },
 ];
 

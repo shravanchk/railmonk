@@ -333,6 +333,7 @@ const BerthPositionFinder = () => {
             )}
             faqItems={seoFaqItems}
             relatedLinks={[
+              { label: 'Coach Position Finder', href: '/rail/coach-position-finder' },
               { label: 'IRCTC Advance Booking Calculator', href: '/rail/irctc-calculator' },
               { label: 'IRCTC Cancellation Calculator', href: '/rail/irctc-cancellation-calculator' },
               { label: 'Tatkal Charges Calculator', href: '/rail/tatkal-charges-calculator' },
