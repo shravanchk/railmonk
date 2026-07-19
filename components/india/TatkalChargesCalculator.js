@@ -339,6 +339,7 @@ const TatkalChargesCalculator = () => {
             )}
             faqItems={seoFaqItems}
             relatedLinks={[
+              { label: 'Train Fare Calculator', href: '/rail/train-fare-calculator' },
               { label: 'IRCTC Advance Booking Calculator', href: '/rail/irctc-calculator' },
               { label: 'IRCTC Cancellation Calculator', href: '/rail/irctc-cancellation-calculator' },
               { label: 'TDR Refund Checker', href: '/rail/tdr-refund-checker' },

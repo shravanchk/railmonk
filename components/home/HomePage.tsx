@@ -63,6 +63,12 @@ const TOOLS = [
     desc: 'See where coach S4, B2 or A1 typically stands — front, middle, or rear — so you wait at the right end of the platform.',
     Icon: MapPin,
   },
+  {
+    href: '/rail/train-fare-calculator',
+    title: 'Train Fare Calculator',
+    desc: 'Estimate the fare from distance and class — base fare, reservation fee, superfast charge, and GST itemized.',
+    Icon: BadgeIndianRupee,
+  },
 ];
 
 const websiteSchema = {

@@ -14,6 +14,7 @@ const TOOLS: NavLink[] = [
   { label: 'Berth Position Finder', href: '/rail/berth-position-finder' },
   { label: 'Waitlist Confirmation Chances', href: '/rail/waitlist-confirmation-chances' },
   { label: 'Coach Position Finder', href: '/rail/coach-position-finder' },
+  { label: 'Train Fare Calculator', href: '/rail/train-fare-calculator' },
 ];
 
 const RESOURCES: NavLink[] = [
