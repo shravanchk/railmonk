@@ -195,6 +195,10 @@ const IRCTCCalculator = () => {
 
   const seoFaqItems = [
     {
+      question: 'What is ARP (Advance Reservation Period)?',
+      answer: 'The Advance Reservation Period is how far ahead of the journey date Indian Railways lets you book a reserved ticket. Since November 1, 2024 the ARP is 60 days (excluding the journey day) for regular bookings; before that it was 120 days. Foreign tourist quota keeps a 365-day window, and Tatkal is separate — it opens only one day before the journey.'
+    },
+    {
       question: 'When does IRCTC general booking open?',
       answer: 'For most regular classes, booking opens at 10:00 AM IST as per current applicable booking window rules.'
     },
@@ -220,9 +224,9 @@ const IRCTCCalculator = () => {
     }
   ];
   const softwareSchema = buildSoftwareApplicationSchema({
-    name: 'IRCTC Advance Booking Calculator',
+    name: 'IRCTC Advance Booking (ARP) Calculator',
     url: 'https://railmonk.com/rail/irctc-calculator',
-    description: 'Calculate IRCTC booking window dates and timing guidance for regular and Tatkal bookings.',
+    description: 'Calculate the exact IRCTC booking-open date under the 60-day Advance Reservation Period (ARP), with Tatkal window timings for regular and quota bookings.',
     applicationCategory: 'TravelApplication',
     featureList: [
       'Advance booking date calculator',
@@ -252,25 +256,25 @@ const IRCTCCalculator = () => {
   return (
     <>
       <Head>
-        <title>IRCTC Booking Charges Calculator | Train Ticket Fee Tool | Railmonk</title>
-        <meta name="description" content="IRCTC Booking Charges Calculator. Compute convenience fees & payment gateway charges for train ticket classes (Sleeper, 3A, 2A, CC, etc)." />
-        <meta name="keywords" content="IRCTC calculator, train booking charges, railway ticket fees, IRCTC convenience fee" />
+        <title>IRCTC Advance Booking (ARP) Calculator — When Can I Book My Train Ticket? | Railmonk</title>
+        <meta name="description" content="Find the exact date your IRCTC booking window opens under the 60-day Advance Reservation Period (ARP), plus Tatkal opening times (10 AM AC, 11 AM non-AC) and quota rules." />
+        <meta name="keywords" content="ARP calculator, IRCTC advance booking, advance reservation period, when can I book train ticket, Tatkal opening time" />
         <link rel="canonical" href="https://railmonk.com/rail/irctc-calculator" />
-        <meta property="og:title" content="IRCTC Booking Charges Calculator | Railmonk" />
-        <meta property="og:description" content="Calculate IRCTC booking & payment gateway charges for all classes." />
+        <meta property="og:title" content="IRCTC Advance Booking (ARP) Calculator | Railmonk" />
+        <meta property="og:description" content="Enter your journey date and see exactly when the 60-day booking window and Tatkal quota open." />
         <meta property="og:url" content="https://railmonk.com/rail/irctc-calculator" />
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="IRCTC Booking Charges Calculator | Railmonk" />
-        <meta name="twitter:description" content="IRCTC train ticket booking fee & convenience charge calculator." />
+        <meta name="twitter:title" content="IRCTC Advance Booking (ARP) Calculator | Railmonk" />
+        <meta name="twitter:description" content="When does booking open for your journey date? ARP and Tatkal windows, calculated." />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       </Head>
 
       <CalcLayout
         eyebrow="India · Travel"
-        title="IRCTC Advance Booking Calculator"
-        subtitle="Find out exactly when your train ticket booking window opens — for general, quota, and Tatkal bookings."
+        title="IRCTC Advance Booking (ARP) Calculator"
+        subtitle="Find out exactly when your train ticket booking window opens under the Advance Reservation Period — for general, quota, and Tatkal bookings."
       >
         {/* Decorative moving train */}
         <div style={trainAnimationStyles.wrapper} aria-hidden="true">
