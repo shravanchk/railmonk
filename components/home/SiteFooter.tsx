@@ -25,6 +25,7 @@ const COLUMNS: Col[] = [
       { label: 'Train Classes Explained', href: '/rail/guides/train-classes-explained' },
       { label: 'Waitlist & RAC Survival Guide', href: '/rail/guides/waitlist-rac-guide' },
       { label: 'Tatkal Booking Masterclass', href: '/rail/guides/tatkal-booking-masterclass' },
+      { label: 'Vande Bharat Express Guide', href: '/rail/guides/vande-bharat-guide' },
       { label: 'IRCTC Booking Strategy', href: '/rail/guides/irctc-booking-strategy' },
       { label: 'All Guides', href: '/guides' },
     ],

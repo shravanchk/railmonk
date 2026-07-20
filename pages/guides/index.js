@@ -26,6 +26,11 @@ const GUIDES = [
     href: '/rail/guides/tatkal-booking-masterclass',
   },
   {
+    title: 'Vande Bharat Express Guide',
+    desc: 'Booking, CC vs Executive class, fares and opt-in catering, and practical tips before you board.',
+    href: '/rail/guides/vande-bharat-guide',
+  },
+  {
     title: 'IRCTC Booking Strategy',
     desc: 'A preparation system for regular and Tatkal train bookings — windows, quotas, and confirmation odds.',
     href: '/rail/guides/irctc-booking-strategy',
