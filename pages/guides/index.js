@@ -6,6 +6,26 @@ import Card from '../../components/ui/Card';
 
 const GUIDES = [
   {
+    title: 'How to Book a Train Ticket Online',
+    desc: "First-timer's walkthrough: create an IRCTC account, search trains, read availability codes, pay, and travel on an e-ticket.",
+    href: '/rail/guides/how-to-book-train-ticket-online',
+  },
+  {
+    title: 'Train Classes Explained',
+    desc: '1A vs 2A vs 3A vs 3E vs SL vs CC vs EC vs 2S — berths, comfort, bedding, and who each class actually suits.',
+    href: '/rail/guides/train-classes-explained',
+  },
+  {
+    title: 'Waitlist & RAC Survival Guide',
+    desc: 'GNWL, RLWL, PQWL and TQWL decoded — how charting works, your RAC rights, and what to do at each stage.',
+    href: '/rail/guides/waitlist-rac-guide',
+  },
+  {
+    title: 'Tatkal Booking Masterclass',
+    desc: 'Exact timings, the Aadhaar rule, master-list prep, payment strategy, and a minute-by-minute booking plan.',
+    href: '/rail/guides/tatkal-booking-masterclass',
+  },
+  {
     title: 'IRCTC Booking Strategy',
     desc: 'A preparation system for regular and Tatkal train bookings — windows, quotas, and confirmation odds.',
     href: '/rail/guides/irctc-booking-strategy',

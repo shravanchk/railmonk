@@ -649,7 +649,8 @@ END:VCALENDAR`}
               { label: 'TDR Refund Checker', href: '/rail/tdr-refund-checker' },
               { label: 'Waitlist Confirmation Chances', href: '/rail/waitlist-confirmation-chances' },
               { label: 'Train Berth Position Finder', href: '/rail/berth-position-finder' },
-              { label: 'IRCTC and Booking Strategy Guide', href: '/rail/guides/irctc-booking-strategy' }
+              { label: 'IRCTC and Booking Strategy Guide', href: '/rail/guides/irctc-booking-strategy' },
+              { label: 'How to Book a Train Ticket Online (Guide)', href: '/rail/guides/how-to-book-train-ticket-online' }
             ]}
           />
         </div>

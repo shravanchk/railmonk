@@ -358,6 +358,7 @@ const TrainFareCalculator = () => {
             )}
             faqItems={seoFaqItems}
             relatedLinks={[
+              { label: 'Train Classes Explained (Guide)', href: '/rail/guides/train-classes-explained' },
               { label: 'Tatkal Charges Calculator', href: '/rail/tatkal-charges-calculator' },
               { label: 'IRCTC Cancellation Calculator', href: '/rail/irctc-cancellation-calculator' },
               { label: 'IRCTC Advance Booking Calculator', href: '/rail/irctc-calculator' },

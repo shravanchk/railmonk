@@ -26,7 +26,7 @@ const GuidePageLayout = ({
   canonicalPath,
   reviewedOn = 'March 14, 2026',
   author = 'Railmonk Research Team',
-  reviewer = 'Personal Finance Review Desk',
+  reviewer = 'Travel Review Desk',
   articleSchema,
   children
 }) => {
