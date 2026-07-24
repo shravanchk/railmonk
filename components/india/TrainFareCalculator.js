@@ -4,11 +4,20 @@ import { BadgeIndianRupee, Route } from 'lucide-react';
 import EEATPanel from '../calculator/EEATPanel';
 import { editorialProfiles } from '../../utils/editorialProfiles';
 import SearchLandingSections from '../calculator/SearchLandingSections';
-import { buildSoftwareApplicationSchema, buildBreadcrumbSchema } from '../../utils/schema';
+import { buildSoftwareApplicationSchema } from '../../utils/schema';
 import { CalcLayout } from '../calculator/CalcLayout';
 import HowToSection from '../calculator/HowToSection';
 import Card from '../ui/Card';
+import Breadcrumbs from '../ui/Breadcrumbs';
+import RelatedContent from '../rail/RelatedContent';
+import NextStep from '../rail/NextStep';
+import ShareResult from '../rail/ShareResult';
+import UpdatedStamp from '../rail/UpdatedStamp';
+import useShareableInputs from '../rail/useShareableInputs';
+import { getTool } from '../../utils/catalog';
 import { cn } from '../ui/cn';
+
+const HREF = '/rail/train-fare-calculator';
 
 const { CLASSES, estimateFare } = require('../../utils/engines/trainFare');
 
@@ -34,6 +43,16 @@ const TrainFareCalculator = () => {
   const [distanceKm, setDistanceKm] = useState('500');
   const [trainCategory, setTrainCategory] = useState('superfast');
   const [passengers, setPassengers] = useState('1');
+
+  const shareUrl = useShareableInputs(
+    { class: classCode, km: distanceKm, cat: trainCategory, pax: passengers },
+    (params) => {
+      if (params.class) setClassCode(params.class);
+      if (params.km) setDistanceKm(params.km);
+      if (params.cat) setTrainCategory(params.cat);
+      if (params.pax) setPassengers(params.pax);
+    }
+  );
 
   const result = useMemo(
     () => estimateFare({ classCode, distanceKm: parseFloat(distanceKm), trainCategory, passengers: parseInt(passengers, 10) || 1 }),
@@ -87,18 +106,14 @@ const TrainFareCalculator = () => {
       'Flexi-fare surge range for premium trains'
     ]
   });
-  const breadcrumbSchema = buildBreadcrumbSchema([
-    { name: 'Home', item: 'https://railmonk.com/' },
-    { name: 'Train Fare Calculator', item: 'https://railmonk.com/rail/train-fare-calculator' }
-  ]);
 
   return (
     <>
       <Head>
-        <title>Train Fare Calculator — Estimate Indian Railways Ticket Prices by Distance & Class | Railmonk</title>
+        <title>Train Fare Calculator — Indian Railways Ticket Prices | Railmonk</title>
         <meta
           name="description"
-          content="Estimate your train ticket fare from distance and class — Sleeper, 3A, 2A, 1A, Chair Car — with the full breakdown: base fare, reservation fee, superfast charge, GST, and flexi-fare range."
+          content="Estimate your fare from distance and class, itemised: base fare, reservation fee, superfast charge, GST and the flexi-fare range."
         />
         <link rel="canonical" href="https://railmonk.com/rail/train-fare-calculator" />
         <meta property="og:title" content="Train Fare Calculator | Railmonk" />
@@ -107,7 +122,6 @@ const TrainFareCalculator = () => {
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary_large_image" />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }} />
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       </Head>
 
       <CalcLayout
@@ -115,6 +129,11 @@ const TrainFareCalculator = () => {
         title="Train Fare Calculator"
         subtitle="Estimate the fare for your journey from distance and class — with every charge itemized, and the flexi-fare range on premium trains."
       >
+        <Breadcrumbs
+          className="-mt-4 mb-6"
+          items={[{ name: 'Home', href: '/' }, { name: 'Rail tools', href: '/#tools' }, { name: 'Train fare calculator' }]}
+        />
+
         <div className="grid grid-cols-1 gap-5 lg:grid-cols-5">
           {/* Inputs */}
           <Card className="p-5 lg:col-span-2">
@@ -263,6 +282,12 @@ const TrainFareCalculator = () => {
                     <a href="/rail/tatkal-charges-calculator" className="font-medium text-brand-600 underline underline-offset-2 dark:text-brand-300">Tatkal charges calculator</a>.
                   </p>
                 </Card>
+                <ShareResult
+                  className="mt-4"
+                  url={shareUrl}
+                  title="Train fare estimate — Railmonk"
+                  text={`${classCode} for ${distanceKm} km: about ${rupees(result.totalPerPassenger)} per passenger.`}
+                />
               </>
             ) : (
               <Card className="flex flex-col items-center justify-center p-10 text-center text-sm text-ink-muted dark:text-slate-400">
@@ -309,6 +334,14 @@ const TrainFareCalculator = () => {
             tells you how much of this fare comes back at each stage.
           </p>
         </div>
+        <NextStep
+          title="Know the fare. Now know your exit cost."
+          body="Plans change. The refund calculator shows what you would actually get back from this fare at each cancellation stage."
+          href="/rail/irctc-cancellation-calculator"
+          cta="Calculate my refund"
+          secondary={{ href: '/rail/guides/train-classes-explained', label: 'Compare train classes' }}
+        />
+
 
         <div className="mt-8">
           <EEATPanel
@@ -357,13 +390,6 @@ const TrainFareCalculator = () => {
               </p>
             )}
             faqItems={seoFaqItems}
-            relatedLinks={[
-              { label: 'Train Classes Explained (Guide)', href: '/rail/guides/train-classes-explained' },
-              { label: 'Tatkal Charges Calculator', href: '/rail/tatkal-charges-calculator' },
-              { label: 'IRCTC Cancellation Calculator', href: '/rail/irctc-cancellation-calculator' },
-              { label: 'IRCTC Advance Booking Calculator', href: '/rail/irctc-calculator' },
-              { label: 'Waitlist Confirmation Chances', href: '/rail/waitlist-confirmation-chances' }
-            ]}
           />
         </div>
 
@@ -374,6 +400,10 @@ const TrainFareCalculator = () => {
           <a href="https://www.irctc.co.in" target="_blank" rel="noopener noreferrer" className="font-medium underline">official IRCTC website</a>{' '}
           is final.
         </div>
+
+        <UpdatedStamp updated={getTool(HREF)?.updated} href={HREF} />
+
+        <RelatedContent href={HREF} kind="tool" />
       </CalcLayout>
     </>
   );

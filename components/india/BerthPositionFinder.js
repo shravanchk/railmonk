@@ -4,12 +4,21 @@ import { BedDouble } from 'lucide-react';
 import EEATPanel from '../calculator/EEATPanel';
 import { editorialProfiles } from '../../utils/editorialProfiles';
 import SearchLandingSections from '../calculator/SearchLandingSections';
-import { buildSoftwareApplicationSchema, buildBreadcrumbSchema } from '../../utils/schema';
+import { buildSoftwareApplicationSchema } from '../../utils/schema';
 import { CalcLayout } from '../calculator/CalcLayout';
 import HowToSection from '../calculator/HowToSection';
 import { SelectField } from '../ui/Field';
 import Card from '../ui/Card';
+import Breadcrumbs from '../ui/Breadcrumbs';
+import RelatedContent from '../rail/RelatedContent';
+import NextStep from '../rail/NextStep';
+import ShareResult from '../rail/ShareResult';
+import UpdatedStamp from '../rail/UpdatedStamp';
+import useShareableInputs from '../rail/useShareableInputs';
+import { getTool } from '../../utils/catalog';
 import { cn } from '../ui/cn';
+
+const HREF = '/rail/berth-position-finder';
 
 const { CLASS_LAYOUTS, computeBerthPosition } = require('../../utils/engines/berthPosition');
 
@@ -69,6 +78,13 @@ const BayDiagram = ({ result }) => {
 const BerthPositionFinder = () => {
   const [classCode, setClassCode] = useState('SL');
   const [berthNumber, setBerthNumber] = useState('');
+  const shareUrl = useShareableInputs(
+    { class: classCode, berth: berthNumber },
+    (params) => {
+      if (params.class) setClassCode(params.class);
+      if (params.berth) setBerthNumber(params.berth);
+    }
+  );
 
   const layout = CLASS_LAYOUTS[classCode];
   const result = useMemo(() => {
@@ -134,16 +150,12 @@ const BerthPositionFinder = () => {
       'Practical tips per berth type'
     ]
   });
-  const breadcrumbSchema = buildBreadcrumbSchema([
-    { name: 'Home', item: 'https://railmonk.com/' },
-    { name: 'Berth Position Finder', item: 'https://railmonk.com/rail/berth-position-finder' }
-  ]);
 
   return (
     <>
       <Head>
-        <title>Train Berth Position Finder — Lower, Middle, Upper or Side? | Railmonk</title>
-        <meta name="description" content="Enter your coach class and berth number to see if it's a lower, middle, upper, side lower, or side upper berth — with a visual bay diagram for SL, 3A, 2A, and 1A coaches." />
+        <title>Train Berth Position Finder — Lower, Middle or Upper | Railmonk</title>
+        <meta name="description" content="Enter your class and berth number to see whether it is lower, middle, upper or side — with a bay diagram for SL, 3A, 2A and 1A coaches." />
         <link rel="canonical" href="https://railmonk.com/rail/berth-position-finder" />
         <meta property="og:title" content="Train Berth Position Finder | Railmonk" />
         <meta property="og:description" content="Is berth 23 a side lower? Find your berth's position in Sleeper, AC 3-Tier, AC 2-Tier, and AC First coaches." />
@@ -151,7 +163,6 @@ const BerthPositionFinder = () => {
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary_large_image" />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }} />
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       </Head>
 
       <CalcLayout
@@ -159,6 +170,11 @@ const BerthPositionFinder = () => {
         title="Train Berth Position Finder"
         subtitle="Enter your coach class and berth number to see exactly where you'll be — lower, middle, upper, or side — with the bay laid out visually."
       >
+        <Breadcrumbs
+          className="-mt-4 mb-6"
+          items={[{ name: 'Home', href: '/' }, { name: 'Rail tools', href: '/#tools' }, { name: 'Berth position finder' }]}
+        />
+
         <div className="grid grid-cols-1 gap-5 lg:grid-cols-5">
           {/* Input panel */}
           <Card className="p-5 lg:col-span-2">
@@ -248,6 +264,13 @@ const BerthPositionFinder = () => {
                 Enter your berth number to see its position and the bay layout.
               </Card>
             )}
+            {result ? (
+              <ShareResult
+                url={shareUrl}
+                title="Berth position — Railmonk"
+                text={`Berth ${berthNumber} in ${classCode}: where it sits in the coach.`}
+              />
+            ) : null}
           </div>
         </div>
 
@@ -289,6 +312,14 @@ const BerthPositionFinder = () => {
             for exactly when the window opens.
           </p>
         </div>
+        <NextStep
+          title="Know your berth. Now find your coach."
+          body="Waiting at the wrong end of a 500-metre platform costs more time than the berth number ever will."
+          href="/rail/coach-position-finder"
+          cta="Find my coach position"
+          secondary={{ href: '/rail/guides/train-classes-explained', label: 'Compare train classes' }}
+        />
+
 
         <div className="mt-8">
           <EEATPanel
@@ -332,14 +363,6 @@ const BerthPositionFinder = () => {
               </p>
             )}
             faqItems={seoFaqItems}
-            relatedLinks={[
-              { label: 'Coach Position Finder', href: '/rail/coach-position-finder' },
-              { label: 'IRCTC Advance Booking Calculator', href: '/rail/irctc-calculator' },
-              { label: 'IRCTC Cancellation Calculator', href: '/rail/irctc-cancellation-calculator' },
-              { label: 'Tatkal Charges Calculator', href: '/rail/tatkal-charges-calculator' },
-              { label: 'TDR Refund Checker', href: '/rail/tdr-refund-checker' },
-              { label: 'Waitlist Confirmation Chances', href: '/rail/waitlist-confirmation-chances' }
-            ]}
           />
         </div>
 
@@ -348,6 +371,10 @@ const BerthPositionFinder = () => {
           This tool is not affiliated with Indian Railways or IRCTC — confirm your allotment on the{' '}
           <a href="https://www.irctc.co.in" target="_blank" rel="noopener noreferrer" className="font-medium underline">official IRCTC website</a>.
         </div>
+
+        <UpdatedStamp updated={getTool(HREF)?.updated} href={HREF} />
+
+        <RelatedContent href={HREF} kind="tool" />
       </CalcLayout>
     </>
   );

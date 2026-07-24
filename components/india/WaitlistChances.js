@@ -4,11 +4,20 @@ import { Gauge, HelpCircle, ListOrdered, TrainFront } from 'lucide-react';
 import EEATPanel from '../calculator/EEATPanel';
 import { editorialProfiles } from '../../utils/editorialProfiles';
 import SearchLandingSections from '../calculator/SearchLandingSections';
-import { buildSoftwareApplicationSchema, buildBreadcrumbSchema } from '../../utils/schema';
+import { buildSoftwareApplicationSchema } from '../../utils/schema';
 import { CalcLayout } from '../calculator/CalcLayout';
 import HowToSection from '../calculator/HowToSection';
 import Card from '../ui/Card';
+import Breadcrumbs from '../ui/Breadcrumbs';
+import RelatedContent from '../rail/RelatedContent';
+import NextStep from '../rail/NextStep';
+import ShareResult from '../rail/ShareResult';
+import UpdatedStamp from '../rail/UpdatedStamp';
+import useShareableInputs from '../rail/useShareableInputs';
+import { getTool } from '../../utils/catalog';
 import { cn } from '../ui/cn';
+
+const HREF = '/rail/waitlist-confirmation-chances';
 
 const { WL_TYPES, estimateChances } = require('../../utils/engines/waitlistChances');
 
@@ -32,6 +41,15 @@ const WaitlistChances = () => {
   const [wlNumber, setWlNumber] = useState('12');
   const [daysToJourney, setDaysToJourney] = useState(12);
   const [peakSeason, setPeakSeason] = useState(false);
+  const shareUrl = useShareableInputs(
+    { code: wlCode, n: wlNumber, days: String(daysToJourney), peak: peakSeason ? '1' : '' },
+    (params) => {
+      if (params.code) setWlCode(params.code);
+      if (params.n) setWlNumber(params.n);
+      if (params.days && Number.isFinite(Number(params.days))) setDaysToJourney(Number(params.days));
+      if (params.peak) setPeakSeason(params.peak === '1');
+    }
+  );
 
   const result = useMemo(() => {
     const n = parseInt(wlNumber, 10);
@@ -87,18 +105,14 @@ const WaitlistChances = () => {
       'Festival-season adjustment'
     ]
   });
-  const breadcrumbSchema = buildBreadcrumbSchema([
-    { name: 'Home', item: 'https://railmonk.com/' },
-    { name: 'Waitlist Confirmation Chances', item: 'https://railmonk.com/rail/waitlist-confirmation-chances' }
-  ]);
 
   return (
     <>
       <Head>
-        <title>Train Waitlist Confirmation Chances — GNWL, RLWL, PQWL, TQWL Decoded | Railmonk</title>
+        <title>Waitlist Confirmation Chances — GNWL, RLWL, PQWL | Railmonk</title>
         <meta
           name="description"
-          content="What does GNWL, RLWL, PQWL, RSWL, TQWL or RAC mean on your train ticket? Decode your waitlist code and get an indicative confirmation-chance estimate from your WL number, days to journey and season."
+          content="What do GNWL, RLWL, PQWL, TQWL and RAC mean? Decode your code and get an indicative confirmation estimate from your waitlist number."
         />
         <link rel="canonical" href="https://railmonk.com/rail/waitlist-confirmation-chances" />
         <meta property="og:title" content="Train Waitlist Confirmation Chances | Railmonk" />
@@ -107,7 +121,6 @@ const WaitlistChances = () => {
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary_large_image" />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }} />
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       </Head>
 
       <CalcLayout
@@ -115,6 +128,11 @@ const WaitlistChances = () => {
         title="Waitlist Confirmation Chances"
         subtitle="Pick your waitlist code and number to see what it actually means — and an honest, indicative estimate of whether it will confirm."
       >
+        <Breadcrumbs
+          className="-mt-4 mb-6"
+          items={[{ name: 'Home', href: '/' }, { name: 'Rail tools', href: '/#tools' }, { name: 'Waitlist confirmation chances' }]}
+        />
+
         <div className="grid grid-cols-1 gap-5 lg:grid-cols-5">
           {/* Inputs */}
           <Card className="p-5 lg:col-span-2">
@@ -235,6 +253,13 @@ const WaitlistChances = () => {
                 Enter your waitlist number to see the estimate.
               </Card>
             )}
+            {result ? (
+              <ShareResult
+                url={shareUrl}
+                title="Waitlist confirmation chances — Railmonk"
+                text={`${wlCode} ${wlNumber}: how likely it is to confirm.`}
+              />
+            ) : null}
           </div>
         </div>
 
@@ -295,6 +320,14 @@ const WaitlistChances = () => {
             covers RAC and partial-confirmation refund cases.
           </p>
         </div>
+        <NextStep
+          title="Your waitlist stops moving at chart preparation"
+          body="That is the moment the answer becomes final. Work out exactly when it happens for your train, and set an alert to check your PNR."
+          href="/rail/chart-preparation-time"
+          cta="Check chart preparation time"
+          secondary={{ href: '/rail/guides/waitlist-rac-guide', label: 'Read the waitlist & RAC guide' }}
+        />
+
 
         <div className="mt-8">
           <EEATPanel
@@ -344,14 +377,6 @@ const WaitlistChances = () => {
               </p>
             )}
             faqItems={seoFaqItems}
-            relatedLinks={[
-              { label: 'Waitlist & RAC Survival Guide', href: '/rail/guides/waitlist-rac-guide' },
-              { label: 'IRCTC Advance Booking Calculator', href: '/rail/irctc-calculator' },
-              { label: 'IRCTC Cancellation Calculator', href: '/rail/irctc-cancellation-calculator' },
-              { label: 'TDR Refund Checker', href: '/rail/tdr-refund-checker' },
-              { label: 'Tatkal Charges Calculator', href: '/rail/tatkal-charges-calculator' },
-              { label: 'Train Berth Position Finder', href: '/rail/berth-position-finder' }
-            ]}
           />
         </div>
 
@@ -362,6 +387,10 @@ const WaitlistChances = () => {
           Indian Railways or IRCTC. Check live PNR status on the{' '}
           <a href="https://www.irctc.co.in" target="_blank" rel="noopener noreferrer" className="font-medium underline">official IRCTC website</a>.
         </div>
+
+        <UpdatedStamp updated={getTool(HREF)?.updated} href={HREF} />
+
+        <RelatedContent href={HREF} kind="tool" />
       </CalcLayout>
     </>
   );

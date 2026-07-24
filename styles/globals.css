@@ -1,4 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap');
+/* Fonts are requested from the <link> in _document.js, not with an @import
+   here. An @import inside the stylesheet is only discovered once this file has
+   been downloaded and parsed, which serialises a second render-blocking round
+   trip and delays the display font. */
 
 @tailwind base;
 @tailwind components;

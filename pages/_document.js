@@ -24,7 +24,14 @@ export default function Document() {
         <link rel="manifest" href="/manifest.json" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-        <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+        {/* Both families in one request: Source Sans 3 for body, Manrope for
+            display headings. Previously Manrope was pulled in by an @import in
+            globals.css, which the browser could not discover until the CSS had
+            already been fetched. */}
+        <link
+          href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet"
+        />
       </Head>
       <body>
         <Main />

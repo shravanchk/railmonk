@@ -4,16 +4,31 @@ import { CheckCircle2, ExternalLink, FileText, XCircle } from 'lucide-react';
 import EEATPanel from '../calculator/EEATPanel';
 import { editorialProfiles } from '../../utils/editorialProfiles';
 import SearchLandingSections from '../calculator/SearchLandingSections';
-import { buildSoftwareApplicationSchema, buildBreadcrumbSchema } from '../../utils/schema';
+import { buildSoftwareApplicationSchema } from '../../utils/schema';
 import { CalcLayout } from '../calculator/CalcLayout';
 import HowToSection from '../calculator/HowToSection';
 import Card from '../ui/Card';
+import Breadcrumbs from '../ui/Breadcrumbs';
+import RelatedContent from '../rail/RelatedContent';
+import NextStep from '../rail/NextStep';
+import ShareResult from '../rail/ShareResult';
+import UpdatedStamp from '../rail/UpdatedStamp';
+import useShareableInputs from '../rail/useShareableInputs';
+import { getTool } from '../../utils/catalog';
 import { cn } from '../ui/cn';
+
+const HREF = '/rail/tdr-refund-checker';
 
 const { TDR_SCENARIOS } = require('../../utils/engines/tdrRules');
 
 const TDRRefundChecker = () => {
   const [scenarioId, setScenarioId] = useState(null);
+  const shareUrl = useShareableInputs(
+    { case: scenarioId || '' },
+    (params) => {
+      if (params.case) setScenarioId(params.case);
+    }
+  );
   const scenario = TDR_SCENARIOS.find((s) => s.id === scenarioId) || null;
 
   const seoFaqItems = [
@@ -71,16 +86,12 @@ const TDRRefundChecker = () => {
       'Step-by-step filing instructions'
     ]
   });
-  const breadcrumbSchema = buildBreadcrumbSchema([
-    { name: 'Home', item: 'https://railmonk.com/' },
-    { name: 'TDR Refund Checker', item: 'https://railmonk.com/rail/tdr-refund-checker' }
-  ]);
 
   return (
     <>
       <Head>
-        <title>TDR Refund Checker — Am I Eligible for an IRCTC Refund? | Railmonk</title>
-        <meta name="description" content="Check if your situation qualifies for an IRCTC TDR refund: train 3+ hours late, AC failure, RAC/waitlist not travelled, partial group travel, missed connection — with exact filing deadlines." />
+        <title>TDR Refund Checker — IRCTC Eligibility & Deadlines | Railmonk</title>
+        <meta name="description" content="Does your situation qualify for an IRCTC TDR refund? Train 3+ hours late, AC failure, RAC or waitlist not travelled — with filing deadlines." />
         <link rel="canonical" href="https://railmonk.com/rail/tdr-refund-checker" />
         <meta property="og:title" content="TDR Refund Eligibility Checker | Railmonk" />
         <meta property="og:description" content="Pick your situation and see whether a TDR refund applies, how much comes back, and the filing deadline." />
@@ -88,7 +99,6 @@ const TDRRefundChecker = () => {
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary_large_image" />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }} />
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       </Head>
 
       <CalcLayout
@@ -96,6 +106,11 @@ const TDRRefundChecker = () => {
         title="TDR Refund Eligibility Checker"
         subtitle="Pick what happened with your train ticket and see whether a refund applies, how much comes back, and the exact deadline to claim it."
       >
+        <Breadcrumbs
+          className="-mt-4 mb-6"
+          items={[{ name: 'Home', href: '/' }, { name: 'Rail tools', href: '/#tools' }, { name: 'TDR refund checker' }]}
+        />
+
         <div className="grid grid-cols-1 gap-5 lg:grid-cols-5">
           {/* Scenario picker */}
           <Card className="p-5 lg:col-span-2">
@@ -193,6 +208,13 @@ const TDRRefundChecker = () => {
                 Select what happened with your ticket to see whether a refund applies and the deadline to claim it.
               </Card>
             )}
+            {scenario ? (
+              <ShareResult
+                url={shareUrl}
+                title="TDR refund eligibility — Railmonk"
+                text={'Whether this situation qualifies for a TDR refund, and by when to file.'}
+              />
+            ) : null}
           </div>
         </div>
 
@@ -235,6 +257,14 @@ const TDRRefundChecker = () => {
             shows exactly what each timing window returns.
           </p>
         </div>
+        <NextStep
+          title="Cancelling by choice instead?"
+          body="An ordinary cancellation follows the refund slabs, not the TDR rules. The refund calculator shows the rupee amount you actually get back."
+          href="/rail/irctc-cancellation-calculator"
+          cta="Calculate my refund"
+          secondary={{ href: '/rail/chart-preparation-time', label: 'Check chart preparation time' }}
+        />
+
 
         <div className="mt-8">
           <EEATPanel
@@ -286,13 +316,6 @@ const TDRRefundChecker = () => {
               </p>
             )}
             faqItems={seoFaqItems}
-            relatedLinks={[
-              { label: 'IRCTC Cancellation Calculator', href: '/rail/irctc-cancellation-calculator' },
-              { label: 'IRCTC Advance Booking Calculator', href: '/rail/irctc-calculator' },
-              { label: 'Tatkal Charges Calculator', href: '/rail/tatkal-charges-calculator' },
-              { label: 'Waitlist Confirmation Chances', href: '/rail/waitlist-confirmation-chances' },
-              { label: 'Train Berth Position Finder', href: '/rail/berth-position-finder' }
-            ]}
           />
         </div>
 
@@ -301,6 +324,10 @@ const TDRRefundChecker = () => {
           TDR outcomes are decided by the railways after verification — file and track claims on the{' '}
           <a href="https://www.irctc.co.in" target="_blank" rel="noopener noreferrer" className="font-medium underline">official IRCTC website</a>. Rules may change without notice.
         </div>
+
+        <UpdatedStamp updated={getTool(HREF)?.updated} href={HREF} />
+
+        <RelatedContent href={HREF} kind="tool" />
       </CalcLayout>
     </>
   );

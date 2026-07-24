@@ -4,11 +4,20 @@ import { AlertTriangle, Clock, ExternalLink, TicketX } from 'lucide-react';
 import EEATPanel from '../calculator/EEATPanel';
 import { editorialProfiles } from '../../utils/editorialProfiles';
 import SearchLandingSections from '../calculator/SearchLandingSections';
-import { buildSoftwareApplicationSchema, buildBreadcrumbSchema } from '../../utils/schema';
+import { buildSoftwareApplicationSchema } from '../../utils/schema';
 import { CalcLayout } from '../calculator/CalcLayout';
 import HowToSection from '../calculator/HowToSection';
 import { SelectField } from '../ui/Field';
 import Card from '../ui/Card';
+import Breadcrumbs from '../ui/Breadcrumbs';
+import RelatedContent from '../rail/RelatedContent';
+import NextStep from '../rail/NextStep';
+import ShareResult from '../rail/ShareResult';
+import UpdatedStamp from '../rail/UpdatedStamp';
+import useShareableInputs from '../rail/useShareableInputs';
+import { getTool } from '../../utils/catalog';
+
+const HREF = '/rail/irctc-cancellation-calculator';
 
 const {
   CLASS_RULES,
@@ -91,6 +100,18 @@ const IRCTCCancellationCalculator = () => {
   const [departureAt, setDepartureAt] = useState('');
   const [hoursDirect, setHoursDirect] = useState('');
   const [now, setNow] = useState(() => Date.now());
+  const shareUrl = useShareableInputs(
+    { class: classCode, type: ticketType, fare, pax: passengers, mode: timingMode, at: departureAt, hrs: hoursDirect },
+    (params) => {
+      if (params.class) setClassCode(params.class);
+      if (params.type) setTicketType(params.type);
+      if (params.fare) setFare(params.fare);
+      if (params.pax) setPassengers(params.pax);
+      if (params.mode) setTimingMode(params.mode);
+      if (params.at) setDepartureAt(params.at);
+      if (params.hrs) setHoursDirect(params.hrs);
+    }
+  );
 
   // Keep the hours-remaining countdown live while a departure time is set.
   useEffect(() => {
@@ -234,10 +255,6 @@ const IRCTCCancellationCalculator = () => {
       'Live hours-to-departure countdown'
     ]
   });
-  const breadcrumbSchema = buildBreadcrumbSchema([
-    { name: 'Home', item: 'https://railmonk.com/' },
-    { name: 'IRCTC Cancellation Calculator', item: 'https://railmonk.com/rail/irctc-cancellation-calculator' }
-  ]);
 
   const modeBtn = (mode, label) => (
     <button
@@ -257,8 +274,8 @@ const IRCTCCancellationCalculator = () => {
   return (
     <>
       <Head>
-        <title>IRCTC Cancellation Charges Calculator — April 2026 Refund Rules | Railmonk</title>
-        <meta name="description" content="Estimate your IRCTC train ticket refund under the new April 2026 rules: 72h/24h/8h cancellation slabs, class-wise flat charges with GST, RAC/waitlist clerkage, and Tatkal no-refund cases." />
+        <title>IRCTC Cancellation Charges Calculator 2026 | Railmonk</title>
+        <meta name="description" content="Estimate your IRCTC refund under the April 2026 rules: 72h/24h/8h slabs, class-wise flat charges with GST, and RAC or waitlist clerkage." />
         <link rel="canonical" href="https://railmonk.com/rail/irctc-cancellation-calculator" />
         <meta property="og:title" content="IRCTC Cancellation Charges Calculator — April 2026 Rules | Railmonk" />
         <meta property="og:description" content="How much refund will you get if you cancel your train ticket? Computes the new 72h/24h/8h slabs, flat charges, RAC/WL clerkage, and Tatkal rules." />
@@ -266,7 +283,6 @@ const IRCTCCancellationCalculator = () => {
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary_large_image" />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }} />
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       </Head>
 
       <CalcLayout
@@ -274,6 +290,11 @@ const IRCTCCancellationCalculator = () => {
         title="IRCTC Cancellation Charges Calculator"
         subtitle="Estimate your refund and the charge deducted when you cancel a train ticket — under the new rules effective 1 April 2026."
       >
+        <Breadcrumbs
+          className="-mt-4 mb-6"
+          items={[{ name: 'Home', href: '/' }, { name: 'Rail tools', href: '/#tools' }, { name: 'Cancellation refund calculator' }]}
+        />
+
         <div className="grid gap-5 lg:grid-cols-5">
           {/* Input panel */}
           <Card className="p-5 lg:col-span-2">
@@ -475,6 +496,13 @@ const IRCTCCancellationCalculator = () => {
                   : 'Enter the fare paid and when you plan to cancel to see your estimated refund.'}
               </Card>
             )}
+            {result ? (
+              <ShareResult
+                url={shareUrl}
+                title="Cancellation refund — Railmonk"
+                text={`What comes back on a ${classCode} ticket if you cancel now.`}
+              />
+            ) : null}
           </div>
         </div>
 
@@ -562,6 +590,14 @@ const IRCTCCancellationCalculator = () => {
             date, so you can plan both ends of the trip.
           </p>
         </div>
+        <NextStep
+          title="Cancelled because the railway let you down?"
+          body="Train cancelled, running three hours late, or AC not working? Those are TDR claims, not ordinary cancellations — and the refund is far better."
+          href="/rail/tdr-refund-checker"
+          cta="Check TDR eligibility"
+          secondary={{ href: '/rail/guides/waitlist-rac-guide', label: 'Read the waitlist & RAC guide' }}
+        />
+
 
         <div className="mt-8">
           <EEATPanel
@@ -613,14 +649,6 @@ const IRCTCCancellationCalculator = () => {
               </p>
             )}
             faqItems={seoFaqItems}
-            relatedLinks={[
-              { label: 'IRCTC Advance Booking Calculator', href: '/rail/irctc-calculator' },
-              { label: 'TDR Refund Checker', href: '/rail/tdr-refund-checker' },
-              { label: 'Waitlist Confirmation Chances', href: '/rail/waitlist-confirmation-chances' },
-              { label: 'Tatkal Charges Calculator', href: '/rail/tatkal-charges-calculator' },
-              { label: 'IRCTC and Booking Strategy Guide', href: '/rail/guides/irctc-booking-strategy' },
-              { label: 'All Rail Tools', href: '/' }
-            ]}
           />
         </div>
 
@@ -629,6 +657,10 @@ const IRCTCCancellationCalculator = () => {
           or IRCTC. Final refund amounts are determined by IRCTC at the time of cancellation — verify on the{' '}
           <a href="https://www.irctc.co.in" target="_blank" rel="noopener noreferrer" className="font-medium underline">official IRCTC website</a>. Rules may change without notice.
         </div>
+
+        <UpdatedStamp updated={getTool(HREF)?.updated} href={HREF} />
+
+        <RelatedContent href={HREF} kind="tool" />
       </CalcLayout>
     </>
   );

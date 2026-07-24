@@ -4,11 +4,20 @@ import { ExternalLink, Zap } from 'lucide-react';
 import EEATPanel from '../calculator/EEATPanel';
 import { editorialProfiles } from '../../utils/editorialProfiles';
 import SearchLandingSections from '../calculator/SearchLandingSections';
-import { buildSoftwareApplicationSchema, buildBreadcrumbSchema } from '../../utils/schema';
+import { buildSoftwareApplicationSchema } from '../../utils/schema';
 import { CalcLayout } from '../calculator/CalcLayout';
 import HowToSection from '../calculator/HowToSection';
 import { SelectField } from '../ui/Field';
 import Card from '../ui/Card';
+import Breadcrumbs from '../ui/Breadcrumbs';
+import RelatedContent from '../rail/RelatedContent';
+import NextStep from '../rail/NextStep';
+import ShareResult from '../rail/ShareResult';
+import UpdatedStamp from '../rail/UpdatedStamp';
+import useShareableInputs from '../rail/useShareableInputs';
+import { getTool } from '../../utils/catalog';
+
+const HREF = '/rail/tatkal-charges-calculator';
 
 const { TATKAL_RULES, computeTatkalCharge } = require('../../utils/engines/tatkalCharges');
 
@@ -30,6 +39,14 @@ const TatkalChargesCalculator = () => {
   const [classCode, setClassCode] = useState('3A');
   const [basicFare, setBasicFare] = useState('');
   const [passengers, setPassengers] = useState('1');
+  const shareUrl = useShareableInputs(
+    { class: classCode, fare: basicFare, pax: passengers },
+    (params) => {
+      if (params.class) setClassCode(params.class);
+      if (params.fare) setBasicFare(params.fare);
+      if (params.pax) setPassengers(params.pax);
+    }
+  );
 
   const fareNum = parseFloat(basicFare);
   const paxNum = Math.max(1, Math.min(4, parseInt(passengers, 10) || 1));
@@ -104,16 +121,12 @@ const TatkalChargesCalculator = () => {
       'Tatkal vs general fare comparison'
     ]
   });
-  const breadcrumbSchema = buildBreadcrumbSchema([
-    { name: 'Home', item: 'https://railmonk.com/' },
-    { name: 'Tatkal Charges Calculator', item: 'https://railmonk.com/rail/tatkal-charges-calculator' }
-  ]);
 
   return (
     <>
       <Head>
-        <title>Tatkal Charges Calculator — Extra Cost of Tatkal Tickets | Railmonk</title>
-        <meta name="description" content="How much extra does a Tatkal ticket cost? Calculate the Tatkal charge for SL, 3A, 2A, CC, EC and 2S — percentage of basic fare with class-wise min/max caps, per passenger." />
+        <title>Tatkal Charges Calculator — The Real Premium | Railmonk</title>
+        <meta name="description" content="How much extra does a Tatkal ticket cost? The charge for SL, 3A, 2A, CC, EC and 2S, with class-wise minimum and maximum caps." />
         <link rel="canonical" href="https://railmonk.com/rail/tatkal-charges-calculator" />
         <meta property="og:title" content="Tatkal Charges Calculator | Railmonk" />
         <meta property="og:description" content="Calculate the exact Tatkal premium for your train class — 10%/30% of basic fare with min/max caps." />
@@ -121,7 +134,6 @@ const TatkalChargesCalculator = () => {
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary_large_image" />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }} />
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       </Head>
 
       <CalcLayout
@@ -129,6 +141,11 @@ const TatkalChargesCalculator = () => {
         title="Tatkal Charges Calculator"
         subtitle="See exactly how much extra a Tatkal ticket costs for your class — the percentage, the min/max caps, and the total fare."
       >
+        <Breadcrumbs
+          className="-mt-4 mb-6"
+          items={[{ name: 'Home', href: '/' }, { name: 'Rail tools', href: '/#tools' }, { name: 'Tatkal charges calculator' }]}
+        />
+
         <div className="grid grid-cols-1 gap-5 lg:grid-cols-5">
           {/* Input panel */}
           <Card className="p-5 lg:col-span-2">
@@ -246,6 +263,13 @@ const TatkalChargesCalculator = () => {
                 Enter the basic fare per passenger to see the Tatkal charge and total.
               </Card>
             )}
+            {result ? (
+              <ShareResult
+                url={shareUrl}
+                title="Tatkal premium — Railmonk"
+                text={`What Tatkal adds on a ${classCode} ticket.`}
+              />
+            ) : null}
           </div>
         </div>
 
@@ -288,6 +312,14 @@ const TatkalChargesCalculator = () => {
             for what a general-quota ticket would return instead.
           </p>
         </div>
+        <NextStep
+          title="Tatkal opens one day before, and empties in minutes"
+          body="Set a calendar alert for the exact opening time — 10:00 AM for AC classes, 11:00 AM for Sleeper and non-AC."
+          href="/rail/booking-reminder"
+          cta="Set a Tatkal reminder"
+          secondary={{ href: '/rail/guides/tatkal-booking-masterclass', label: 'Read the Tatkal masterclass' }}
+        />
+
 
         <div className="mt-8">
           <EEATPanel
@@ -338,15 +370,6 @@ const TatkalChargesCalculator = () => {
               </p>
             )}
             faqItems={seoFaqItems}
-            relatedLinks={[
-              { label: 'Tatkal Booking Masterclass (Guide)', href: '/rail/guides/tatkal-booking-masterclass' },
-              { label: 'Train Fare Calculator', href: '/rail/train-fare-calculator' },
-              { label: 'IRCTC Advance Booking Calculator', href: '/rail/irctc-calculator' },
-              { label: 'IRCTC Cancellation Calculator', href: '/rail/irctc-cancellation-calculator' },
-              { label: 'TDR Refund Checker', href: '/rail/tdr-refund-checker' },
-              { label: 'Waitlist Confirmation Chances', href: '/rail/waitlist-confirmation-chances' },
-              { label: 'Train Berth Position Finder', href: '/rail/berth-position-finder' }
-            ]}
           />
         </div>
 
@@ -355,6 +378,10 @@ const TatkalChargesCalculator = () => {
           Indian Railways or IRCTC. Final fares are shown by IRCTC at booking time on the{' '}
           <a href="https://www.irctc.co.in" target="_blank" rel="noopener noreferrer" className="font-medium underline">official IRCTC website</a>. Rules may change without notice.
         </div>
+
+        <UpdatedStamp updated={getTool(HREF)?.updated} href={HREF} />
+
+        <RelatedContent href={HREF} kind="tool" />
       </CalcLayout>
     </>
   );

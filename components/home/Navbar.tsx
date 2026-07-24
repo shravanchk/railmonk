@@ -1,23 +1,20 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { ChevronDown, Menu, X, Sun, Moon, ArrowLeft } from 'lucide-react';
+import { BellRing, ChevronDown, Menu, X, Search, Sun, Moon, ArrowLeft } from 'lucide-react';
 import { cn } from '../ui/cn';
+import SiteSearch, { openSearch } from '../search/SiteSearch';
+import { TOOLS as CATALOG_TOOLS } from '../../utils/catalog';
 
 type NavLink = { label: string; href: string };
 
-const TOOLS: NavLink[] = [
-  { label: 'IRCTC Booking Date Calculator', href: '/rail/irctc-calculator' },
-  { label: 'Cancellation Refund Calculator', href: '/rail/irctc-cancellation-calculator' },
-  { label: 'Tatkal Charges Calculator', href: '/rail/tatkal-charges-calculator' },
-  { label: 'TDR Refund Checker', href: '/rail/tdr-refund-checker' },
-  { label: 'Berth Position Finder', href: '/rail/berth-position-finder' },
-  { label: 'Waitlist Confirmation Chances', href: '/rail/waitlist-confirmation-chances' },
-  { label: 'Coach Position Finder', href: '/rail/coach-position-finder' },
-  { label: 'Train Fare Calculator', href: '/rail/train-fare-calculator' },
-];
+// Built from the catalog so a newly added tool appears in the menu without a
+// second edit here — the old hand-kept copy of this list went stale twice.
+const TOOLS: NavLink[] = CATALOG_TOOLS.map((t) => ({ label: t.nav || t.title, href: t.href }));
 
 const RESOURCES: NavLink[] = [
+  { label: 'Rule changes', href: '/rail/rule-updates' },
+  { label: 'Saved journeys', href: '/rail/saved-journeys' },
   { label: 'About Railmonk', href: '/about' },
   { label: 'Contact', href: '/contact' },
 ];
@@ -102,7 +99,7 @@ export default function Navbar() {
             type="button"
             onClick={goBack}
             aria-label="Go back"
-            className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 text-ink-soft hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 text-ink-soft transition hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
           >
             <ArrowLeft className="h-4 w-4" />
           </button>
@@ -111,7 +108,10 @@ export default function Navbar() {
           <img src="/railmonk-logo.svg" alt="" className="h-8 w-8" width={32} height={32} />
           <span className="leading-tight">
             <span className="block font-display text-lg font-bold text-ink dark:text-white">Railmonk</span>
-            <span className="hidden text-[0.68rem] text-ink-muted dark:text-slate-400 sm:block">Indian Railways tools, minus the guesswork</span>
+            {/* Hidden until xl: between md and lg the row carries the menu, the
+                search trigger and the reminder CTA, and the tagline is what
+                forces them to wrap. */}
+            <span className="hidden text-[0.68rem] text-ink-muted dark:text-slate-400 xl:block">Indian Railways tools, minus the guesswork</span>
           </span>
         </Link>
         </div>
@@ -123,11 +123,19 @@ export default function Navbar() {
         </div>
 
         <div className="flex items-center gap-1.5">
+          <SiteSearch />
+          <Link
+            href="/rail/booking-reminder"
+            className="hidden items-center gap-1.5 rounded-xl bg-brand-600 px-3.5 py-2 text-sm font-semibold text-white transition hover:bg-brand-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2 sm:inline-flex"
+          >
+            <BellRing aria-hidden="true" className="h-4 w-4" />
+            Set a reminder
+          </Link>
           <button
             type="button"
             onClick={toggleDark}
             aria-label={dark ? 'Switch to light mode' : 'Switch to dark mode'}
-            className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 text-ink-soft hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 text-ink-soft transition hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
           >
             {dark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
           </button>
@@ -135,7 +143,7 @@ export default function Navbar() {
             type="button"
             onClick={() => setDrawer(true)}
             aria-label="Open menu"
-            className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 text-ink-soft hover:bg-slate-50 md:hidden dark:border-slate-700 dark:text-slate-300"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 text-ink-soft transition hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 md:hidden dark:border-slate-700 dark:text-slate-300"
           >
             <Menu className="h-5 w-5" />
           </button>
@@ -153,6 +161,15 @@ export default function Navbar() {
                 <X className="h-5 w-5" />
               </button>
             </div>
+            <button
+              type="button"
+              onClick={() => { setDrawer(false); openSearch(); }}
+              className="mt-5 flex w-full items-center gap-2.5 rounded-xl border border-slate-200 px-3 py-2.5 text-sm text-ink-muted transition hover:border-brand-300 hover:text-brand-700 dark:border-slate-700 dark:text-slate-400"
+            >
+              <Search aria-hidden="true" className="h-4 w-4" />
+              Search tools, guides and rules…
+            </button>
+
             <p className="mt-5 text-xs font-bold uppercase tracking-wide text-ink-muted">Rail Tools</p>
             <div className="mt-1">
               {TOOLS.map((it) => (

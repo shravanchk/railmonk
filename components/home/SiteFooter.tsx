@@ -1,38 +1,26 @@
 import React from 'react';
 import Link from 'next/link';
 import Container from '../ui/Container';
+import { TOOLS, GUIDES } from '../../utils/catalog';
 
 type Col = { heading: string; links: { label: string; href: string; external?: boolean }[] };
 
+// Tool and guide columns come from the catalog, so the footer cannot fall out
+// of step with what the site actually publishes.
 const COLUMNS: Col[] = [
   {
     heading: 'Rail Tools',
-    links: [
-      { label: 'IRCTC Booking Date Calculator', href: '/rail/irctc-calculator' },
-      { label: 'Cancellation Refund Calculator', href: '/rail/irctc-cancellation-calculator' },
-      { label: 'Tatkal Charges Calculator', href: '/rail/tatkal-charges-calculator' },
-      { label: 'TDR Refund Checker', href: '/rail/tdr-refund-checker' },
-      { label: 'Berth Position Finder', href: '/rail/berth-position-finder' },
-      { label: 'Waitlist Confirmation Chances', href: '/rail/waitlist-confirmation-chances' },
-      { label: 'Coach Position Finder', href: '/rail/coach-position-finder' },
-      { label: 'Train Fare Calculator', href: '/rail/train-fare-calculator' },
-    ],
+    links: TOOLS.map((t) => ({ label: t.nav || t.title, href: t.href })),
   },
   {
     heading: 'Guides',
-    links: [
-      { label: 'How to Book a Train Ticket Online', href: '/rail/guides/how-to-book-train-ticket-online' },
-      { label: 'Train Classes Explained', href: '/rail/guides/train-classes-explained' },
-      { label: 'Waitlist & RAC Survival Guide', href: '/rail/guides/waitlist-rac-guide' },
-      { label: 'Tatkal Booking Masterclass', href: '/rail/guides/tatkal-booking-masterclass' },
-      { label: 'Vande Bharat Express Guide', href: '/rail/guides/vande-bharat-guide' },
-      { label: 'IRCTC Booking Strategy', href: '/rail/guides/irctc-booking-strategy' },
-      { label: 'All Guides', href: '/guides' },
-    ],
+    links: [...GUIDES.map((g) => ({ label: g.title, href: g.href })), { label: 'All Guides', href: '/guides' }],
   },
   {
     heading: 'Company',
     links: [
+      { label: 'Search the site', href: '/search' },
+      { label: 'Rule changes', href: '/rail/rule-updates' },
       { label: 'About', href: '/about' },
       { label: 'Contact', href: '/contact' },
       { label: 'Railmonk Research Team', href: '/authors/railmonk-research-team' },

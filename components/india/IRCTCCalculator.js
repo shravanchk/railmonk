@@ -4,12 +4,21 @@ import { Calendar, ExternalLink } from 'lucide-react';
 import EEATPanel from '../calculator/EEATPanel';
 import { editorialProfiles } from '../../utils/editorialProfiles';
 import SearchLandingSections from '../calculator/SearchLandingSections';
-import { buildSoftwareApplicationSchema, buildBreadcrumbSchema } from '../../utils/schema';
+import { buildSoftwareApplicationSchema } from '../../utils/schema';
 import { CalcLayout } from '../calculator/CalcLayout';
 import HowToSection from '../calculator/HowToSection';
 import { SelectField } from '../ui/Field';
 import Card from '../ui/Card';
+import Breadcrumbs from '../ui/Breadcrumbs';
+import RelatedContent from '../rail/RelatedContent';
+import NextStep from '../rail/NextStep';
+import ShareResult from '../rail/ShareResult';
+import UpdatedStamp from '../rail/UpdatedStamp';
+import useShareableInputs from '../rail/useShareableInputs';
+import { getTool } from '../../utils/catalog';
 import { cn } from '../ui/cn';
+
+const HREF = '/rail/irctc-calculator';
 
 const controlCls =
   'w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-[0.95rem] text-ink ' +
@@ -21,33 +30,33 @@ const IRCTCCalculator = () => {
   const [passengerType, setPassengerType] = useState('general');
   const [trainType, setTrainType] = useState('mail-express');
   const [bookingResults, setBookingResults] = useState(null);
-
-  // Booking rules based on IRCTC guidelines (effective from Nov 1, 2024)
-  const bookingRules = useMemo(() => ({
-    // Tatkal opens 1 day before journey (excluding journey day): AC classes
-    // (incl. Premium Tatkal) at 10:00 AM, non-AC/Sleeper at 11:00 AM.
-    general: {
-      'mail-express': { days: 60, time: '10:00' },
-      'rajdhani-shatabdi': { days: 60, time: '10:00' },
-      'duronto': { days: 60, time: '10:00' },
-      'premium-tatkal': { days: 1, time: '10:00' },
-      'tatkal': { days: 1, time: '11:00' }
-    },
-    senior: {
-      'mail-express': { days: 60, time: '10:00' },
-      'rajdhani-shatabdi': { days: 60, time: '10:00' },
-      'duronto': { days: 60, time: '10:00' },
-      'premium-tatkal': { days: 1, time: '10:00' },
-      'tatkal': { days: 1, time: '11:00' }
-    },
-    ladies: {
-      'mail-express': { days: 60, time: '10:00' },
-      'rajdhani-shatabdi': { days: 60, time: '10:00' },
-      'duronto': { days: 60, time: '10:00' },
-      'premium-tatkal': { days: 1, time: '10:00' },
-      'tatkal': { days: 1, time: '11:00' }
+  const shareUrl = useShareableInputs(
+    { date: journeyDate, quota: passengerType, train: trainType },
+    (params) => {
+      if (params.date) setJourneyDate(params.date);
+      if (params.quota) setPassengerType(params.quota);
+      if (params.train) setTrainType(params.train);
     }
-  }), []);
+  );
+
+  // Booking rules per Railway Board Commercial Circular No. 10 of 2024
+  // (ARP of 60 days excluding the journey day, w.e.f. 1 Nov 2024).
+  //
+  // Two different clocks, which people routinely conflate: general-quota
+  // reservation opens at 08:00 IST on the ARP day. 10:00 and 11:00 are the
+  // *Tatkal* times — AC classes (incl. Premium Tatkal) at 10:00, non-AC and
+  // Sleeper at 11:00, one day before the journey.
+  const GENERAL_WINDOW = { days: 60, time: '08:00' };
+  const bookingRules = useMemo(() => {
+    const quotaRules = {
+      'mail-express': GENERAL_WINDOW,
+      'rajdhani-shatabdi': GENERAL_WINDOW,
+      'duronto': GENERAL_WINDOW,
+      'premium-tatkal': { days: 1, time: '10:00' },
+      'tatkal': { days: 1, time: '11:00' }
+    };
+    return { general: quotaRules, senior: quotaRules, ladies: quotaRules };
+  }, []);
 
   const passengerTypes = useMemo(() => [
     { value: 'general', label: 'General Public', icon: '👥' },
@@ -72,7 +81,7 @@ const IRCTCCalculator = () => {
 
   const getGeneralNotes = useCallback(() => {
     const notes = [
-      'Booking opens at 10:00 AM IST',
+      'General-quota booking opens at 08:00 AM IST (Tatkal is separate, at 10:00 / 11:00 AM)',
       'Subject to availability',
       'New 60-day advance booking period effective from Nov 1, 2024',
       'Cancellation rules apply as per IRCTC policy'
@@ -84,7 +93,7 @@ const IRCTCCalculator = () => {
     }
 
     if (passengerType === 'ladies') {
-      notes.push('Ladies quota is reserved within the normal 10:00 AM booking window (not a separate opening time)');
+      notes.push('Ladies quota is reserved within the normal 08:00 AM booking window (not a separate opening time)');
     }
 
     const today = new Date();
@@ -200,7 +209,7 @@ const IRCTCCalculator = () => {
     },
     {
       question: 'When does IRCTC general booking open?',
-      answer: 'For most regular classes, booking opens at 10:00 AM IST as per current applicable booking window rules.'
+      answer: 'General-quota reservation opens at 08:00 AM IST on the day the 60-day advance reservation window opens for your journey date. The 10:00 and 11:00 AM timings people often quote are the Tatkal windows, which are separate and open only one day before the journey.'
     },
     {
       question: 'When does Tatkal booking open?',
@@ -235,10 +244,6 @@ const IRCTCCalculator = () => {
       'Quota and timing guidance'
     ]
   });
-  const breadcrumbSchema = buildBreadcrumbSchema([
-    { name: 'Home', item: 'https://railmonk.com/' },
-    { name: 'IRCTC Calculator', item: 'https://railmonk.com/rail/irctc-calculator' }
-  ]);
 
   const daysUntil = getDaysUntilBooking();
   const todayIso = new Date().toISOString().split('T')[0];
@@ -256,8 +261,8 @@ const IRCTCCalculator = () => {
   return (
     <>
       <Head>
-        <title>IRCTC Advance Booking (ARP) Calculator — When Can I Book My Train Ticket? | Railmonk</title>
-        <meta name="description" content="Find the exact date your IRCTC booking window opens under the 60-day Advance Reservation Period (ARP), plus Tatkal opening times (10 AM AC, 11 AM non-AC) and quota rules." />
+        <title>IRCTC Advance Booking (ARP) Calculator — 60-Day Rule | Railmonk</title>
+        <meta name="description" content="Find the exact date your IRCTC booking window opens under the 60-day ARP, plus Tatkal timings — 10 AM for AC, 11 AM for non-AC." />
         <meta name="keywords" content="ARP calculator, IRCTC advance booking, advance reservation period, when can I book train ticket, Tatkal opening time" />
         <link rel="canonical" href="https://railmonk.com/rail/irctc-calculator" />
         <meta property="og:title" content="IRCTC Advance Booking (ARP) Calculator | Railmonk" />
@@ -268,7 +273,6 @@ const IRCTCCalculator = () => {
         <meta name="twitter:title" content="IRCTC Advance Booking (ARP) Calculator | Railmonk" />
         <meta name="twitter:description" content="When does booking open for your journey date? ARP and Tatkal windows, calculated." />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }} />
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       </Head>
 
       <CalcLayout
@@ -276,6 +280,11 @@ const IRCTCCalculator = () => {
         title="IRCTC Advance Booking (ARP) Calculator"
         subtitle="Find out exactly when your train ticket booking window opens under the Advance Reservation Period — for general, quota, and Tatkal bookings."
       >
+        <Breadcrumbs
+          className="-mt-4 mb-6"
+          items={[{ name: 'Home', href: '/' }, { name: 'Rail tools', href: '/#tools' }, { name: 'Booking date calculator' }]}
+        />
+
         {/* Decorative moving train */}
         <div style={trainAnimationStyles.wrapper} aria-hidden="true">
           <svg style={trainAnimationStyles.svg} viewBox="0 0 260 40" width="260" height="40">
@@ -365,7 +374,8 @@ const IRCTCCalculator = () => {
               <div className="rounded-xl border border-teal-200 bg-teal-50/60 p-3 text-sm dark:border-teal-800/60 dark:bg-teal-900/20">
                 <p className="font-semibold text-teal-800 dark:text-teal-300">All times in IST (UTC+5:30)</p>
                 <p className="mt-0.5 text-teal-700 dark:text-teal-400">
-                  60-day advance booking period applies for regular bookings (from Nov 1, 2024).
+                  Regular bookings open at 08:00 AM, 60 days ahead (excluding the journey day). Tatkal is separate:
+                  10:00 AM for AC, 11:00 AM for non-AC, one day before.
                 </p>
               </div>
             </div>
@@ -480,8 +490,27 @@ END:VCALENDAR`}
                 Select your journey date to see when booking opens.
               </Card>
             )}
+            {bookingResults ? (
+              <ShareResult
+                url={shareUrl}
+                title="Booking window — Railmonk"
+                text={`When booking opens for a journey on ${journeyDate}.`}
+              />
+            ) : null}
           </div>
         </div>
+
+        {/* The link carries the journey date so the reminder page opens
+            prefilled. The date only: this tool's passenger categories (senior,
+            ladies) are not the reminder's booking quotas, and inventing a
+            mapping between them would be worse than asking again. */}
+        <NextStep
+          title="Turn this date into a reminder you cannot miss"
+          body="Confirmed berths on busy routes go in the first minutes. Put the exact opening moment in your own calendar with an alert — no sign-up, nothing stored."
+          href={journeyDate ? `/rail/booking-reminder?date=${encodeURIComponent(journeyDate)}` : '/rail/booking-reminder'}
+          cta="Set a booking reminder"
+          secondary={{ href: '/rail/guides/irctc-booking-strategy', label: 'Read the booking strategy guide' }}
+        />
 
         <HowToSection
           name="How to use the IRCTC Advance Booking Calculator"
@@ -502,7 +531,7 @@ END:VCALENDAR`}
             {[
               {
                 title: 'General booking (from Nov 1, 2024)',
-                items: ['Mail/Express: 60 days advance', 'Rajdhani/Shatabdi: 60 days advance', 'Duronto Express: 60 days advance', 'Opening time: 10:00 AM IST', 'Valid for all passenger types', 'Applicable for all classes', 'Subject to quota availability']
+                items: ['Mail/Express: 60 days advance', 'Rajdhani/Shatabdi: 60 days advance', 'Duronto Express: 60 days advance', 'Opening time: 08:00 AM IST', 'Valid for all passenger types', 'Applicable for all classes', 'Subject to quota availability']
               },
               {
                 title: 'Special quotas & timings',
@@ -539,7 +568,7 @@ END:VCALENDAR`}
           <h3 className="mt-8 font-display text-lg font-semibold text-ink dark:text-white">A worked example: five people to a wedding</h3>
           <p className="mt-3">
             Ananya needs five sleeper berths to Lucknow for a family wedding on a Friday. Her best option is the
-            general window: the calculator gives her the exact opening date roughly two months out, at 10:00 AM
+            general window: the calculator gives her the exact opening date roughly two months out, at 08:00 AM
             IST, and she books all five on one ticket the moment it opens. If she misses it, the fallback splits
             into two problems: Tatkal opens the Thursday before at 11:00 AM for sleeper (10:00 for AC), and a
             Tatkal ticket carries at most four passengers — so five people means two tickets, booked in a quota
@@ -643,17 +672,12 @@ END:VCALENDAR`}
               </p>
             )}
             faqItems={seoFaqItems}
-            relatedLinks={[
-              { label: 'IRCTC Cancellation Charges Calculator', href: '/rail/irctc-cancellation-calculator' },
-              { label: 'Tatkal Charges Calculator', href: '/rail/tatkal-charges-calculator' },
-              { label: 'TDR Refund Checker', href: '/rail/tdr-refund-checker' },
-              { label: 'Waitlist Confirmation Chances', href: '/rail/waitlist-confirmation-chances' },
-              { label: 'Train Berth Position Finder', href: '/rail/berth-position-finder' },
-              { label: 'IRCTC and Booking Strategy Guide', href: '/rail/guides/irctc-booking-strategy' },
-              { label: 'How to Book a Train Ticket Online (Guide)', href: '/rail/guides/how-to-book-train-ticket-online' }
-            ]}
           />
         </div>
+
+        <UpdatedStamp updated={getTool(HREF)?.updated} href={HREF} />
+
+        <RelatedContent href={HREF} kind="tool" />
 
         <div className="mt-8 rounded-xl border border-rose-200 bg-rose-50/70 p-4 text-center text-sm leading-relaxed text-rose-800 dark:border-rose-900/60 dark:bg-rose-950/30 dark:text-rose-200">
           All times shown are in IST (UTC+5:30). This calculator is for informational purposes only and is not affiliated with Indian Railways or IRCTC. For official information, visit{' '}

@@ -5,8 +5,13 @@
       "name": "railmonk-dev",
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "dev"],
-      "port": 3000,
-      "autoPort": true
+      "port": 3000
+    },
+    {
+      "name": "railmonk-export",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["--yes", "serve", "out", "-l", "4180", "--no-clipboard"],
+      "port": 4180
     }
   ]
 }

@@ -4,11 +4,20 @@ import { MapPin, TrainFront } from 'lucide-react';
 import EEATPanel from '../calculator/EEATPanel';
 import { editorialProfiles } from '../../utils/editorialProfiles';
 import SearchLandingSections from '../calculator/SearchLandingSections';
-import { buildSoftwareApplicationSchema, buildBreadcrumbSchema } from '../../utils/schema';
+import { buildSoftwareApplicationSchema } from '../../utils/schema';
 import { CalcLayout } from '../calculator/CalcLayout';
 import HowToSection from '../calculator/HowToSection';
 import Card from '../ui/Card';
+import Breadcrumbs from '../ui/Breadcrumbs';
+import RelatedContent from '../rail/RelatedContent';
+import NextStep from '../rail/NextStep';
+import ShareResult from '../rail/ShareResult';
+import UpdatedStamp from '../rail/UpdatedStamp';
+import useShareableInputs from '../rail/useShareableInputs';
+import { getTool } from '../../utils/catalog';
 import { cn } from '../ui/cn';
+
+const HREF = '/rail/coach-position-finder';
 
 const { RAKE_TYPES, COACH_CODE_MEANINGS, locateCoach } = require('../../utils/engines/coachPosition');
 
@@ -17,6 +26,13 @@ const ZONE_LABEL = { front: 'Front of the train', middle: 'Middle of the train',
 const CoachPositionFinder = () => {
   const [rakeTypeId, setRakeTypeId] = useState('mail-express');
   const [coachCode, setCoachCode] = useState('S4');
+  const shareUrl = useShareableInputs(
+    { rake: rakeTypeId, coach: coachCode },
+    (params) => {
+      if (params.rake) setRakeTypeId(params.rake);
+      if (params.coach) setCoachCode(params.coach);
+    }
+  );
 
   const rake = RAKE_TYPES.find((r) => r.id === rakeTypeId);
   const result = useMemo(
@@ -70,18 +86,14 @@ const CoachPositionFinder = () => {
       'Coach code decoder (S, B, A, H, C, E…)'
     ]
   });
-  const breadcrumbSchema = buildBreadcrumbSchema([
-    { name: 'Home', item: 'https://railmonk.com/' },
-    { name: 'Coach Position Finder', item: 'https://railmonk.com/rail/coach-position-finder' }
-  ]);
 
   return (
     <>
       <Head>
-        <title>Train Coach Position Finder — Where Does My Coach Stop on the Platform? | Railmonk</title>
+        <title>Train Coach Position Finder — Front, Middle or Rear | Railmonk</title>
         <meta
           name="description"
-          content="See where coach S4, B2, A1 or H1 typically stands — front, middle, or rear of the platform — for Mail/Express, Rajdhani, Shatabdi and Vande Bharat rakes, with the full coach order."
+          content="Where does coach S4, B2 or A1 stand — front, middle or rear? Coach order for Mail/Express, Rajdhani, Shatabdi and Vande Bharat rakes."
         />
         <link rel="canonical" href="https://railmonk.com/rail/coach-position-finder" />
         <meta property="og:title" content="Train Coach Position Finder | Railmonk" />
@@ -90,7 +102,6 @@ const CoachPositionFinder = () => {
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary_large_image" />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }} />
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       </Head>
 
       <CalcLayout
@@ -98,6 +109,11 @@ const CoachPositionFinder = () => {
         title="Train Coach Position Finder"
         subtitle="Pick your train type and coach number to see where it typically stands in the rake — and which part of the platform to wait on."
       >
+        <Breadcrumbs
+          className="-mt-4 mb-6"
+          items={[{ name: 'Home', href: '/' }, { name: 'Rail tools', href: '/#tools' }, { name: 'Coach position finder' }]}
+        />
+
         <div className="grid grid-cols-1 gap-5 lg:grid-cols-5">
           {/* Inputs */}
           <Card className="p-5 lg:col-span-2">
@@ -215,6 +231,13 @@ const CoachPositionFinder = () => {
                 Enter a coach number like S4, B2, A1, or H1 to see where it typically stands.
               </Card>
             )}
+            {result ? (
+              <ShareResult
+                url={shareUrl}
+                title="Coach position — Railmonk"
+                text={`Where coach ${coachCode} usually stops on the platform.`}
+              />
+            ) : null}
           </div>
         </div>
 
@@ -252,6 +275,14 @@ const CoachPositionFinder = () => {
             turns a berth number into lower/middle/upper/side before you step in.
           </p>
         </div>
+        <NextStep
+          title="Know where the coach stops. Now find your berth in it."
+          body="Turn your seat number into its position in the coach — lower, middle, upper or side — before you board."
+          href="/rail/berth-position-finder"
+          cta="Find my berth position"
+          secondary={{ href: '/rail/guides/train-classes-explained', label: 'Compare train classes' }}
+        />
+
 
         <div className="mt-8">
           <EEATPanel
@@ -301,12 +332,6 @@ const CoachPositionFinder = () => {
               </p>
             )}
             faqItems={seoFaqItems}
-            relatedLinks={[
-              { label: 'Train Berth Position Finder', href: '/rail/berth-position-finder' },
-              { label: 'IRCTC Advance Booking Calculator', href: '/rail/irctc-calculator' },
-              { label: 'Waitlist Confirmation Chances', href: '/rail/waitlist-confirmation-chances' },
-              { label: 'IRCTC Cancellation Calculator', href: '/rail/irctc-cancellation-calculator' }
-            ]}
           />
         </div>
 
@@ -316,6 +341,10 @@ const CoachPositionFinder = () => {
           position display or the{' '}
           <a href="https://enquiry.indianrail.gov.in/mntes/" target="_blank" rel="noopener noreferrer" className="font-medium underline">official NTES enquiry system</a>.
         </div>
+
+        <UpdatedStamp updated={getTool(HREF)?.updated} href={HREF} />
+
+        <RelatedContent href={HREF} kind="tool" />
       </CalcLayout>
     </>
   );
