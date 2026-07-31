@@ -1,8 +1,10 @@
-import { Html, Head, Main, NextScript } from 'next/document';
+import NextDocument, { Html, Head, Main, NextScript } from 'next/document';
+import { localeFromPath, getLocale } from '../utils/i18n';
 
-export default function Document() {
+export default function Document({ locale = 'en' }) {
+  const isHindi = locale === 'hi';
   return (
-    <Html lang="en">
+    <Html lang={getLocale(locale).htmlLang}>
       <Head>
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-7XZQLXDYQ1" />
         <script
@@ -32,11 +34,29 @@ export default function Document() {
           href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap"
           rel="stylesheet"
         />
+        {/* Devanagari only where it is read. Neither Source Sans 3 nor Manrope
+            covers the script, so Hindi pages would otherwise fall back to
+            whatever the device happens to have. English pages do not pay for
+            a font they will never render a glyph from. */}
+        {isHindi ? (
+          <link
+            href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap"
+            rel="stylesheet"
+          />
+        ) : null}
       </Head>
-      <body>
+      <body className={isHindi ? 'lang-hi' : undefined}>
         <Main />
         <NextScript />
       </body>
     </Html>
   );
 }
+
+// Static export renders _document once per route, so the path is known at build
+// time — which is what lets a /hi page ship with lang="hi" in the HTML itself
+// rather than having it patched on by script after hydration.
+Document.getInitialProps = async (ctx) => {
+  const initialProps = await NextDocument.getInitialProps(ctx);
+  return { ...initialProps, locale: localeFromPath(ctx.pathname) };
+};

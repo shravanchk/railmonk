@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import Head from 'next/head';
+import LocaleHead from '../i18n/LocaleHead';
 import { AlertTriangle, Clock, ExternalLink, TicketX } from 'lucide-react';
 import EEATPanel from '../calculator/EEATPanel';
 import { editorialProfiles } from '../../utils/editorialProfiles';
@@ -284,6 +285,7 @@ const IRCTCCancellationCalculator = () => {
         <meta name="twitter:card" content="summary_large_image" />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }} />
       </Head>
+      <LocaleHead path="/rail/irctc-cancellation-calculator" />
 
       <CalcLayout
         eyebrow="India · Travel"

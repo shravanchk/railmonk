@@ -12,6 +12,21 @@
   --app-font: 'Source Sans 3', 'Manrope', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+/* Hindi pages. Source Sans 3 and Manrope carry no Devanagari, so without this
+   every /hi page would render in whatever fallback the device picked — usually
+   a heavier, differently-proportioned face that makes the layout look broken.
+   The class is set on <body> by _document, so it applies to headings too. */
+.lang-hi,
+.lang-hi .font-display {
+  font-family: 'Noto Sans Devanagari', 'Source Sans 3', system-ui, sans-serif;
+}
+
+/* Devanagari sits taller than Latin at the same size; a touch more leading
+   stops matras from crowding the line above. */
+.lang-hi {
+  line-height: 1.7;
+}
+
 /* Keep homepage logo keyframes global so animation works on first load. */
 @keyframes float {
   0%, 100% {

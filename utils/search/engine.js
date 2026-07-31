@@ -16,6 +16,14 @@
 
 const DIACRITICS = /[\u0300-\u036f]/g;
 
+// Devanagari (U+0900-U+097F) survives normalisation alongside Latin. Without
+// this the entire Hindi side of the site is unsearchable: every Devanagari
+// character would be stripped, leaving both the indexed document and the typed
+// query as empty strings that then match nothing at all. The combining range
+// removed above is Latin-only, so Hindi matras and the nukta (U+093C) are
+// untouched, and the ASCII-anchored stemmer below cannot fire on these tokens.
+const KEEP = /[^a-z0-9\u0900-\u097f]+/g;
+
 /** Lowercase, strip accents and punctuation, collapse to single spaces. */
 const normalize = (text) =>
   String(text ?? '')
@@ -23,7 +31,7 @@ const normalize = (text) =>
     .replace(/['’`]/g, '')
     .normalize('NFD')
     .replace(DIACRITICS, '')
-    .replace(/[^a-z0-9]+/g, ' ')
+    .replace(KEEP, ' ')
     .trim();
 
 // Multi-word forms folded to a single canonical token before tokenising, so

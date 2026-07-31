@@ -1,14 +1,20 @@
 import React from 'react';
 import Link from 'next/link';
 import { ArrowRight, BookOpen, Wrench } from 'lucide-react';
-import { relatedForTool, relatedForGuide, categoryLabel } from '../../utils/catalog';
+import { relatedForTool, relatedForGuide, categoryLabel, localizedTitle, localizedBlurb } from '../../utils/catalog';
+import { hasTranslation, toHindiHref, t } from '../../utils/i18n';
 
 const cardCls =
   'group flex h-full flex-col rounded-xl border border-slate-200/70 bg-white p-4 transition ' +
   'hover:-translate-y-0.5 hover:border-brand-300 hover:shadow-card ' +
   'dark:border-slate-700/70 dark:bg-slate-800/70 dark:hover:border-brand-700';
 
-const Group = ({ heading, Icon, items, cta }) => {
+// On a Hindi page, a related link goes to the Hindi twin where one exists and
+// falls back to English where it does not. Sending a Hindi reader to a page that
+// is only half there would be worse than sending them to the English original.
+const localeHref = (href, locale) => (locale === 'hi' && hasTranslation(href) ? toHindiHref(href) : href);
+
+const Group = ({ heading, Icon, items, cta, locale }) => {
   if (!items.length) return null;
   return (
     <div>
@@ -19,12 +25,16 @@ const Group = ({ heading, Icon, items, cta }) => {
       <ul className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {items.map((item) => (
           <li key={item.href}>
-            <Link href={item.href} className={cardCls}>
+            <Link href={localeHref(item.href, locale)} className={cardCls}>
               <span className="text-[0.7rem] font-semibold uppercase tracking-wide text-brand-600 dark:text-brand-300">
                 {categoryLabel(item.category)}
               </span>
-              <span className="mt-1 font-display text-[0.95rem] font-semibold text-ink dark:text-white">{item.title}</span>
-              <span className="mt-1 flex-1 text-sm leading-relaxed text-ink-muted dark:text-slate-400">{item.blurb}</span>
+              <span className="mt-1 font-display text-[0.95rem] font-semibold text-ink dark:text-white">
+                {localizedTitle(item, locale)}
+              </span>
+              <span className="mt-1 flex-1 text-sm leading-relaxed text-ink-muted dark:text-slate-400">
+                {localizedBlurb(item, locale)}
+              </span>
               <span className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-brand-700 dark:text-brand-300">
                 {cta}
                 <ArrowRight aria-hidden="true" className="h-3.5 w-3.5 transition group-hover:translate-x-0.5" />
@@ -43,18 +53,24 @@ const Group = ({ heading, Icon, items, cta }) => {
  *
  * @param {{ href: string, kind?: 'tool' | 'guide' }} props `href` is this page's own path.
  */
-const RelatedContent = ({ href, kind = 'tool' }) => {
+const RelatedContent = ({ href, kind = 'tool', locale = 'en' }) => {
   const { tools, guides } = kind === 'guide' ? relatedForGuide(href) : relatedForTool(href);
   if (!tools.length && !guides.length) return null;
 
   return (
     <section aria-labelledby="related-content-heading" className="mt-12 border-t border-slate-200/70 pt-8 dark:border-slate-800">
       <h2 id="related-content-heading" className="font-display text-xl font-bold text-ink dark:text-white">
-        Keep going
+        {t('related.heading', locale)}
       </h2>
       <div className="mt-5 space-y-7">
-        <Group heading="Tools that pair with this" Icon={Wrench} items={tools} cta="Open tool" />
-        <Group heading={kind === 'guide' ? 'More on this topic' : 'Guides that explain the rules'} Icon={BookOpen} items={guides} cta="Read guide" />
+        <Group heading={t('related.tools', locale)} Icon={Wrench} items={tools} cta={t('related.openTool', locale)} locale={locale} />
+        <Group
+          heading={t(kind === 'guide' ? 'related.moreTopic' : 'related.guides', locale)}
+          Icon={BookOpen}
+          items={guides}
+          cta={t('related.readGuide', locale)}
+          locale={locale}
+        />
       </div>
     </section>
   );

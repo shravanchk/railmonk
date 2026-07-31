@@ -1,5 +1,6 @@
 import React from 'react';
 import { cn } from '../ui/cn';
+import { t } from '../../utils/i18n';
 const { buildHowToSchema } = require('../../utils/schema');
 
 export type HowToStep = { name: string; text: string };
@@ -13,6 +14,8 @@ type HowToSectionProps = {
   totalTime?: string;
   /** visible heading */
   heading?: string;
+  /** Picks the default heading's language when `heading` is not given. */
+  locale?: string;
   className?: string;
 };
 
@@ -23,17 +26,20 @@ export default function HowToSection({
   steps,
   description,
   totalTime = 'PT1M',
-  heading = 'How to use this calculator',
+  heading,
+  locale = 'en',
   className
 }: HowToSectionProps) {
   if (!steps || steps.length === 0) return null;
 
+  const visibleHeading = heading || t('howto.heading', locale);
+
   const schema = buildHowToSchema({ name, description, steps, totalTime });
 
   return (
-    <section className={cn('mt-10', className)} aria-label={heading}>
+    <section className={cn('mt-10', className)} aria-label={visibleHeading}>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
-      <h2 className="font-display text-xl font-bold text-ink dark:text-white">{heading}</h2>
+      <h2 className="font-display text-xl font-bold text-ink dark:text-white">{visibleHeading}</h2>
       {/* ul, not ol: the number badge is rendered explicitly, and ol semantics
           would double it for screen readers and text extractors ("1. 1"). */}
       <ul className="mt-4 grid gap-3 sm:grid-cols-2">

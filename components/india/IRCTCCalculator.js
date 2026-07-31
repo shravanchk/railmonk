@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import Head from 'next/head';
+import LocaleHead from '../i18n/LocaleHead';
 import { Calendar, ExternalLink } from 'lucide-react';
 import EEATPanel from '../calculator/EEATPanel';
 import { editorialProfiles } from '../../utils/editorialProfiles';
@@ -274,6 +275,7 @@ const IRCTCCalculator = () => {
         <meta name="twitter:description" content="When does booking open for your journey date? ARP and Tatkal windows, calculated." />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }} />
       </Head>
+      <LocaleHead path="/rail/irctc-calculator" />
 
       <CalcLayout
         eyebrow="India · Travel"

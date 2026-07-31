@@ -16,9 +16,19 @@ export const CATEGORIES = [
   { id: 'fares', label: 'Fares & charges', blurb: 'What the ticket price is actually made of.' },
   { id: 'coaches', label: 'Coaches & berths', blurb: 'Where your berth is, and where your coach stops.' },
   { id: 'planning', label: 'Train planning', blurb: 'Charts, journeys, and the timeline around your trip.' },
+  { id: 'world', label: 'Trains abroad', blurb: 'The rules that replace the Indian ones once you leave the network.' },
 ];
 
 export const categoryLabel = (id) => CATEGORIES.find((c) => c.id === id)?.label || '';
+
+// `titleHi` / `blurbHi` exist only on entries that have a Hindi page. Anything
+// without them falls back to English rather than showing a gap — a Hindi reader
+// following a link to an untranslated tool should still see what it is called.
+export const localizedTitle = (entry, locale = 'en') =>
+  (locale === 'hi' && entry?.titleHi) || entry?.title || '';
+
+export const localizedBlurb = (entry, locale = 'en') =>
+  (locale === 'hi' && entry?.blurbHi) || entry?.blurb || '';
 
 // ── Tools ───────────────────────────────────────────────────────────────────
 // `blurb` is the one-sentence explanation shown on cards and category lists.
@@ -33,8 +43,10 @@ export const TOOLS = [
   {
     href: '/rail/irctc-calculator',
     title: 'IRCTC Booking Date Calculator',
+    titleHi: 'IRCTC बुकिंग तिथि कैलकुलेटर',
     nav: 'Booking Date Calculator',
     blurb: 'Find the exact date and time your ticket window opens — general quota and Tatkal.',
+    blurbHi: 'जानिए आपकी टिकट बुकिंग किस तारीख और समय पर खुलेगी — जनरल कोटा और तत्काल, दोनों के लिए।',
     keywords: [
       'ARP', 'advance reservation period', '60 day rule', '120 days', 'booking window',
       'when can I book', 'booking opens', 'reservation opens', 'general quota', '8 am',
@@ -50,8 +62,10 @@ export const TOOLS = [
   {
     href: '/rail/irctc-cancellation-calculator',
     title: 'Cancellation Refund Calculator',
+    titleHi: 'टिकट रद्दीकरण रिफंड कैलकुलेटर',
     nav: 'Cancellation Refund Calculator',
     blurb: 'See the rupee amount you actually get back before you cancel, under the current refund slabs.',
+    blurbHi: 'टिकट रद्द करने से पहले जानिए कि मौजूदा रिफंड नियमों के तहत आपको असल में कितने रुपये वापस मिलेंगे।',
     keywords: [
       'cancel ticket', 'refund amount', 'cancellation charge', 'clerkage', 'how much refund',
       'confirmed ticket', 'RAC cancellation', 'GST', 'refund slab', '48 hours', '12 hours',
@@ -85,8 +99,10 @@ export const TOOLS = [
   {
     href: '/rail/tatkal-charges-calculator',
     title: 'Tatkal Charges Calculator',
+    titleHi: 'तत्काल शुल्क कैलकुलेटर',
     nav: 'Tatkal Charges Calculator',
     blurb: 'Know the real Tatkal premium over the base fare for your class and distance before you pay it.',
+    blurbHi: 'भुगतान से पहले जानिए कि आपकी श्रेणी और दूरी पर बेस किराये के ऊपर तत्काल का असली प्रीमियम कितना बनता है।',
     keywords: [
       'tatkal premium', 'tatkal charge', 'tatkal time', 'tatkal booking time', '10 am', '11 am',
       'premium tatkal', 'AC tatkal', 'sleeper tatkal', 'extra charge', 'Aadhaar OTP',
@@ -101,8 +117,10 @@ export const TOOLS = [
   {
     href: '/rail/waitlist-confirmation-chances',
     title: 'Waitlist Confirmation Chances',
+    titleHi: 'वेटिंग लिस्ट कन्फर्म होने की संभावना',
     nav: 'Waitlist Confirmation Chances',
     blurb: 'Decode GNWL, RLWL, PQWL and TQWL — and get an honest estimate of whether your ticket will confirm.',
+    blurbHi: 'GNWL, RLWL, PQWL और TQWL का मतलब समझिए — और जानिए कि आपका टिकट कन्फर्म होने की सही संभावना कितनी है।',
     keywords: [
       'WL', 'GNWL', 'RLWL', 'PQWL', 'TQWL', 'RSWL', 'RAC', 'CNF', 'waitlist code',
       'confirmation chance', 'will my ticket confirm', 'waiting list position', 'clear hoga',
@@ -210,6 +228,42 @@ export const TOOLS = [
     relatedGuides: ['/rail/guides/irctc-booking-strategy'],
     isNew: true,
   },
+  {
+    href: '/world/delay-compensation',
+    title: 'Train Delay Compensation Checker',
+    nav: 'Delay Compensation (abroad)',
+    blurb: 'See what a delayed train owes you in the EU, the UK, Switzerland, the US or Australia — the percentage, the amount and the deadline.',
+    keywords: [
+      'delay compensation', 'train late abroad', 'EU 261 train', '2021/782', 'passenger rights',
+      'Delay Repay', 'Delay Repay 15', 'Delay Repay 30', 'Eurostar delay', 'Amtrak delay',
+      'SBB delay', 'refund for late train', 'compensation claim', 'how late for compensation',
+      'Europe train delayed', 'V/Line compensation',
+    ],
+    category: 'world',
+    icon: 'Scale',
+    updated: '2026-07-31',
+    relatedTools: ['/world/booking-windows', '/rail/tdr-refund-checker', '/rail/irctc-cancellation-calculator'],
+    relatedGuides: ['/rail/guides/train-classes-explained'],
+    isNew: true,
+  },
+  {
+    href: '/world/booking-windows',
+    title: 'International Booking Window Calculator',
+    nav: 'Booking Windows (abroad)',
+    blurb: 'When tickets go on sale for Amtrak, Deutsche Bahn, Eurostar, SNCF, Trenitalia, NSW TrainLink and more.',
+    keywords: [
+      'booking window abroad', 'advance booking', 'when do tickets go on sale', 'Amtrak 11 months',
+      'Deutsche Bahn 12 months', 'Eurostar booking', 'SNCF booking opens', 'Trenitalia booking',
+      'Renfe booking window', 'booking horizon', 'advance tickets', 'NSW TrainLink booking',
+      'Ghan booking', 'how early can I book', 'Europe train tickets',
+    ],
+    category: 'world',
+    icon: 'Globe2',
+    updated: '2026-07-31',
+    relatedTools: ['/world/delay-compensation', '/rail/irctc-calculator', '/rail/booking-reminder'],
+    relatedGuides: ['/rail/guides/irctc-booking-strategy'],
+    isNew: true,
+  },
 ];
 
 // ── Guides ──────────────────────────────────────────────────────────────────
@@ -282,6 +336,38 @@ export const GUIDES = [
     readingMinutes: 10,
     relatedTools: ['/rail/train-fare-calculator', '/rail/berth-position-finder', '/rail/coach-position-finder'],
     popular: true,
+  },
+  {
+    href: '/rail/guides/train-travel-rules',
+    title: 'Train Travel Rules: Berths, Luggage & Penalties',
+    blurb: 'The rules people actually argue about on board — night berth timings, the middle berth, luggage limits by class, and what a ticketless journey now costs.',
+    keywords: [
+      'night berth timing', 'sleeping hours', '10 pm', 'middle berth rule', 'middle berth timing',
+      'luggage limit', 'luggage allowance', 'how much luggage', 'excess luggage', 'baggage',
+      'penalty', 'fine', 'without ticket', 'ticketless', 'TTE', 'higher class', 'seat rules',
+      'berth rules', 'train me kitna saman',
+    ],
+    category: 'planning',
+    updated: '2026-07-31',
+    readingMinutes: 9,
+    relatedTools: ['/rail/waitlist-confirmation-chances', '/rail/berth-position-finder', '/rail/train-fare-calculator'],
+    isNew: true,
+  },
+  {
+    href: '/rail/guides/quotas-vikalp-break-journey',
+    title: 'Quotas, VIKALP & Break Journey',
+    blurb: 'Every reservation quota explained, how the free VIKALP alternate-train scheme works, and when you can break a long journey en route.',
+    keywords: [
+      'quota', 'quota list', 'general quota', 'ladies quota', 'senior citizen quota', 'lower berth quota',
+      'HO quota', 'emergency quota', 'divyangjan', 'handicapped quota', 'defence quota', 'duty pass',
+      'foreign tourist quota', 'VIKALP', 'ATAS', 'alternate train', 'break journey', 'stopover',
+      'kaun sa quota',
+    ],
+    category: 'booking',
+    updated: '2026-07-31',
+    readingMinutes: 10,
+    relatedTools: ['/rail/waitlist-confirmation-chances', '/rail/irctc-calculator', '/rail/tatkal-charges-calculator'],
+    isNew: true,
   },
   {
     href: '/rail/guides/vande-bharat-guide',

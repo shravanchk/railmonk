@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
+import LocaleHead from '../i18n/LocaleHead';
 import Link from 'next/link';
 import {
   ArrowRight,
@@ -131,6 +132,7 @@ export default function HomePage() {
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(toolListSchema) }} />
       </Head>
+      <LocaleHead path="/" />
 
       <div className="bg-white font-sans text-ink dark:bg-slate-900">
         {/* 1 — Hero */}

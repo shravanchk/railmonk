@@ -1,5 +1,6 @@
 import React from 'react';
 import { getAutoUpdatedLabel } from '../../utils/siteMeta';
+import { t } from '../../utils/i18n';
 
 const titleCls = 'm-0 text-[0.84rem] font-bold text-ink dark:text-slate-100';
 const valueCls = 'mt-0.5 text-[0.84rem] leading-relaxed text-ink-soft dark:text-slate-300';
@@ -12,7 +13,7 @@ const renderIdentity = (value) => {
   return value.label || null;
 };
 
-const EEATPanel = ({ author, reviewer, reviewedOn, scope, sources = [] }) => {
+const EEATPanel = ({ author, reviewer, reviewedOn, scope, sources = [], locale = 'en' }) => {
   const updatedLabel = getAutoUpdatedLabel();
 
   return (
@@ -20,35 +21,35 @@ const EEATPanel = ({ author, reviewer, reviewedOn, scope, sources = [] }) => {
       className="mb-3.5 rounded-2xl border border-slate-200/70 bg-slate-50 p-4 dark:border-slate-700/70 dark:bg-slate-800/60"
       aria-label="Editorial trust and source panel"
     >
-      <p className="mb-2 text-[0.78rem] font-bold uppercase tracking-[0.03em] text-teal-700 dark:text-teal-300">Editorial Trust Panel</p>
+      <p className="mb-2 text-[0.78rem] font-bold uppercase tracking-[0.03em] text-teal-700 dark:text-teal-300">{t('eeat.panel', locale)}</p>
       <div className="grid gap-x-4 gap-y-3 sm:grid-cols-2 lg:grid-cols-4">
         <div>
-          <p className={titleCls}>Author</p>
+          <p className={titleCls}>{t('eeat.author', locale)}</p>
           <p className={valueCls}>{renderIdentity(author)}</p>
         </div>
         <div>
-          <p className={titleCls}>Reviewed by</p>
+          <p className={titleCls}>{t('eeat.reviewer', locale)}</p>
           <p className={valueCls}>{renderIdentity(reviewer)}</p>
         </div>
         <div>
-          <p className={titleCls}>Last reviewed</p>
+          <p className={titleCls}>{t('eeat.reviewedOn', locale)}</p>
           <p className={valueCls}>{reviewedOn}</p>
         </div>
         <div>
-          <p className={titleCls}>Content update</p>
+          <p className={titleCls}>{t('eeat.update', locale)}</p>
           <p className={valueCls}>{updatedLabel}</p>
         </div>
       </div>
 
       {scope ? (
         <p className={`${valueCls} mt-2.5`}>
-          <strong className="text-ink dark:text-slate-100">Scope:</strong> {scope}
+          <strong className="text-ink dark:text-slate-100">{t('eeat.scope', locale)}:</strong> {scope}
         </p>
       ) : null}
 
       {sources.length ? (
         <div className="mt-2.5">
-          <p className={titleCls}>Primary references</p>
+          <p className={titleCls}>{t('eeat.sources', locale)}</p>
           <div className="mt-1.5 flex flex-wrap gap-x-4 gap-y-1.5">
             {sources.map((source) => (
               <a key={source.url} href={source.url} target="_blank" rel="noopener noreferrer" className={`text-[0.82rem] ${linkCls}`}>

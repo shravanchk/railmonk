@@ -104,7 +104,16 @@ const estimateChances = ({ wlCode, wlNumber, daysToJourney = 7, peakSeason = fal
   const days = Math.max(0, Math.floor(Number(daysToJourney) || 0));
 
   const factors = [];
+  // Locale-neutral identifiers for the same reasoning. The English strings below
+  // stay as they are; a translated page renders its own copy from these keys
+  // rather than re-implementing the thresholds and drifting away from them.
+  const factorKeys = [];
   let score = type.baseScore * wlNumberFactor(n);
+
+  if (n <= 5) factorKeys.push('wl-front');
+  else if (n <= 15) factorKeys.push('wl-typical');
+  else if (n <= 30) factorKeys.push('wl-deep');
+  else factorKeys.push('wl-very-deep');
 
   if (n <= 5) factors.push(`${type.code} ${n} is near the front of the queue — only a handful of cancellations needed.`);
   else if (n <= 15) factors.push(`${type.code} ${n} is a typical clearing depth for this quota when there is time left.`);
@@ -113,6 +122,11 @@ const estimateChances = ({ wlCode, wlNumber, daysToJourney = 7, peakSeason = fal
 
   const adj = leadTimeAdj(days);
   score += adj;
+  if (days >= 20) factorKeys.push('lead-long');
+  else if (days >= 8) factorKeys.push('lead-medium');
+  else if (days >= 3) factorKeys.push('lead-short');
+  else factorKeys.push('lead-imminent');
+
   if (days >= 20) factors.push(`${days} days to departure leaves plenty of time for cancellations to accumulate.`);
   else if (days >= 8) factors.push(`${days} days to departure is a reasonable window for movement.`);
   else if (days >= 3) factors.push(`${days} days to departure — most movement now happens at chart preparation.`);
@@ -120,19 +134,22 @@ const estimateChances = ({ wlCode, wlNumber, daysToJourney = 7, peakSeason = fal
 
   if (peakSeason) {
     score -= SEASON_PEAK_PENALTY;
+    factorKeys.push('peak');
     factors.push('Festival / holiday-season demand cuts cancellations sharply — waitlists move much less than usual.');
   }
 
   if (type.code === 'TQWL') {
+    factorKeys.push('tqwl');
     factors.push('Tatkal cancellations are rare (confirmed Tatkal tickets are non-refundable), and vacant Tatkal berths go to GNWL first at charting.');
   }
   if (type.code === 'RAC') {
+    factorKeys.push('rac');
     factors.push('RAC already guarantees travel on a shared berth — the estimate here is for getting a full berth to yourself.');
   }
 
   score = Math.max(3, Math.min(97, Math.round(score)));
   const band = BANDS.find((b) => score >= b.min);
-  return { score, band: band.id, label: band.label, pctText: band.pctText, factors };
+  return { score, band: band.id, label: band.label, pctText: band.pctText, factors, factorKeys };
 };
 
 module.exports = { WL_TYPES, getWlType, estimateChances, wlNumberFactor, leadTimeAdj };

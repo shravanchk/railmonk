@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import Head from 'next/head';
+import LocaleHead from '../i18n/LocaleHead';
 import { ExternalLink, Zap } from 'lucide-react';
 import EEATPanel from '../calculator/EEATPanel';
 import { editorialProfiles } from '../../utils/editorialProfiles';
@@ -135,6 +136,7 @@ const TatkalChargesCalculator = () => {
         <meta name="twitter:card" content="summary_large_image" />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }} />
       </Head>
+      <LocaleHead path="/rail/tatkal-charges-calculator" />
 
       <CalcLayout
         eyebrow="India · Travel"

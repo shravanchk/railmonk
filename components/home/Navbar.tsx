@@ -4,19 +4,40 @@ import { useRouter } from 'next/router';
 import { BellRing, ChevronDown, Menu, X, Search, Sun, Moon, ArrowLeft } from 'lucide-react';
 import { cn } from '../ui/cn';
 import SiteSearch, { openSearch } from '../search/SiteSearch';
-import { TOOLS as CATALOG_TOOLS } from '../../utils/catalog';
+import LanguageSwitcher from '../i18n/LanguageSwitcher';
+import { TOOLS as CATALOG_TOOLS, localizedTitle } from '../../utils/catalog';
+import { localeFromPath, hasTranslation, toHindiHref, t } from '../../utils/i18n';
 
 type NavLink = { label: string; href: string };
 
 // Built from the catalog so a newly added tool appears in the menu without a
 // second edit here — the old hand-kept copy of this list went stale twice.
-const TOOLS: NavLink[] = CATALOG_TOOLS.map((t) => ({ label: t.nav || t.title, href: t.href }));
+//
+// The two menus are split by category rather than merged: the Indian tools are
+// what this site is for, and burying "Delay compensation in the EU" among them
+// would misrepresent both.
+const WORLD_TOOLS: NavLink[] = [
+  { label: 'All trains-abroad tools', href: '/world' },
+  ...CATALOG_TOOLS.filter((t) => t.category === 'world').map((t) => ({ label: t.nav || t.title, href: t.href })),
+];
 
-const RESOURCES: NavLink[] = [
-  { label: 'Rule changes', href: '/rail/rule-updates' },
-  { label: 'Saved journeys', href: '/rail/saved-journeys' },
-  { label: 'About Railmonk', href: '/about' },
-  { label: 'Contact', href: '/contact' },
+// Menus are rebuilt per locale rather than held as constants: on a Hindi page a
+// tool that has a Hindi twin should be named in Hindi and link to that twin,
+// while an untranslated one keeps its English name so the label matches the page
+// it opens.
+const buildTools = (locale: string): NavLink[] =>
+  CATALOG_TOOLS.filter((t) => t.category !== 'world').map((tool) => ({
+    label: locale === 'hi' && hasTranslation(tool.href)
+      ? localizedTitle(tool, 'hi')
+      : tool.nav || tool.title,
+    href: locale === 'hi' && hasTranslation(tool.href) ? toHindiHref(tool.href) : tool.href,
+  }));
+
+const buildResources = (locale: string): NavLink[] => [
+  { label: t('nav.ruleChanges', locale), href: '/rail/rule-updates' },
+  { label: t('nav.savedJourneys', locale), href: '/rail/saved-journeys' },
+  { label: t('nav.about', locale), href: '/about' },
+  { label: t('nav.contact', locale), href: '/contact' },
 ];
 
 function useDarkMode(): [boolean, () => void] {
@@ -77,6 +98,9 @@ export default function Navbar() {
   const isHome = router.pathname === '/';
   const [dark, toggleDark] = useDarkMode();
   const [drawer, setDrawer] = useState(false);
+  const locale = localeFromPath(router.pathname);
+  const TOOLS = buildTools(locale);
+  const RESOURCES = buildResources(locale);
 
   const goBack = () => {
     if (typeof window !== 'undefined' && window.history.length > 1) router.back();
@@ -93,7 +117,10 @@ export default function Navbar() {
     <>
     <header className="sticky top-0 z-40 border-b border-slate-200/70 bg-white/85 backdrop-blur supports-[backdrop-filter]:bg-white/70 dark:border-slate-700/70 dark:bg-slate-900/85">
       <nav className="flex h-16 w-full items-center justify-between gap-3 px-4 sm:px-6 lg:px-10 xl:px-16" aria-label="Primary">
-        <div className="flex items-center gap-2">
+        {/* min-w-0 so the wordmark can shrink rather than push the controls on
+            the right off the edge — the language switcher made this row one
+            item wider on a phone. */}
+        <div className="flex min-w-0 items-center gap-2">
         {!isHome && (
           <button
             type="button"
@@ -104,9 +131,9 @@ export default function Navbar() {
             <ArrowLeft className="h-4 w-4" />
           </button>
         )}
-        <Link href="/" className="flex items-center gap-2.5">
-          <img src="/railmonk-logo.svg" alt="" className="h-8 w-8" width={32} height={32} />
-          <span className="leading-tight">
+        <Link href="/" className="flex min-w-0 items-center gap-2.5">
+          <img src="/railmonk-logo.svg" alt="" className="h-8 w-8 shrink-0" width={32} height={32} />
+          <span className="min-w-0 leading-tight">
             <span className="block font-display text-lg font-bold text-ink dark:text-white">Railmonk</span>
             {/* Hidden until xl: between md and lg the row carries the menu, the
                 search trigger and the reminder CTA, and the tagline is what
@@ -117,19 +144,26 @@ export default function Navbar() {
         </div>
 
         <div className="hidden items-center gap-1 md:flex">
-          <Dropdown label="Rail Tools" items={TOOLS} />
-          <Link href="/guides" className="rounded-lg px-3 py-2 text-sm font-medium text-ink-soft hover:text-brand-700 dark:text-slate-300 dark:hover:text-white">Guides</Link>
-          <Dropdown label="Resources" items={RESOURCES} />
+          <Dropdown label={t('nav.railTools', locale)} items={TOOLS} />
+          <Dropdown label={t('nav.trainsAbroad', locale)} items={WORLD_TOOLS} />
+          <Link href="/guides" className="rounded-lg px-3 py-2 text-sm font-medium text-ink-soft hover:text-brand-700 dark:text-slate-300 dark:hover:text-white">{t('nav.guides', locale)}</Link>
+          <Dropdown label={t('nav.resources', locale)} items={RESOURCES} />
         </div>
 
         <div className="flex items-center gap-1.5">
+          {/* Below sm the row already carries back, wordmark, search, theme and
+              menu; a sixth control clips the wordmark. The switcher moves into
+              the drawer at that width rather than being dropped. */}
+          <span className="hidden sm:block">
+            <LanguageSwitcher />
+          </span>
           <SiteSearch />
           <Link
             href="/rail/booking-reminder"
             className="hidden items-center gap-1.5 rounded-xl bg-brand-600 px-3.5 py-2 text-sm font-semibold text-white transition hover:bg-brand-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2 sm:inline-flex"
           >
             <BellRing aria-hidden="true" className="h-4 w-4" />
-            Set a reminder
+            {t('nav.setReminder', locale)}
           </Link>
           <button
             type="button"
@@ -156,7 +190,7 @@ export default function Navbar() {
           <div className="absolute inset-0 bg-ink/40 backdrop-blur-sm" onClick={() => setDrawer(false)} />
           <div className="absolute right-0 top-0 h-full w-80 max-w-[85vw] overflow-y-auto bg-white p-5 shadow-card dark:bg-slate-900">
             <div className="flex items-center justify-between">
-              <span className="font-display text-lg font-bold text-ink dark:text-white">Menu</span>
+              <span className="font-display text-lg font-bold text-ink dark:text-white">{t('nav.menu', locale)}</span>
               <button type="button" onClick={() => setDrawer(false)} aria-label="Close menu" className="rounded-lg p-2 text-ink-soft hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800">
                 <X className="h-5 w-5" />
               </button>
@@ -167,18 +201,28 @@ export default function Navbar() {
               className="mt-5 flex w-full items-center gap-2.5 rounded-xl border border-slate-200 px-3 py-2.5 text-sm text-ink-muted transition hover:border-brand-300 hover:text-brand-700 dark:border-slate-700 dark:text-slate-400"
             >
               <Search aria-hidden="true" className="h-4 w-4" />
-              Search tools, guides and rules…
+              {t('nav.searchPlaceholder', locale)}
             </button>
 
-            <p className="mt-5 text-xs font-bold uppercase tracking-wide text-ink-muted">Rail Tools</p>
+            <div className="mt-2.5" onClick={() => setDrawer(false)}>
+              <LanguageSwitcher className="w-full justify-center" />
+            </div>
+
+            <p className="mt-5 text-xs font-bold uppercase tracking-wide text-ink-muted">{t('nav.railTools', locale)}</p>
             <div className="mt-1">
               {TOOLS.map((it) => (
                 <Link key={it.href} href={it.href} onClick={() => setDrawer(false)} className="block rounded-lg px-2 py-2 text-sm text-ink-soft hover:bg-brand-50 hover:text-brand-700 dark:text-slate-300 dark:hover:bg-slate-800">{it.label}</Link>
               ))}
             </div>
-            <p className="mt-4 text-xs font-bold uppercase tracking-wide text-ink-muted">Explore</p>
+            <p className="mt-4 text-xs font-bold uppercase tracking-wide text-ink-muted">{t('nav.trainsAbroad', locale)}</p>
             <div className="mt-1">
-              <Link href="/guides" onClick={() => setDrawer(false)} className="block rounded-lg px-2 py-2 text-sm text-ink-soft hover:bg-brand-50 dark:text-slate-300 dark:hover:bg-slate-800">Guides</Link>
+              {WORLD_TOOLS.map((it) => (
+                <Link key={it.href} href={it.href} onClick={() => setDrawer(false)} className="block rounded-lg px-2 py-2 text-sm text-ink-soft hover:bg-brand-50 hover:text-brand-700 dark:text-slate-300 dark:hover:bg-slate-800">{it.label}</Link>
+              ))}
+            </div>
+            <p className="mt-4 text-xs font-bold uppercase tracking-wide text-ink-muted">{t('nav.explore', locale)}</p>
+            <div className="mt-1">
+              <Link href="/guides" onClick={() => setDrawer(false)} className="block rounded-lg px-2 py-2 text-sm text-ink-soft hover:bg-brand-50 dark:text-slate-300 dark:hover:bg-slate-800">{t('nav.guides', locale)}</Link>
               {RESOURCES.map((it) => (
                 <Link key={it.href} href={it.href} onClick={() => setDrawer(false)} className="block rounded-lg px-2 py-2 text-sm text-ink-soft hover:bg-brand-50 dark:text-slate-300 dark:hover:bg-slate-800">{it.label}</Link>
               ))}

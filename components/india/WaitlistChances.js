@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import Head from 'next/head';
+import LocaleHead from '../i18n/LocaleHead';
 import { Gauge, HelpCircle, ListOrdered, TrainFront } from 'lucide-react';
 import EEATPanel from '../calculator/EEATPanel';
 import { editorialProfiles } from '../../utils/editorialProfiles';
@@ -122,6 +123,7 @@ const WaitlistChances = () => {
         <meta name="twitter:card" content="summary_large_image" />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }} />
       </Head>
+      <LocaleHead path="/rail/waitlist-confirmation-chances" />
 
       <CalcLayout
         eyebrow="India · Travel"

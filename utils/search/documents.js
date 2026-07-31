@@ -5,6 +5,7 @@
 
 import { TOOLS, GUIDES, categoryLabel } from '../catalog';
 import { RULE_UPDATES } from '../ruleUpdates';
+import { TRANSLATED, toHindiHref } from '../i18n';
 import { createIndex, search as runSearch, tokenize } from './engine';
 
 export const TYPE_LABEL = {
@@ -31,6 +32,43 @@ const toolDocs = TOOLS.map((tool) => ({
   icon: tool.icon,
   isNew: tool.isNew,
   boost: tool.featured ? FEATURED_BOOST : TOOL_BOOST,
+}));
+
+// Hindi pages are indexed as their own documents, keyed on their Hindi title
+// and Devanagari keywords. They sit slightly below the English tools rather than
+// alongside them: an English query should not surface a Hindi page above the
+// English original, while a Devanagari query matches only these, because no
+// English document holds a single Devanagari token.
+const HINDI_KEYWORDS = {
+  '/rail/irctc-calculator': [
+    'बुकिंग', 'टिकट कब बुक करें', '60 दिन', 'अग्रिम आरक्षण', 'तत्काल समय',
+    'रिजर्वेशन कब खुलेगा', 'टिकट कब मिलेगी', 'बुकिंग तिथि',
+  ],
+  '/rail/irctc-cancellation-calculator': [
+    'टिकट कैंसिल', 'रद्द', 'रिफंड', 'पैसा वापस', 'कटौती', 'क्लर्केज',
+    'कितना पैसा वापस मिलेगा', 'रद्दीकरण शुल्क',
+  ],
+  '/rail/waitlist-confirmation-chances': [
+    'वेटिंग', 'वेटिंग लिस्ट', 'कन्फर्म', 'GNWL', 'RLWL', 'PQWL', 'TQWL', 'RAC',
+    'टिकट कन्फर्म होगी', 'प्रतीक्षा सूची',
+  ],
+  '/rail/tatkal-charges-calculator': [
+    'तत्काल', 'तत्काल चार्ज', 'तत्काल शुल्क', 'कितना ज्यादा', 'प्रीमियम तत्काल',
+    'तत्काल बुकिंग समय',
+  ],
+};
+
+const hindiDocs = TOOLS.filter((tool) => TRANSLATED.includes(tool.href)).map((tool) => ({
+  href: toHindiHref(tool.href),
+  title: tool.titleHi || tool.title,
+  type: 'tool',
+  category: tool.category,
+  categoryLabel: categoryLabel(tool.category),
+  blurb: tool.blurbHi || tool.blurb,
+  keywords: [...(HINDI_KEYWORDS[tool.href] || []), 'हिंदी', 'hindi'],
+  icon: tool.icon,
+  locale: 'hi',
+  boost: 1,
 }));
 
 const guideDocs = GUIDES.map((guide) => ({
@@ -77,6 +115,24 @@ const pageDocs = [
     keywords: ['changelog', 'what changed', 'new rules', 'circular', 'effective date', 'updates'],
   },
   {
+    href: '/hi',
+    title: 'हिंदी में रेल टूल',
+    type: 'page',
+    blurb: 'बुकिंग, रिफंड, वेटिंग और तत्काल के कैलकुलेटर — हिंदी में।',
+    keywords: ['hindi', 'हिंदी', 'भारतीय रेल', 'रेलवे', 'ट्रेन', 'in hindi', 'हिन्दी'],
+  },
+  {
+    href: '/world',
+    title: 'Trains abroad',
+    type: 'page',
+    blurb: 'Booking windows and delay compensation rules for the United States, Europe and Australia.',
+    keywords: [
+      'abroad', 'international', 'overseas', 'foreign', 'Europe', 'EU', 'USA', 'US', 'America',
+      'Australia', 'UK', 'Britain', 'Amtrak', 'Eurostar', 'Deutsche Bahn', 'SNCF', 'Trenitalia',
+      'outside India', 'trains in Europe',
+    ],
+  },
+  {
     href: '/about',
     title: 'About Railmonk',
     type: 'page',
@@ -113,7 +169,7 @@ const pageDocs = [
   },
 ].map((page) => ({ ...page, boost: -2 }));
 
-export const SEARCH_DOCUMENTS = [...toolDocs, ...guideDocs, ...updateDocs, ...pageDocs];
+export const SEARCH_DOCUMENTS = [...toolDocs, ...hindiDocs, ...guideDocs, ...updateDocs, ...pageDocs];
 
 const INDEX = createIndex(SEARCH_DOCUMENTS);
 
@@ -130,7 +186,11 @@ export const searchGuides = (query, options) => runSearch(GUIDE_INDEX, query, op
 const LIVE_DATA_TRIGGERS = [
   'pnr', 'live', 'running', 'spot', 'availability', 'timetable', 'schedule',
   'seat availability', 'train status', 'between stations', 'departures',
-  'platform number', 'delay',
+  'platform number', 'delay status',
+  // "delay" on its own used to sit in this list, from when nothing on the site
+  // answered a delay question. It now sends people asking about compensation to
+  // a "we have no live data" notice instead of the tool that answers them, so
+  // the trigger needs both words to fire.
 ].map((phrase) => tokenize(phrase));
 
 /**

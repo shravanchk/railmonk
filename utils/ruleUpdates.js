@@ -12,6 +12,40 @@
 
 export const RULE_UPDATES = [
   {
+    id: 'excess-luggage-online-booking',
+    title: 'Excess luggage can be booked online with the ticket',
+    effective: '2026-07-31',
+    effectiveLabel: '31 July 2026',
+    category: 'planning',
+    confidence: 'reported',
+    summary:
+      'Passengers can now book and pay for excess luggage online at the time of ticket reservation, in AC First Class, AC 2-Tier, First Class, Sleeper and Second Class. AC 3-Tier and AC Chair Car are excluded because their maximum permissible limit is the same as the free allowance, so there is no excess to book.',
+    whatChanged:
+      'Excess luggage previously had to be handled at the parcel or luggage office before travel. Free allowances themselves are unchanged — 70 kg in 1A, 50 kg in FC and 2A, 40 kg in 3A, CC and SL, 35 kg in 2S — and excess inside the compartment is still charged at 1.5 times the luggage rate.',
+    affects: ['/rail/guides/train-travel-rules'],
+    sources: [
+      { label: 'IANS — online excess luggage booking launched', url: 'https://ianslive.in/indian-railways-launches-online-excess-luggage-booking-with-ticket-reservations--20260731140922' },
+      { label: 'Indian Railways', url: 'https://indianrailways.gov.in/' },
+    ],
+  },
+  {
+    id: 'ticketless-penalty-500',
+    title: 'Minimum penalty for ticketless travel doubled to ₹500',
+    effective: '2026-07-01',
+    effectiveLabel: '1 July 2026',
+    category: 'planning',
+    confidence: 'reported',
+    summary:
+      'The minimum penalty under Section 138 of the Railways Act for travelling without a ticket — or beyond the distance the ticket covers — rose from ₹250 to ₹500, payable in addition to the fare for the distance travelled. The change came through amendments to Sections 137 and 138 made by the Jan Vishwas (Amendment of Provisions) Act, 2026.',
+    whatChanged:
+      'Court-imposed punishment is unchanged at up to six months imprisonment, a fine of up to ₹1,000, or both. The practical effect is on the penalty a TTE collects on board, which is now twice what most passengers expect it to be.',
+    affects: ['/rail/guides/train-travel-rules'],
+    sources: [
+      { label: 'Business Today — penalty change from 1 July 2026', url: 'https://www.businesstoday.in/india/story/railways-rule-change-from-july-1-travelling-without-a-ticket-how-much-fine-youll-have-to-pay-538856-2026-06-24' },
+      { label: 'Railways Act, 1989 — Section 138', url: 'https://lawgist.in/railways-act/138' },
+    ],
+  },
+  {
     id: 'chart-preparation-10-hours',
     title: 'First reservation chart now prepared 10 hours before departure',
     effective: '2025-12-01',

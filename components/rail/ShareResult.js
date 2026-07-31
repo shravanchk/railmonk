@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Check, Link2, Share2 } from 'lucide-react';
+import { t } from '../../utils/i18n';
 
 /**
  * "Send this result to someone."
@@ -10,7 +11,7 @@ import { Check, Link2, Share2 } from 'lucide-react';
  * once we know which one the browser supports, so it never advertises a share
  * sheet that will not appear.
  */
-export default function ShareResult({ url, title, text, className = '' }) {
+export default function ShareResult({ url, title, text, className = '', locale = 'en' }) {
   const [copied, setCopied] = useState(false);
   const [canShare, setCanShare] = useState(false);
 
@@ -56,9 +57,9 @@ export default function ShareResult({ url, title, text, className = '' }) {
     <div
       className={`rounded-2xl border border-slate-200/70 bg-white p-4 dark:border-slate-700/70 dark:bg-slate-800/70 ${className}`}
     >
-      <p className="text-sm font-semibold text-ink dark:text-white">Share this result</p>
+      <p className="text-sm font-semibold text-ink dark:text-white">{t('share.title', locale)}</p>
       <p className="mt-1 text-sm leading-relaxed text-ink-muted dark:text-slate-400">
-        The link carries your inputs, so whoever opens it sees the same answer.
+        {t('share.body', locale)}
       </p>
 
       <div className="mt-3 flex flex-wrap gap-2">
@@ -72,7 +73,7 @@ export default function ShareResult({ url, title, text, className = '' }) {
           ) : (
             <Link2 aria-hidden="true" className="h-4 w-4" />
           )}
-          {copied ? 'Link copied' : 'Copy link'}
+          {copied ? t('share.copied', locale) : t('share.copy', locale)}
         </button>
 
         {canShare ? (
@@ -82,7 +83,7 @@ export default function ShareResult({ url, title, text, className = '' }) {
             className="inline-flex min-h-[44px] items-center gap-2 rounded-xl bg-brand-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2"
           >
             <Share2 aria-hidden="true" className="h-4 w-4" />
-            Share
+            {t('share.share', locale)}
           </button>
         ) : null}
       </div>
@@ -90,7 +91,7 @@ export default function ShareResult({ url, title, text, className = '' }) {
       {/* Present for the clipboard fallback above, and so the link is visible
           and selectable rather than hidden behind a button that may fail. */}
       <label htmlFor="share-result-url" className="sr-only">
-        Link to this result
+        {t('share.label', locale)}
       </label>
       <input
         id="share-result-url"
