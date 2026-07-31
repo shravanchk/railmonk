@@ -2,6 +2,8 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 
 const {
+  VERIFIED,
+  STALE_AFTER_DAYS,
   SCHEMES,
   getScheme,
   computeDelayCompensation,
@@ -230,4 +232,23 @@ test('money drops the decimals when there are none to show', () => {
   assert.equal(formatMoney(25, '€'), '€25');
   assert.equal(formatMoney(8.33, '€'), '€8.33');
   assert.equal(formatMoney(null, '€'), null);
+});
+
+// --- Freshness ---
+
+test('the compensation rules have been re-checked within the last year', () => {
+  // These percentages and deadlines decide what someone is told they are owed.
+  // Going quietly stale is the failure mode that matters, so it fails the build
+  // instead. Re-check each scheme's sources, then move VERIFIED.
+  const ageDays = Math.floor((Date.now() - Date.parse(VERIFIED)) / (24 * 60 * 60 * 1000));
+  assert.ok(
+    ageDays <= STALE_AFTER_DAYS,
+    `delay-compensation rules were last verified ${ageDays} days ago (limit ${STALE_AFTER_DAYS}). ` +
+      'Re-check each scheme against its sources, then update VERIFIED in utils/engines/delayCompensation.js.'
+  );
+});
+
+test('the verified date is a real past date, not a placeholder', () => {
+  assert.match(VERIFIED, /^\d{4}-\d{2}-\d{2}$/);
+  assert.ok(Date.parse(VERIFIED) <= Date.now(), 'VERIFIED cannot be in the future');
 });

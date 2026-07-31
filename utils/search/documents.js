@@ -45,12 +45,16 @@ const HINDI_KEYWORDS = {
     'रिजर्वेशन कब खुलेगा', 'टिकट कब मिलेगी', 'बुकिंग तिथि',
   ],
   '/rail/irctc-cancellation-calculator': [
-    'टिकट कैंसिल', 'रद्द', 'रिफंड', 'पैसा वापस', 'कटौती', 'क्लर्केज',
+    'टिकट कैंसिल', 'टिकिट कैंसिल', 'रद्द', 'रिफंड', 'पैसा वापस', 'कटौती', 'क्लर्केज',
     'कितना पैसा वापस मिलेगा', 'रद्दीकरण शुल्क',
   ],
+  // Both spellings of the nasal are listed where they are genuinely both
+  // common. The normaliser folds the nukta, so ज़/ज variants need no such
+  // duplication — but कन्फर्म/कंफर्म and टिकट/टिकिट are different characters,
+  // not a diacritic, and no amount of normalising joins them.
   '/rail/waitlist-confirmation-chances': [
-    'वेटिंग', 'वेटिंग लिस्ट', 'कन्फर्म', 'GNWL', 'RLWL', 'PQWL', 'TQWL', 'RAC',
-    'टिकट कन्फर्म होगी', 'प्रतीक्षा सूची',
+    'वेटिंग', 'वेटिंग लिस्ट', 'कन्फर्म', 'कंफर्म', 'GNWL', 'RLWL', 'PQWL', 'TQWL', 'RAC',
+    'टिकट कन्फर्म होगी', 'टिकिट', 'प्रतीक्षा सूची',
   ],
   '/rail/tatkal-charges-calculator': [
     'तत्काल', 'तत्काल चार्ज', 'तत्काल शुल्क', 'कितना ज्यादा', 'प्रीमियम तत्काल',

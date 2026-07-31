@@ -17,6 +17,7 @@ import { buildSoftwareApplicationSchema } from '../../utils/schema';
 import { buildFaqSchema } from '../../utils/faqSchema';
 import { getTool } from '../../utils/catalog';
 import {
+  VERIFIED,
   SCHEMES,
   computeDelayCompensation,
   formatDelay,
@@ -32,6 +33,14 @@ const controlCls =
   'dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100';
 
 const labelCls = 'mb-1.5 block text-sm font-medium text-ink-soft dark:text-slate-300';
+
+// Same reasoning as the booking-window page: the freshness claim is derived
+// from the data it describes, so the two cannot drift apart.
+const VERIFIED_LABEL = new Date(`${VERIFIED}T00:00:00Z`).toLocaleDateString('en-GB', {
+  month: 'long',
+  year: 'numeric',
+  timeZone: 'UTC',
+});
 
 // Scheme options are grouped by region so the select reads as a map rather than
 // a flat list of fourteen acronyms.
@@ -531,7 +540,7 @@ const DelayCompensationChecker = () => {
             author={editorialProfiles.researchTeam}
             reviewer={editorialProfiles.travelReviewDesk}
             reviewedOn="31 July 2026"
-            scope="Percentages, thresholds and deadlines are taken from Regulation (EU) 2021/782, the National Rail Conditions of Travel, and the published policies of Eurostar, SBB, Amtrak and the Victorian operators, checked in July 2026. Individual operators may pay more generously than the minimum, and national exemptions apply to some domestic services."
+            scope={`Percentages, thresholds and deadlines are taken from Regulation (EU) 2021/782, the National Rail Conditions of Travel, and the published policies of Eurostar, SBB, Amtrak and the Victorian operators, checked in ${VERIFIED_LABEL}. Individual operators may pay more generously than the minimum, and national exemptions apply to some domestic services.`}
             sources={[
               { label: 'Regulation (EU) 2021/782', url: 'https://eur-lex.europa.eu/eli/reg/2021/782/oj' },
               { label: 'Your Europe — rail passenger rights', url: 'https://europa.eu/youreurope/citizens/travel/passenger-rights/rail/index_en.htm' },

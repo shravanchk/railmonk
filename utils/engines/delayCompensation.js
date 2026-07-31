@@ -14,7 +14,12 @@
 // treats a return ticket, with the one documented exception of the UK 120-minute
 // band which pays out on the full return fare.
 //
-// Rules verified July 2026 against the sources listed on each scheme.
+// VERIFIED is when these percentages, thresholds and deadlines were last
+// checked against the sources on each scheme. test/delayCompensation.test.js
+// fails once it goes stale, so an out-of-date rule table surfaces as a failing
+// build rather than as quietly wrong advice about someone's money.
+const VERIFIED = '2026-07-31';
+const STALE_AFTER_DAYS = 365;
 
 const MINUTES_PER_HOUR = 60;
 
@@ -425,6 +430,8 @@ const formatMoney = (amount, currency) => {
 };
 
 module.exports = {
+  VERIFIED,
+  STALE_AFTER_DAYS,
   SCHEMES,
   getScheme,
   computeDelayCompensation,

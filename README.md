@@ -30,6 +30,13 @@ exists there and a percentage would invent one. `bookingHorizons.js` flags
 operators whose horizon genuinely moves (`reliable: false`) so the page hedges
 instead of implying a precision nobody has.
 
+Both carry a `VERIFIED` date, and both test suites **fail** once it is more than
+`STALE_AFTER_DAYS` (365) old. These are operator policy and national law rather
+than anything static — DB doubled its booking window in 2024 — so going quietly
+stale is the real failure mode. When the test fails, re-check each entry against
+its source and then move `VERIFIED`; the pages read their "checked in …" line off
+that same constant, so the claim on the page cannot drift from the data.
+
 Calculation engines live in `utils/engines/` with tests in `test/`. Worked examples in page prose
 are computed from the same engines the calculators run, so text can't drift from results.
 
@@ -54,9 +61,15 @@ under `pages/hi/…` and add one line to `TRANSLATED`.
 Hindi copy lives in the page's own file in one block rather than in a key-value
 dictionary — only shared chrome (buttons, headings, breadcrumbs) is keyed, in
 `STRINGS`. Calculations are never duplicated: Hindi pages import the same engines,
-so the two languages cannot disagree about a number. **The Hindi prose has not been
-reviewed by a native speaker** — that pass is still worth doing before promoting
-these pages.
+so the two languages cannot disagree about a number.
+
+The copy has had an editorial pass (number agreement, consistent gender for
+`टिकट`, NFC-consistent Devanagari, no duplicate breadcrumb URLs) but **not a
+native-speaker review** — worth doing before pushing these for indexing. Note
+that the search normaliser folds the nukta, so `ज्यादा` and `ज़्यादा` are the
+same token; spelling variants that are different characters rather than a
+diacritic (`कन्फर्म`/`कंफर्म`, `टिकट`/`टिकिट`) still have to be listed by hand
+in `HINDI_KEYWORDS`.
 
 ## Stack
 

@@ -17,6 +17,7 @@ import { buildSoftwareApplicationSchema } from '../../utils/schema';
 import { buildFaqSchema } from '../../utils/faqSchema';
 import { getTool } from '../../utils/catalog';
 import {
+  VERIFIED,
   REGIONS,
   OPERATORS,
   computeBookingOpening,
@@ -36,6 +37,15 @@ const controlCls =
 const labelCls = 'mb-1.5 block text-sm font-medium text-ink-soft dark:text-slate-300';
 
 const REGION_LABEL = Object.fromEntries(REGIONS.map((r) => [r.id, r.label]));
+
+// Read the freshness claim off the data rather than restating it in prose. If
+// VERIFIED moves and this sentence did not, the page would be asserting a
+// review that never happened.
+const VERIFIED_LABEL = new Date(`${VERIFIED}T00:00:00Z`).toLocaleDateString('en-GB', {
+  month: 'long',
+  year: 'numeric',
+  timeZone: 'UTC',
+});
 
 const FAQS = [
   {
@@ -502,7 +512,7 @@ const BookingHorizonCalculator = () => {
             author={editorialProfiles.researchTeam}
             reviewer={editorialProfiles.travelReviewDesk}
             reviewedOn="31 July 2026"
-            scope="Booking horizons were checked in July 2026 against operator statements and the Seat61 booking-horizon reference. They are operator policy rather than regulation and do change; operators marked as variable open on no fixed schedule, and European sales reset at the December timetable change."
+            scope={`Booking horizons were checked in ${VERIFIED_LABEL} against operator statements and the Seat61 booking-horizon reference. They are operator policy rather than regulation and do change; operators marked as variable open on no fixed schedule, and European sales reset at the December timetable change.`}
             sources={[
               { label: 'Seat61 — European booking horizons', url: 'https://www.seat61.com/european-train-booking-horizons.htm' },
               { label: 'Amtrak — top questions', url: 'https://www.amtrak.com/top-10-questions' },

@@ -69,13 +69,12 @@ export default function HiPageShell({
       <LocaleHead path={englishHref} />
 
       <CalcLayout eyebrow={eyebrow} title={title} subtitle={subtitle}>
+        {/* Two crumbs, not three. "होम" and "रेल टूल्स" both resolved to /hi,
+            which put a duplicate URL in the visible trail and in the
+            BreadcrumbList schema generated from it. */}
         <Breadcrumbs
           className="-mt-4 mb-6"
-          items={[
-            { name: t('nav.home', 'hi'), href: '/hi' },
-            { name: t('nav.tools', 'hi'), href: '/hi' },
-            { name: breadcrumbLabel },
-          ]}
+          items={[{ name: t('nav.home', 'hi'), href: '/hi' }, { name: breadcrumbLabel }]}
         />
 
         {children}

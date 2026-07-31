@@ -7,8 +7,8 @@
 // in 2024, Trenitalia has been trying to stretch four months to six.
 //
 // Two consequences shape the data below. First, every operator carries its own
-// `verified` date and source so a stale entry is visible rather than silently
-// wrong. Second, where an operator is genuinely erratic — Renfe is the standing
+// source, and the table carries a VERIFIED date, so a stale entry is visible
+// rather than silently wrong. Second, where an operator is genuinely erratic — Renfe is the standing
 // example — the horizon is stored as a range and the page says so, instead of
 // picking a number and pretending to a precision nobody has.
 //
@@ -16,7 +16,13 @@
 // reads. They are kept separate because "12 months" and 365 days are the same
 // fact told to two different audiences.
 //
-// Horizons verified July 2026.
+// VERIFIED is the date the whole table was last checked against its sources.
+// It is not decoration: test/bookingHorizons.test.js fails once it passes
+// STALE_AFTER_DAYS, which turns "review this annually" from a note somebody has
+// to remember into something the build tells you about. When you re-check the
+// operators, move this date; do not move it without re-checking them.
+const VERIFIED = '2026-07-31';
+const STALE_AFTER_DAYS = 365;
 
 const DAY = 24 * 60 * 60 * 1000;
 
@@ -326,6 +332,8 @@ const compareHorizons = ({ travelDate, today, regionId }) => {
 };
 
 module.exports = {
+  VERIFIED,
+  STALE_AFTER_DAYS,
   REGIONS,
   OPERATORS,
   getOperator,

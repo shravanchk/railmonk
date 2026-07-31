@@ -2,6 +2,8 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 
 const {
+  VERIFIED,
+  STALE_AFTER_DAYS,
   REGIONS,
   OPERATORS,
   getOperator,
@@ -136,4 +138,24 @@ test('dates read back in full, in wall-clock terms', () => {
   const r = computeBookingOpening({ operatorId: 'amtrak', travelDate: '2027-06-01', today: '2026-07-31' });
   assert.equal(formatDate(r.opensOn), 'Monday, 6 July 2026');
   assert.equal(formatDate(r.travelDate), 'Tuesday, 1 June 2027');
+});
+
+// --- Freshness ---
+
+test('the horizon table has been re-checked within the last year', () => {
+  // Booking horizons are operator policy, not law, and they move — Deutsche
+  // Bahn doubled its window in 2024. This test is the reminder: when it fails,
+  // re-check the operators against their sources and then move VERIFIED. It is
+  // deliberately not a warning, because a warning is a thing you scroll past.
+  const ageDays = Math.floor((Date.now() - Date.parse(VERIFIED)) / (24 * 60 * 60 * 1000));
+  assert.ok(
+    ageDays <= STALE_AFTER_DAYS,
+    `booking horizons were last verified ${ageDays} days ago (limit ${STALE_AFTER_DAYS}). ` +
+      'Re-check each operator against its source, then update VERIFIED in utils/engines/bookingHorizons.js.'
+  );
+});
+
+test('the verified date is a real past date, not a placeholder', () => {
+  assert.match(VERIFIED, /^\d{4}-\d{2}-\d{2}$/);
+  assert.ok(Date.parse(VERIFIED) <= Date.now(), 'VERIFIED cannot be in the future');
 });

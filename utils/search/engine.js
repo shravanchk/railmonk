@@ -16,6 +16,14 @@
 
 const DIACRITICS = /[\u0300-\u036f]/g;
 
+// The nukta (U+093C) is folded away rather than preserved. NFD below already
+// decomposes precomposed forms, so this collapses ज़ to ज, क़ to क and so on.
+// It matters because most Hindi typists simply do not type the nukta: someone
+// searching "ज्यादा" or "रिजर्वेशन" would otherwise never match a page that
+// spells them "ज़्यादा" and "रिज़र्वेशन". Same reasoning as stripping Latin
+// accents — fold what people vary on, so either spelling finds the page.
+const NUKTA = /\u093c/g;
+
 // Devanagari (U+0900-U+097F) survives normalisation alongside Latin. Without
 // this the entire Hindi side of the site is unsearchable: every Devanagari
 // character would be stripped, leaving both the indexed document and the typed
@@ -31,6 +39,7 @@ const normalize = (text) =>
     .replace(/['’`]/g, '')
     .normalize('NFD')
     .replace(DIACRITICS, '')
+    .replace(NUKTA, '')
     .replace(KEEP, ' ')
     .trim();
 
