@@ -7,12 +7,31 @@
 
 | Route | Tool |
 |---|---|
-| `/irctc-calculator` | IRCTC booking date calculator (general + Tatkal windows) |
-| `/irctc-cancellation-calculator` | Cancellation refund calculator (April 2026 refund rules) |
-| `/tatkal-charges-calculator` | Tatkal charges calculator |
-| `/tdr-refund-checker` | TDR refund eligibility checker |
-| `/berth-position-finder` | Coach berth position finder |
-| `/guides/irctc-booking-strategy` | Booking strategy guide |
+| `/rail/irctc-calculator` | IRCTC booking date calculator (general + Tatkal windows) |
+| `/rail/irctc-cancellation-calculator` | Cancellation refund calculator (April 2026 refund rules) |
+| `/rail/tatkal-charges-calculator` | Tatkal charges calculator |
+| `/rail/tdr-refund-checker` | TDR refund eligibility checker |
+| `/rail/train-fare-calculator` | Train fare calculator |
+| `/rail/waitlist-confirmation-chances` | Waitlist confirmation chances |
+| `/rail/chart-preparation-time` | Chart preparation time |
+| `/rail/berth-position-finder` | Coach berth position finder |
+| `/rail/coach-position-finder` | Coach position on the platform |
+| `/rail/booking-reminder` | Booking and Tatkal reminders |
+| `/rail/rule-updates` | Dated log of rule changes |
+
+## Guides (`/rail/guides`)
+
+Thirteen guides, all listed in `utils/catalog.js` and grouped by the same
+categories as the tools. The ones carrying numbers import the engines rather
+than restating them — `cancellation-refund-tdr` renders its slab table and its
+worked example straight out of `irctcCancellation.js` and `tdrRules.js`, so a
+change to the refund rules moves the prose and the calculator together.
+
+Adding a guide means three edits and nothing else: the page under
+`pages/rail/guides/`, an entry in `GUIDES` in the catalog, and a `<url>` in
+`public/sitemap.xml`. `test/sitemap.test.js` fails if any of the three is
+missing, and site search, `/guides`, the navbar and the related-links blocks
+all pick it up from the catalog automatically.
 
 ## Trains abroad (`/world`)
 

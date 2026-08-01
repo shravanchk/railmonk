@@ -20,6 +20,10 @@ const proseCls = [
   '[&_ol]:mt-4 [&_ol]:list-decimal [&_ol]:space-y-1 [&_ol]:pl-6',
   '[&_strong]:font-semibold [&_strong]:text-ink dark:[&_strong]:text-white',
   '[&_a]:font-medium [&_a]:text-brand-600 [&_a]:underline [&_a]:underline-offset-2 hover:[&_a]:text-brand-700 dark:[&_a]:text-brand-300',
+  // Guides that quote status codes (PNR, availability, train numbers) set them
+  // in <code>. Left to the browser default they render as oversized unstyled
+  // monospace that reads like a rendering fault rather than a quoted code.
+  '[&_code]:rounded [&_code]:bg-slate-100 [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:text-[0.86em] [&_code]:font-medium [&_code]:text-ink dark:[&_code]:bg-slate-800 dark:[&_code]:text-slate-200',
   '[&_table]:mt-4 [&_table]:overflow-hidden [&_table]:rounded-lg'
 ].join(' ');
 
