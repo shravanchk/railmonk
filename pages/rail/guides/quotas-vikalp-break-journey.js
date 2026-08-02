@@ -160,7 +160,7 @@ export default function QuotasVikalpBreakJourneyGuide() {
         </p>
       </Callout>
 
-      <h2>VIKALP: a confirmed berth on a different train, for free</h2>
+      <h2>VIKALP (Alternate Train Accommodation Scheme): a confirmed berth on a different train, for free</h2>
       <p>
         The Alternate Train Accommodation Scheme — everyone calls it <strong>VIKALP</strong> — moves waitlisted
         passengers onto a different train to the same destination, at no extra fare. It has existed since 2015

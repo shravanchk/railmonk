@@ -33,9 +33,9 @@ const TDRRefundChecker = () => {
 
   const seoFaqItems = [
     {
-      question: 'What is a TDR?',
+      question: 'What is the full form of TDR in railways?',
       answer:
-        'A TDR (Ticket Deposit Receipt) is a manual refund claim filed on IRCTC for situations where normal online cancellation does not apply — the train ran 3+ hours late, the AC failed, you were shifted to a lower class, part of a group did not travel, and similar cases. The claim is forwarded to the railways, verified against actual train running records, and refunded if the reason checks out.'
+        'TDR stands for Ticket Deposit Receipt. It is a manual refund claim filed on IRCTC for situations where normal online cancellation does not apply — the train ran 3+ hours late, the AC failed, you were shifted to a lower class, part of a group did not travel, and similar cases. The claim is forwarded to the railways, verified against actual train running records, and refunded if the reason checks out.'
     },
     {
       question: 'How do I file a TDR on IRCTC?',
@@ -90,11 +90,12 @@ const TDRRefundChecker = () => {
   return (
     <>
       <Head>
-        <title>TDR Refund Checker — IRCTC Eligibility & Deadlines | Railmonk</title>
-        <meta name="description" content="Does your situation qualify for an IRCTC TDR refund? Train 3+ hours late, AC failure, RAC or waitlist not travelled — with filing deadlines." />
+        <title>TDR (Ticket Deposit Receipt): IRCTC Refund Rules &amp; How to File | Railmonk</title>
+        <meta name="description" content="TDR stands for Ticket Deposit Receipt — the IRCTC claim for late trains, AC failure and other railway faults. Check eligibility, deadlines and how to file one." />
+        <meta name="keywords" content="TDR full form, ticket deposit receipt, how to file TDR in IRCTC, TDR refund, TDR filing time limit, TDR status, train 3 hours late refund" />
         <link rel="canonical" href="https://railmonk.com/rail/tdr-refund-checker" />
-        <meta property="og:title" content="TDR Refund Eligibility Checker | Railmonk" />
-        <meta property="og:description" content="Pick your situation and see whether a TDR refund applies, how much comes back, and the filing deadline." />
+        <meta property="og:title" content="TDR (Ticket Deposit Receipt): IRCTC Refund Rules &amp; How to File | Railmonk" />
+        <meta property="og:description" content="What TDR means, which situations qualify, the deadline for each, and the exact filing steps on IRCTC." />
         <meta property="og:url" content="https://railmonk.com/rail/tdr-refund-checker" />
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary_large_image" />
@@ -103,8 +104,8 @@ const TDRRefundChecker = () => {
 
       <CalcLayout
         eyebrow="India · Travel"
-        title="TDR Refund Eligibility Checker"
-        subtitle="Pick what happened with your train ticket and see whether a refund applies, how much comes back, and the exact deadline to claim it."
+        title="TDR (Ticket Deposit Receipt) Refund Checker"
+        subtitle="Pick what happened with your train ticket and see whether a refund applies, how much comes back, and the exact deadline to claim it — plus what a TDR is and how to file one on IRCTC."
       >
         <Breadcrumbs
           className="-mt-4 mb-6"
@@ -229,9 +230,75 @@ const TDRRefundChecker = () => {
           ]}
         />
 
+        {/* Definition + always-visible reason/deadline table. The per-scenario
+            panel above is state-gated and so invisible to crawlers; this
+            renders the same TDR_SCENARIOS data unconditionally. */}
+        <section id="what-is-tdr" className="mt-12 max-w-3xl scroll-mt-24 text-[0.95rem] leading-relaxed text-ink-soft dark:text-slate-300">
+          <h2 className="font-display text-xl font-bold text-ink dark:text-white">What is a TDR (Ticket Deposit Receipt) in IRCTC?</h2>
+          <p className="mt-3">
+            TDR is the full form of <strong className="text-ink dark:text-white">Ticket Deposit Receipt</strong> — the
+            manual refund claim you file on IRCTC when an ordinary online cancellation cannot express what went
+            wrong. It covers railway-caused failures and rule-recognized situations: the train ran three or more
+            hours late, the AC stopped working, you were put in a lower class than booked, part of your group did
+            not travel, or a late first train made you miss a connection. You file it against the PNR, the railway
+            verifies it against actual running records, and the money follows if the reason holds up.
+          </p>
+
+          <h3 className="mt-8 font-display text-lg font-semibold text-ink dark:text-white">Which situations qualify, and the deadline for each</h3>
+          <p className="mt-3">
+            Every TDR reason carries its own clock, and missing it voids even an obviously valid claim. Two common
+            cases need no TDR at all — the railway handles them automatically.
+          </p>
+          <div className="mt-3 overflow-x-auto">
+            <table className="w-full min-w-[36rem] text-left text-sm">
+              <thead>
+                <tr className="border-b border-slate-200 text-xs uppercase tracking-wide text-ink-muted dark:border-slate-700 dark:text-slate-400">
+                  <th scope="col" className="py-2 pr-3 font-semibold">What happened</th>
+                  <th scope="col" className="py-2 pr-3 font-semibold">What you get back</th>
+                  <th scope="col" className="py-2 font-semibold">Deadline to act</th>
+                </tr>
+              </thead>
+              <tbody>
+                {TDR_SCENARIOS.map((s) => (
+                  <tr key={s.id} className="border-b border-slate-100 last:border-0 dark:border-slate-800">
+                    <th scope="row" className="py-2.5 pr-3 font-medium text-ink dark:text-white">
+                      {s.label}
+                      {s.eligible && !s.needsTdr ? (
+                        <span className="block text-xs font-normal text-emerald-600 dark:text-emerald-400">No TDR needed</span>
+                      ) : null}
+                    </th>
+                    <td className="py-2.5 pr-3 text-ink-soft dark:text-slate-300">{s.refundText}</td>
+                    <td className="py-2.5 text-ink-muted dark:text-slate-400">{s.deadlineText}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <h3 className="mt-8 font-display text-lg font-semibold text-ink dark:text-white">How to file a TDR on IRCTC, step by step</h3>
+          <ol className="mt-3 list-decimal space-y-2 pl-5">
+            <li>Sign in at <strong className="text-ink dark:text-white">irctc.co.in</strong> (or the IRCTC Rail Connect app) with the account that booked the ticket.</li>
+            <li>Open <strong className="text-ink dark:text-white">My Account → My Transactions → File TDR</strong>.</li>
+            <li>Select the booking, then tick the specific passengers the claim covers — a partly used ticket is claimed per passenger, not as a whole.</li>
+            <li>Choose the reason from the dropdown. Pick the one that actually happened; the railway checks it against running data and a mismatched reason is the most common rejection.</li>
+            <li>Enter the <strong className="text-ink dark:text-white">TTE certificate number</strong> if your reason needs one — AC failure, lower-class travel, and partly travelled group tickets all do. Collect it on board, not afterwards.</li>
+            <li>Submit and save the TDR reference number. Track progress under <strong className="text-ink dark:text-white">My Transactions → TDR History</strong>; verification typically runs 60–90 days.</li>
+          </ol>
+
+          <h3 className="mt-8 font-display text-lg font-semibold text-ink dark:text-white">TDR or ordinary cancellation — which one applies?</h3>
+          <p className="mt-3">
+            If you are simply changing your plans and the ticket can still be cancelled online, that is a
+            cancellation, not a TDR: charges follow the refund slabs and the money returns in days rather than
+            months. Work out the exact rupee amount with the{' '}
+            <a href="/rail/irctc-cancellation-calculator" className="font-medium text-brand-600 underline underline-offset-2 hover:text-brand-700 dark:text-brand-300">IRCTC cancellation charges calculator</a>.
+            A TDR is for when the railway, not you, changed the plan — and it cannot rescue a voluntary
+            cancellation made inside the no-refund window.
+          </p>
+        </section>
+
         {/* Explainer */}
         <div className="mt-12 max-w-3xl text-[0.95rem] leading-relaxed text-ink-soft dark:text-slate-300">
-          <h2 className="font-display text-xl font-bold text-ink dark:text-white">TDR refunds, in plain words</h2>
+          <h2 className="font-display text-xl font-bold text-ink dark:text-white">Why a TDR takes 60–90 days</h2>
           <p className="mt-3">
             Normal cancellations are self-service: you cancel online, a charge is deducted, the rest comes back in
             days. A TDR exists for everything that self-service cannot express — the railway failed you in some way,
@@ -241,12 +308,8 @@ const TDRRefundChecker = () => {
             refunds take three to seven.
           </p>
           <p className="mt-3">
-            The single most useful thing to internalize is that <strong className="text-ink dark:text-white">every
-            TDR reason has its own clock</strong>. A 3-hour-late train refunds in full — but only if you file before
-            the train actually leaves your station. AC failure gives you 20 hours from arrival. A partially travelled
-            group ticket gives 72 hours, and needs the TTE&rsquo;s certificate collected during the journey. Miss the
-            window and the strongest claim in the world lapses. When in doubt, file first from the IRCTC app and
-            gather paperwork second.
+            When in doubt, file first from the IRCTC app and gather paperwork second — the deadlines in the table
+            above are hard, and the strongest claim in the world lapses once its window closes.
           </p>
           <p className="mt-3">
             Equally important is what a TDR is not: a way to soften the no-refund window. Voluntary cancellation

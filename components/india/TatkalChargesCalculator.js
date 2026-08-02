@@ -126,8 +126,9 @@ const TatkalChargesCalculator = () => {
   return (
     <>
       <Head>
-        <title>Tatkal Charges Calculator — The Real Premium | Railmonk</title>
-        <meta name="description" content="How much extra does a Tatkal ticket cost? The charge for SL, 3A, 2A, CC, EC and 2S, with class-wise minimum and maximum caps." />
+        <title>Tatkal Charges Calculator — How Much Extra by Class | Railmonk</title>
+        <meta name="description" content="How much extra does a Tatkal ticket cost? The Tatkal charge for SL, 3A, 2A, CC, EC and 2S, with class-wise minimum and maximum caps, calculated per passenger." />
+        <meta name="keywords" content="tatkal charges, tatkal ticket price, tatkal charges per passenger, premium tatkal price, tatkal charges 3A, tatkal charges sleeper" />
         <link rel="canonical" href="https://railmonk.com/rail/tatkal-charges-calculator" />
         <meta property="og:title" content="Tatkal Charges Calculator | Railmonk" />
         <meta property="og:description" content="Calculate the exact Tatkal premium for your train class — 10%/30% of basic fare with min/max caps." />
@@ -288,7 +289,7 @@ const TatkalChargesCalculator = () => {
 
         {/* Rules explainer */}
         <div className="mt-12 max-w-3xl text-[0.95rem] leading-relaxed text-ink-soft dark:text-slate-300">
-          <h2 className="font-display text-xl font-bold text-ink dark:text-white">How Tatkal pricing works, in plain words</h2>
+          <h2 className="font-display text-xl font-bold text-ink dark:text-white">Tatkal charges: how much extra a Tatkal ticket costs</h2>
           <p className="mt-3">
             Tatkal is a last-minute quota, and the premium for it is a straightforward surcharge on the basic fare:
             <strong className="text-ink dark:text-white"> 10% in Second Sitting and Sleeper, 30% in the AC classes</strong> —

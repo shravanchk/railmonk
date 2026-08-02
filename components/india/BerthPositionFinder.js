@@ -20,7 +20,7 @@ import { cn } from '../ui/cn';
 
 const HREF = '/rail/berth-position-finder';
 
-const { CLASS_LAYOUTS, computeBerthPosition } = require('../../utils/engines/berthPosition');
+const { CLASS_LAYOUTS, TYPE_LABELS, computeBerthPosition } = require('../../utils/engines/berthPosition');
 
 const controlCls =
   'w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-[0.95rem] text-ink ' +
@@ -286,7 +286,50 @@ const BerthPositionFinder = () => {
 
         {/* Explainer */}
         <div className="mt-12 max-w-3xl text-[0.95rem] leading-relaxed text-ink-soft dark:text-slate-300">
-          <h2 className="font-display text-xl font-bold text-ink dark:text-white">How berth numbering works, in plain words</h2>
+          <h2 className="font-display text-xl font-bold text-ink dark:text-white">Which berth numbers are lower, middle and upper?</h2>
+          <p className="mt-3">
+            The quick answer, before the reasoning: in <strong className="text-ink dark:text-white">Sleeper and AC
+            3-Tier</strong> the berth type repeats every 8 numbers, and in{' '}
+            <strong className="text-ink dark:text-white">AC 2-Tier</strong> every 6. These are the numbers, generated
+            from the same layout the finder above uses:
+          </p>
+          <div className="mt-3 overflow-x-auto">
+            <table className="w-full min-w-[32rem] text-left text-sm">
+              <thead>
+                <tr className="border-b border-slate-200 text-xs uppercase tracking-wide text-ink-muted dark:border-slate-700 dark:text-slate-400">
+                  <th scope="col" className="py-2 pr-3 font-semibold">Berth type</th>
+                  <th scope="col" className="py-2 pr-3 font-semibold">Sleeper &amp; AC 3-Tier</th>
+                  <th scope="col" className="py-2 font-semibold">AC 2-Tier</th>
+                </tr>
+              </thead>
+              <tbody>
+                {['LB', 'MB', 'UB', 'SL', 'SU'].map((type) => {
+                  const numbersFor = (cls) => {
+                    const layout = CLASS_LAYOUTS[cls];
+                    if (!layout.cycle.includes(type)) return '—';
+                    const found = [];
+                    for (let n = 1; n <= layout.typicalBerths && found.length < 6; n += 1) {
+                      if (computeBerthPosition({ classCode: cls, berthNumber: n })?.type === type) found.push(n);
+                    }
+                    return `${found.join(', ')} …`;
+                  };
+                  return (
+                    <tr key={type} className="border-b border-slate-100 last:border-0 dark:border-slate-800">
+                      <th scope="row" className="py-2.5 pr-3 font-medium text-ink dark:text-white">{TYPE_LABELS[type]}</th>
+                      <td className="py-2.5 pr-3 text-ink-soft dark:text-slate-300">{numbersFor('SL')}</td>
+                      <td className="py-2.5 text-ink-soft dark:text-slate-300">{numbersFor('2A')}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+          <p className="mt-3 text-sm text-ink-muted dark:text-slate-400">
+            The pattern continues to the end of the coach — use the finder above for any berth number, including
+            LHB coaches that run past 72.
+          </p>
+
+          <h3 className="mt-8 font-display text-lg font-semibold text-ink dark:text-white">How berth numbering works, in plain words</h3>
           <p className="mt-3">
             Indian Railways coaches are built from repeating bays, and the berth numbers simply walk through each
             bay in a fixed order. In Sleeper and AC 3-Tier a bay holds eight berths:

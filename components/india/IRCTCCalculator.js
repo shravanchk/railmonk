@@ -206,7 +206,23 @@ const IRCTCCalculator = () => {
   const seoFaqItems = [
     {
       question: 'What is ARP (Advance Reservation Period)?',
-      answer: 'The Advance Reservation Period is how far ahead of the journey date Indian Railways lets you book a reserved ticket. Since November 1, 2024 the ARP is 60 days (excluding the journey day) for regular bookings; before that it was 120 days. Foreign tourist quota keeps a 365-day window, and Tatkal is separate — it opens only one day before the journey.'
+      answer: 'ARP is the full form of Advance Reservation Period — how far ahead of the journey date Indian Railways lets you book a reserved ticket. Since November 1, 2024 the ARP is 60 days (excluding the journey day) for regular bookings; before that it was 120 days. Foreign tourist quota keeps a 365-day window, and Tatkal is separate — it opens only one day before the journey.'
+    },
+    {
+      question: 'Why was the IRCTC advance reservation period reduced from 120 days to 60 days?',
+      answer: 'The Railway Board cut the ARP to 60 days from November 1, 2024 to curb ticket blocking and touting, and to reduce the very high cancellation and no-show rate on tickets booked four months ahead. A shorter window means fewer speculative bookings held and dropped, so availability at the opening minute reflects real travel intent more closely.'
+    },
+    {
+      question: 'Why does IRCTC say booking not opened 61 days before my journey?',
+      answer: 'Because the journey date itself is not counted in the 60 days. Booking opens exactly 60 calendar days before the journey date, so on day 61 the window genuinely has not opened yet and IRCTC will show no availability. For a June 30 journey, booking opens on May 1 at 08:00 IST — not April 30.'
+    },
+    {
+      question: 'What is the advance reservation period for special and Suvidha trains?',
+      answer: 'Special, festival and Suvidha trains do not always follow the 60-day ARP. Their booking window is set in the notification that announces the train, and it is usually shorter — often a few weeks, sometimes only days before departure. Certain short day-time expresses also keep their own shorter ARP, which the 2024 order left unchanged. Check the specific train on the IRCTC portal rather than assuming 60 days.'
+    },
+    {
+      question: 'Can foreign tourists still book 365 days in advance?',
+      answer: 'Yes. The 365-day advance booking limit under the foreign tourist quota was explicitly left unchanged when the general ARP was reduced to 60 days. It applies to bookings made under that quota, subject to the usual identity documentation.'
     },
     {
       question: 'When does IRCTC general booking open?',
@@ -234,7 +250,7 @@ const IRCTCCalculator = () => {
     }
   ];
   const softwareSchema = buildSoftwareApplicationSchema({
-    name: 'IRCTC Advance Booking (ARP) Calculator',
+    name: 'IRCTC Advance Reservation Period (ARP) & Booking Date Calculator',
     url: 'https://railmonk.com/rail/irctc-calculator',
     description: 'Calculate the exact IRCTC booking-open date under the 60-day Advance Reservation Period (ARP), with Tatkal window timings for regular and quota bookings.',
     applicationCategory: 'TravelApplication',
@@ -262,25 +278,25 @@ const IRCTCCalculator = () => {
   return (
     <>
       <Head>
-        <title>IRCTC Advance Booking (ARP) Calculator — 60-Day Rule | Railmonk</title>
-        <meta name="description" content="Find the exact date your IRCTC booking window opens under the 60-day ARP, plus Tatkal timings — 10 AM for AC, 11 AM for non-AC." />
-        <meta name="keywords" content="ARP calculator, IRCTC advance booking, advance reservation period, when can I book train ticket, Tatkal opening time" />
+        <title>IRCTC Advance Reservation Period (ARP) &amp; Booking Date Calculator | Railmonk</title>
+        <meta name="description" content="IRCTC Advance Reservation Period (ARP): 60 days since 1 Nov 2024. The exceptions for Tatkal, foreign tourist and special trains — plus your exact booking date." />
+        <meta name="keywords" content="advance reservation period, ARP IRCTC, ARP full form, IRCTC 60 days advance booking rule, ARP calculator, when can I book train ticket, Tatkal opening time" />
         <link rel="canonical" href="https://railmonk.com/rail/irctc-calculator" />
-        <meta property="og:title" content="IRCTC Advance Booking (ARP) Calculator | Railmonk" />
-        <meta property="og:description" content="Enter your journey date and see exactly when the 60-day booking window and Tatkal quota open." />
+        <meta property="og:title" content="IRCTC Advance Reservation Period (ARP) &amp; Booking Date Calculator | Railmonk" />
+        <meta property="og:description" content="ARP explained — the 60-day rule, its exceptions, and the exact date your booking window opens." />
         <meta property="og:url" content="https://railmonk.com/rail/irctc-calculator" />
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="IRCTC Advance Booking (ARP) Calculator | Railmonk" />
-        <meta name="twitter:description" content="When does booking open for your journey date? ARP and Tatkal windows, calculated." />
+        <meta name="twitter:title" content="IRCTC Advance Reservation Period (ARP) &amp; Booking Date Calculator | Railmonk" />
+        <meta name="twitter:description" content="What is the ARP? The 60-day rule, the exceptions, and when booking opens for your journey date." />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }} />
       </Head>
       <LocaleHead path="/rail/irctc-calculator" />
 
       <CalcLayout
         eyebrow="India · Travel"
-        title="IRCTC Advance Booking (ARP) Calculator"
-        subtitle="Find out exactly when your train ticket booking window opens under the Advance Reservation Period — for general, quota, and Tatkal bookings."
+        title="IRCTC Advance Reservation Period (ARP) & Booking Date Calculator"
+        subtitle="Enter your journey date to get the exact day your booking window opens under the 60-day Advance Reservation Period — with the ARP exceptions for Tatkal, foreign tourist quota and special trains explained below."
       >
         <Breadcrumbs
           className="-mt-4 mb-6"
@@ -526,6 +542,109 @@ END:VCALENDAR`}
           ]}
         />
 
+        {/* ARP explainer. This page owns the "advance reservation period"
+            definition + tool intent; the booking-strategy guide owns the
+            how-to-win-a-seat angle. Keep that split when editing either. */}
+        <section id="advance-reservation-period" className="mt-12 max-w-3xl scroll-mt-24 text-[0.95rem] leading-relaxed text-ink-soft dark:text-slate-300">
+          <h2 className="font-display text-xl font-bold text-ink dark:text-white">What is the IRCTC Advance Reservation Period (ARP)?</h2>
+          <p className="mt-3">
+            The Advance Reservation Period — ARP for short — is the maximum number of days before your journey
+            that Indian Railways will sell you a reserved ticket. Since <strong className="text-ink dark:text-white">1 November 2024
+            the ARP is 60 days</strong>, counted back from the journey date and excluding the journey date itself;
+            until 31 October 2024 it was 120 days. General-quota booking then opens at 08:00 IST on that day.
+            The calculator at the top of this page does that date arithmetic for you and can drop the opening
+            moment straight into your calendar.
+          </p>
+
+          <h3 className="mt-8 font-display text-lg font-semibold text-ink dark:text-white">ARP by booking type: the exceptions that matter</h3>
+          <p className="mt-3">
+            The 60-day rule is the default, not the whole picture. Five categories run on their own clock:
+          </p>
+          <div className="mt-3 overflow-x-auto">
+            <table className="w-full min-w-[34rem] text-left text-sm">
+              <thead>
+                <tr className="border-b border-slate-200 text-xs uppercase tracking-wide text-ink-muted dark:border-slate-700 dark:text-slate-400">
+                  <th scope="col" className="py-2 pr-3 font-semibold">Booking type</th>
+                  <th scope="col" className="py-2 pr-3 font-semibold">Advance reservation period</th>
+                  <th scope="col" className="py-2 font-semibold">What to know</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  {
+                    type: 'General / reserved booking',
+                    arp: '60 days',
+                    note: 'Mail, Express, Rajdhani, Shatabdi, Duronto, Vande Bharat. Journey day excluded; opens 08:00 IST. In force since 1 Nov 2024.'
+                  },
+                  {
+                    type: 'Tatkal quota',
+                    arp: '1 day before journey',
+                    note: 'ARP does not apply. Opens 10:00 IST for AC classes, 11:00 IST for Sleeper and other non-AC, the day before travel.'
+                  },
+                  {
+                    type: 'Foreign tourist quota',
+                    arp: '365 days',
+                    note: 'Left unchanged when the general ARP was cut to 60 days. Subject to the usual identity documentation.'
+                  },
+                  {
+                    type: 'Suvidha special trains',
+                    arp: 'Set per notification — usually well under 60 days',
+                    note: 'Suvidha runs on demand-linked fares and its own window. Check the specific train rather than assuming 60 days.'
+                  },
+                  {
+                    type: 'Festival / holiday special trains',
+                    arp: 'Variable — often only days or weeks ahead',
+                    note: 'The window is announced along with the train, so a special can open long after the regular train on the same route.'
+                  },
+                  {
+                    type: 'Short day-time expresses',
+                    arp: 'Their own shorter ARP',
+                    note: 'A handful of day trains already had a shorter window; the 2024 order explicitly left those unchanged.'
+                  }
+                ].map((row) => (
+                  <tr key={row.type} className="border-b border-slate-100 last:border-0 dark:border-slate-800">
+                    <th scope="row" className="py-2.5 pr-3 font-medium text-ink dark:text-white">{row.type}</th>
+                    <td className="py-2.5 pr-3 text-ink-soft dark:text-slate-300">{row.arp}</td>
+                    <td className="py-2.5 text-ink-muted dark:text-slate-400">{row.note}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <h3 className="mt-8 font-display text-lg font-semibold text-ink dark:text-white">Why day 61 shows &ldquo;booking not opened&rdquo;</h3>
+          <p className="mt-3">
+            The single most common ARP mistake is counting the journey date as one of the 60 days. It is not
+            counted. Booking opens exactly 60 calendar days before the date you travel — so for a journey on{' '}
+            <strong className="text-ink dark:text-white">30 June</strong>, the window opens on{' '}
+            <strong className="text-ink dark:text-white">1 May at 08:00 IST</strong>. Check on 30 April and IRCTC
+            will correctly tell you booking has not opened; count the journey day in and you land on 2 May, a full
+            day late on a train where the good berths went in the first minutes. Neither error is obvious from the
+            phrase &ldquo;60 days in advance&rdquo;, which is why the calculator above exists.
+          </p>
+
+          <h3 className="mt-8 font-display text-lg font-semibold text-ink dark:text-white">Why the ARP was cut from 120 days to 60 days</h3>
+          <p className="mt-3">
+            The Railway Board&rsquo;s stated reasoning was that the four-month window was being used to block
+            tickets rather than to travel. A large share of tickets booked that far out were later cancelled, and a
+            further slice simply went unused as no-shows — inventory that looked sold, distorted waitlist
+            positions, and gave touts a long runway to hold seats. Halving the window shortens that runway and
+            makes availability at the opening minute a closer reflection of real travel intent. The trade-off is on
+            you: a trip can no longer be locked in a season ahead, so anything around a festival or a wedding needs
+            a reminder set two months out instead.
+          </p>
+
+          <h3 className="mt-8 font-display text-lg font-semibold text-ink dark:text-white">Knowing the ARP is not the same as getting a seat</h3>
+          <p className="mt-3">
+            This page answers <em>when</em> the window opens. What to actually do in that window — backup trains,
+            master passenger list, payment readiness, which quota to try first — is covered in the{' '}
+            <a href="/rail/guides/irctc-booking-strategy" className="font-medium text-brand-600 underline underline-offset-2 hover:text-brand-700 dark:text-brand-300">IRCTC booking strategy guide</a>.
+            If the ARP day is still weeks away, set the alert with the{' '}
+            <a href="/rail/booking-reminder" className="font-medium text-brand-600 underline underline-offset-2 hover:text-brand-700 dark:text-brand-300">booking reminder tool</a>{' '}
+            so the date does not quietly pass.
+          </p>
+        </section>
+
         {/* Advance booking rules */}
         <div className="mt-10">
           <h2 className="font-display text-xl font-bold text-ink dark:text-white">IRCTC advance booking rules</h2>
@@ -576,15 +695,6 @@ END:VCALENDAR`}
             Tatkal ticket carries at most four passengers — so five people means two tickets, booked in a quota
             that often empties in the first minutes. The lesson generalizes: the general window rewards planning
             once; Tatkal punishes everyone equally.
-          </p>
-
-          <h3 className="mt-8 font-display text-lg font-semibold text-ink dark:text-white">Living with the 60-day window</h3>
-          <p className="mt-3">
-            The advance reservation period was halved from 120 to 60 days on 1 November 2024. The practical
-            effects cut both ways. Trips can no longer be locked in a season ahead, so holiday travel now needs a
-            calendar reminder two months out. But the shorter window also squeezed out speculative booking —
-            tickets bought &ldquo;just in case&rdquo; and cancelled later — which had inflated apparent demand
-            and fed the waitlist churn. Availability at opening now reflects real intent more than it used to.
           </p>
 
           <h3 className="mt-8 font-display text-lg font-semibold text-ink dark:text-white">A Tatkal opening, run properly</h3>

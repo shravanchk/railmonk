@@ -57,8 +57,8 @@ const faqSchema = {
 export default function TatkalMasterclassGuide() {
   return (
     <GuidePageLayout
-      title="Tatkal Booking Masterclass: A Minute-by-Minute Plan That Works"
-      description="Exact Tatkal opening times, the 2025 Aadhaar-authentication rule, master-list preparation, payment strategy, and what refunds you can and cannot get."
+      title="Tatkal Booking Time, Aadhaar Rules & a Minute-by-Minute Plan"
+      description="What time Tatkal booking opens — 10 AM for AC, 11 AM for non-AC — plus the Aadhaar-authentication rule, master-list prep, payment strategy, and refund limits."
       canonicalPath="/rail/guides/tatkal-booking-masterclass"
       reviewedOn="July 20, 2026"
       reviewer="Travel Review Desk"
@@ -74,7 +74,14 @@ export default function TatkalMasterclassGuide() {
         preparation system: rules first, then a minute-by-minute plan.
       </p>
 
-      <h2 style={sectionTitleStyle}>The rules you must know</h2>
+      <h2 style={sectionTitleStyle}>What time does Tatkal booking open?</h2>
+      <p>
+        Tatkal opens <strong>one day before the journey date</strong> — not on the day of travel — at{' '}
+        <strong>10:00 AM IST for AC classes</strong> (2A, 3A, 3E, CC, EC) and <strong>11:00 AM IST for non-AC
+        classes</strong> (SL, 2S). The date counts from the train&apos;s originating station, so for a train that
+        starts the night before it reaches you, the Tatkal day is earlier than you would guess. The rest of the
+        rules, in one place:
+      </p>
       <ul>
         <li><strong>Opening:</strong> one day before the journey (dated from the train&apos;s <em>originating</em> station) — 10:00 AM for AC classes, 11:00 AM for non-AC.</li>
         <li><strong>Aadhaar:</strong> since July 2025, only Aadhaar-authenticated IRCTC accounts can book online Tatkal in the first 30 minutes, with OTP verification. Authorised agents are blocked 10:00–10:30 and 11:00–11:30.</li>
@@ -83,6 +90,16 @@ export default function TatkalMasterclassGuide() {
         <li><strong>Refunds:</strong> confirmed Tatkal tickets earn <strong>no refund</strong> on cancellation. TQWL tickets that never confirm are auto-refunded after charting.</li>
         <li><strong>No concessions:</strong> senior-citizen and other concessions do not apply in Tatkal.</li>
       </ul>
+
+      <h2 style={sectionTitleStyle}>Is Aadhaar mandatory for Tatkal booking?</h2>
+      <p>
+        For the window that matters, yes. Since July 2025 only <strong>Aadhaar-authenticated IRCTC accounts</strong>{' '}
+        can book Tatkal online during the first 30 minutes after opening — 10:00–10:30 for AC, 11:00–11:30 for
+        non-AC — and the booking carries an OTP verification step. Authorised agents are barred from the same half
+        hour, which is the point of the rule: it hands the opening minutes to individual passengers. An
+        unauthenticated account is not blocked from Tatkal entirely, but by the time it can book, the quota on a
+        busy train is gone. Link and verify Aadhaar in your IRCTC profile days ahead, not on booking morning.
+      </p>
 
       <h2 style={sectionTitleStyle}>The day before booking day</h2>
       <ul>

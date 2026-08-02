@@ -538,9 +538,12 @@ const IRCTCCancellationCalculator = () => {
             {rupees(flatChargePerPassenger('2A'))}, and {rupees(flatChargePerPassenger('3A'))} respectively) but not
             on Sleeper or Second Sitting.
           </p>
+          <h3 className="mt-8 font-display text-lg font-semibold text-ink dark:text-white">What is the clerkage charge on RAC and waitlisted tickets?</h3>
           <p className="mt-3">
-            RAC and waitlisted tickets ignore the time slabs entirely. They can be cancelled up to 30 minutes before
-            departure for a flat clerkage of ₹60 + GST ({rupees(CLERKAGE_EACH)}) per passenger — after that, nothing.
+            Clerkage is the flat handling fee Indian Railways keeps when you cancel a ticket that was never
+            confirmed. RAC and waitlisted tickets ignore the time slabs entirely: they can be cancelled up to 30
+            minutes before departure for a clerkage of ₹60 + GST ({rupees(CLERKAGE_EACH)}) per passenger — after
+            that, nothing.
             And confirmed Tatkal tickets are the harshest case: voluntary cancellation refunds nothing, whether you
             cancel five days or five hours before the train leaves. Tatkal tickets still on RAC or waitlist follow
             the normal clerkage rule.

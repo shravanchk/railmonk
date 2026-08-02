@@ -9,7 +9,7 @@ const articleSchema = {
   author: { '@type': 'Organization', name: 'Railmonk Research Team' },
   publisher: { '@type': 'Organization', name: 'Railmonk' },
   datePublished: '2026-07-06',
-  dateModified: '2026-07-06',
+  dateModified: '2026-08-02',
   mainEntityOfPage: 'https://railmonk.com/rail/guides/irctc-booking-strategy'
 };
 
@@ -28,13 +28,17 @@ export default function IrctcBookingStrategyGuide() {
         This guide gives a practical system you can follow for regular and Tatkal bookings.
       </p>
 
-      <h2 style={sectionTitleStyle}>Understand booking windows first</h2>
+      <h2 style={sectionTitleStyle}>Start from the right opening date</h2>
       <p>
-        Always verify the opening window based on your train class and quota type. Regular booking and Tatkal windows
-        behave differently, and the wrong assumption can cost you the seat even if you log in on time.
+        Strategy is worthless if you show up on the wrong day. Regular booking opens 60 days ahead at 08:00 IST under the
+        Advance Reservation Period; Tatkal opens the day before at 10:00 (AC) or 11:00 (non-AC); special and Suvidha
+        trains run on their own announced windows. If any of that is unfamiliar, read{' '}
+        <a href="/rail/irctc-calculator#advance-reservation-period">what the Advance Reservation Period (ARP) is and its exceptions</a>{' '}
+        first, then come back here — this guide assumes you already know your opening date and covers what to do with it.
       </p>
       <Callout>
-        <p><strong>Checklist:</strong> confirm the journey date, advance booking days, expected opening time, and
+        <p><strong>Checklist:</strong> confirm the journey date, get the exact opening date from the{' '}
+        <a href="/rail/irctc-calculator">ARP &amp; booking date calculator</a>, note the expected opening time, and check
         class-specific quota behavior before booking day.</p>
       </Callout>
 
@@ -60,7 +64,7 @@ export default function IrctcBookingStrategyGuide() {
 
       <h2 style={sectionTitleStyle}>Common mistakes</h2>
       <ul>
-        <li>Using the wrong booking-day calculation.</li>
+        <li>Using the wrong booking-day calculation — counting the journey date inside the 60 days, or trying on day 61 and reading &ldquo;booking not opened&rdquo; as a system fault.</li>
         <li>Starting payment setup only after seat selection.</li>
         <li>Ignoring alternate trains and boarding points.</li>
         <li>Not checking the final confirmation status after the payment flow.</li>
@@ -69,7 +73,8 @@ export default function IrctcBookingStrategyGuide() {
       <h2 style={sectionTitleStyle}>How to use Railmonk tools together</h2>
       <Callout>
         <ol>
-          <li>Use the <a href="/rail/irctc-calculator">IRCTC Booking Calculator</a> to get the opening window and planning context.</li>
+          <li>Use the <a href="/rail/irctc-calculator">ARP &amp; booking date calculator</a> to get the exact opening date and time for your journey.</li>
+          <li>Set the alert with the <a href="/rail/booking-reminder">booking reminder tool</a> so the opening minute does not pass unnoticed.</li>
           <li>Keep backup options in advance and estimate schedule constraints.</li>
           <li>Review assumptions on the <a href="/about">About page</a>.</li>
         </ol>

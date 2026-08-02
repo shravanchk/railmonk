@@ -315,8 +315,16 @@ const ChartPreparationCalculator = () => {
 
         <div className="mt-12 max-w-3xl text-[0.95rem] leading-relaxed text-ink-soft dark:text-slate-300">
           <h2 className="font-display text-xl font-bold text-ink dark:text-white">
-            Why chart time is the deadline that actually matters
+            When is the train chart prepared?
           </h2>
+          <p className="mt-3">
+            The first reservation chart is prepared at least{' '}
+            <strong className="text-ink dark:text-white">{FIRST_CHART_LEAD_HOURS} hours before the train&rsquo;s
+            scheduled departure</strong> from its originating station — except for trains leaving between 05:00 and
+            14:00, which are charted by 20:00 the previous evening. A second and final chart follows about{' '}
+            {FINAL_CHART_LEAD_MINUTES} minutes before departure. That first chart is the deadline that actually
+            matters to you.
+          </p>
           <p className="mt-3">
             A waitlisted ticket is a question that stays open until the chart is prepared. Up to that moment the
             number can keep falling as other passengers cancel; at that moment it is answered, and for a fully
@@ -337,7 +345,7 @@ const ChartPreparationCalculator = () => {
           </p>
 
           <h3 className="mt-8 font-display text-lg font-semibold text-ink dark:text-white">
-            The gap between the two charts is a real opportunity
+            Current booking: berths released between the two charts
           </h3>
           <p className="mt-3">
             Berths that are vacant at the first chart are released for{' '}
