@@ -17,7 +17,25 @@
 | `/rail/berth-position-finder` | Coach berth position finder |
 | `/rail/coach-position-finder` | Coach position on the platform |
 | `/rail/booking-reminder` | Booking and Tatkal reminders |
+| `/rail/luggage-allowance` | Luggage allowance, size limits and excess charges |
+| `/rail/penalty-calculator` | Penalties and excess fare under the Railways Act |
 | `/rail/rule-updates` | Dated log of rule changes |
+
+`luggageAllowance.js` and `penalties.js` are deliberately coupled to what already
+exists: the penalty engine imports `trainFare.js` for every fare it needs and
+`luggageAllowance.js` for the 6× unbooked-luggage multiple, rather than restating
+either. A penalty is *defined* in terms of the fare, so the two have to move
+together or the site will eventually quote a penalty that no longer matches its
+own fare calculator.
+
+Both are careful about which numbers they claim. The weights, size limits and
+charge multipliers are published rules. The rupee amounts derive from a modelled
+luggage rate and the fare engine, and every one of them is flagged `estimated`.
+The statutory sections in `penalties.js` carry the *ceiling* a court may impose,
+never a single figure, because a magistrate sets the actual amount — which is
+also why that table is reference data and not a calculator. The ₹250 excess
+charge and the e-ticket ID rule are labelled `confidence: 'practice'` rather than
+`'act'`, matching the same distinction `ruleUpdates.js` draws.
 
 ## Guides (`/rail/guides`)
 
@@ -42,6 +60,8 @@ the site's India focus stays legible.
 |---|---|
 | `/world/delay-compensation` | Delay compensation checker — EU 2021/782, UK Delay Repay, Eurostar, SBB, Amtrak, Australia |
 | `/world/booking-windows` | Booking window calculator — when tickets go on sale, by operator |
+| `/world/reservation-required` | Which trains force a compulsory seat reservation, and what it costs |
+| `/world/rail-pass-calculator` | Interrail/Eurail pass vs point-to-point tickets, reservation fees included |
 
 Two things these engines do deliberately. `delayCompensation.js` refuses to
 produce a number for the US and Australia, because no statutory entitlement
@@ -49,8 +69,24 @@ exists there and a percentage would invent one. `bookingHorizons.js` flags
 operators whose horizon genuinely moves (`reliable: false`) so the page hedges
 instead of implying a precision nobody has.
 
-Both carry a `VERIFIED` date, and both test suites **fail** once it is more than
-`STALE_AFTER_DAYS` (365) old. These are operator policy and national law rather
+`railPasses.js` imports its reservation fees from `reservationRules.js` rather
+than holding its own copy, because the fees are exactly what decides a pass
+comparison and two tables would eventually disagree. Three things it is
+deliberate about: it separates the pass-holder fee from the ticket-buyer fee
+(different inventories, different prices — "TGV reservations cost €10" is true
+only for pass holders); it charges the *full fare* for Italo and OUIGO, which
+refuse passes outright, since counting them as covered would overstate a pass by
+a whole ticket; and it keeps non-euro fees in their own currency instead of
+converting at a rate that would be wrong within a month.
+
+Pass prices are the one thing it will not assert. The field is named
+`indicativePriceEur`, the UI prefills it into an **editable** input, and the copy
+asks for the price you are actually quoted — Interrail resets prices annually, so
+a hard-coded figure would be wrong long before anyone noticed. The break-even
+arithmetic is the durable part; the price is the traveller's to supply.
+
+All four `/world` engines carry a `VERIFIED` date, and their test suites **fail**
+once it is more than `STALE_AFTER_DAYS` (365) old. These are operator policy and national law rather
 than anything static — DB doubled its booking window in 2024 — so going quietly
 stale is the real failure mode. When the test fails, re-check each entry against
 its source and then move `VERIFIED`; the pages read their "checked in …" line off
