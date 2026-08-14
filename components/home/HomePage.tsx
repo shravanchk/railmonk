@@ -55,7 +55,7 @@ const websiteSchema = {
   name: 'Railmonk',
   url: 'https://railmonk.com/',
   description:
-    'Indian Railways answers calculated clearly — refunds, Tatkal, booking dates, waitlists, fares, chart timings, TDR and berth tools built on the official rules.',
+    'Rail questions answered with the actual number — refunds, booking dates, Tatkal, waitlists, fares, penalties, luggage limits, TDR and berth tools built on the published Indian Railways rules.',
 };
 
 const orgSchema = {
@@ -112,22 +112,22 @@ export default function HomePage() {
   return (
     <>
       <Head>
-        <title>Railmonk — Indian Railways answers, calculated clearly</title>
+        <title>Railmonk — IRCTC Rules, Answered With the Actual Number</title>
         <meta
           name="description"
-          content="Free IRCTC tools built on the official rules: booking dates, Tatkal timings, cancellation refunds, waitlist odds, fares, chart preparation and berths."
+          content="Free IRCTC tools built on the official rules: cancellation refunds, booking dates, Tatkal timings, waitlist odds, fares, penalties, luggage limits and berths."
         />
         <link rel="canonical" href="https://railmonk.com/" />
-        <meta property="og:title" content="Railmonk — Indian Railways answers, calculated clearly" />
+        <meta property="og:title" content="Railmonk — IRCTC Rules, Answered With the Actual Number" />
         <meta
           property="og:description"
-          content="Booking dates, Tatkal, refunds, waitlists, fares, chart timings and berths — IRCTC rules turned into clear answers."
+          content="Refunds, booking dates, Tatkal, waitlist odds, fares, penalties and luggage limits — worked out from the published Indian Railways rules."
         />
         <meta property="og:url" content="https://railmonk.com/" />
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Railmonk — Indian Railways answers, calculated clearly" />
-        <meta name="twitter:description" content="IRCTC rules turned into clear answers. Free, no login, no guesswork." />
+        <meta name="twitter:title" content="Railmonk — IRCTC Rules, Answered With the Actual Number" />
+        <meta name="twitter:description" content="The actual number, calculated from the published rules. Free, no login, no guesswork." />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(toolListSchema) }} />
@@ -141,14 +141,16 @@ export default function HomePage() {
             <div className="mx-auto max-w-3xl text-center">
               <p className="inline-flex items-center gap-2 rounded-full border border-brand-200 bg-white px-4 py-1.5 text-xs font-semibold uppercase tracking-wide text-brand-700 shadow-soft dark:border-slate-700 dark:bg-slate-800 dark:text-brand-400">
                 <TrainFront aria-hidden="true" className="h-3.5 w-3.5" />
-                Indian Railways tools, minus the guesswork
+                Built on the published rules
               </p>
-              <h1 className="mt-5 font-display text-4xl font-extrabold leading-tight tracking-tight text-ink dark:text-white sm:text-5xl">
-                Indian Railways answers, <span className="text-brand-600 dark:text-brand-400">calculated clearly</span>
+              <h1 className="mt-5 text-balance font-display text-4xl font-extrabold leading-tight tracking-tight text-ink dark:text-white sm:text-5xl">
+                Rail questions, answered with{' '}
+                <span className="text-brand-600 dark:text-brand-400">the actual number</span>
               </h1>
               <p className="mx-auto mt-4 max-w-2xl text-lg leading-relaxed text-ink-soft dark:text-slate-300">
-                Railmonk turns dense IRCTC rules into straight answers — refunds, Tatkal, booking dates, waitlists,
-                fares, chart timings, TDR claims and berth positions. Every tool cites the rule it implements.
+                How much refund you&rsquo;ll actually get, when your booking window opens, whether your waitlist will
+                clear, what a ticket checker can charge. Worked out from the published Indian Railways rules — and we
+                show you the rule.
               </p>
               <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
                 <Link
