@@ -19,6 +19,7 @@
 | `/rail/booking-reminder` | Booking and Tatkal reminders |
 | `/rail/luggage-allowance` | Luggage allowance, size limits and excess charges |
 | `/rail/penalty-calculator` | Penalties and excess fare under the Railways Act |
+| `/rail/concession-calculator` | Child fares and the surviving concessions |
 | `/rail/rule-updates` | Dated log of rule changes |
 
 `luggageAllowance.js` and `penalties.js` are deliberately coupled to what already
@@ -36,6 +37,28 @@ never a single figure, because a magistrate sets the actual amount — which is
 also why that table is reference data and not a calculator. The ₹250 excess
 charge and the e-ticket ID rule are labelled `confidence: 'practice'` rather than
 `'act'`, matching the same distinction `ruleUpdates.js` draws.
+
+`concessions.js` follows the same coupling rule and adds one of its own. It
+imports `trainFare.js` and discounts the **basic fare component only**, because
+that is the actual rule: the reservation fee, the superfast surcharge and GST
+are charged in full to concession holders. That single fact is why the tool
+exists — a "75% concession" is never 75% off a ticket, and the engine computes
+both the headline percentage and the `effectivePercent` that actually comes off,
+so the page can show the gap instead of leaving the reader to discover it at the
+counter.
+
+What it claims and how confidently is deliberate. The child fare arithmetic and
+the general rules — basic fare only, the 300 km minimum and its exemptions,
+counter issue, one concession at a time — come from the published Indian
+Railways rules and are `confidence: 'rule'`. Every per-category percentage is
+`confidence: 'reported'`, because those come from the IRCA Coaching Tariff table
+as reproduced by secondary sources rather than a circular we could retrieve, and
+the UI says so on each result. Where a concession does not apply the engine
+refuses it with a reason rather than silently returning the full fare:
+`blockedReason` covers a class the category does not cover, the 300 km minimum,
+and Rajdhani/Shatabdi services. Categories withdrawn in March 2020 — senior
+citizens above all — are carried in `WITHDRAWN` and rendered, because "it no
+longer exists" is the answer most people arrive looking for.
 
 ## Guides (`/rail/guides`)
 

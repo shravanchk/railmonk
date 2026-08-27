@@ -5,6 +5,7 @@ import Link from 'next/link';
 import {
   ArrowRight,
   BadgeIndianRupee,
+  BadgePercent,
   BedDouble,
   BellRing,
   Bookmark,
@@ -38,6 +39,7 @@ const ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
   ListOrdered,
   FileCheck,
   BadgeIndianRupee,
+  BadgePercent,
   BedDouble,
   MapPin,
   BellRing,
