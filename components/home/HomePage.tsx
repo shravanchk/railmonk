@@ -9,11 +9,14 @@ import {
   BedDouble,
   BellRing,
   Bookmark,
+  BookMarked,
   CalendarClock,
   ClipboardList,
   FileCheck,
   ListOrdered,
   MapPin,
+  PartyPopper,
+  Receipt,
   ScrollText,
   ShieldCheck,
   TicketX,
@@ -44,6 +47,9 @@ const ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
   MapPin,
   BellRing,
   Bookmark,
+  PartyPopper,
+  Receipt,
+  BookMarked,
 };
 
 const featured = TOOLS.filter((t) => t.featured);

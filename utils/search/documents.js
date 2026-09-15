@@ -5,6 +5,9 @@
 
 import { TOOLS, GUIDES, categoryLabel } from '../catalog';
 import { RULE_UPDATES } from '../ruleUpdates';
+import { FESTIVALS } from '../festivals';
+import { CLASS_PAGES } from '../cancellationCharges';
+import { TERMS, categoryLabel as glossaryCategoryLabel } from '../glossary';
 import { TRANSLATED, toHindiHref } from '../i18n';
 import { createIndex, search as runSearch, tokenize } from './engine';
 
@@ -103,6 +106,47 @@ const updateDocs = RULE_UPDATES.map((update) => ({
   boost: 0,
 }));
 
+// One document per festival page, keyed on the festival's own names so
+// "chhath" or "pongal" lands on its page rather than the generic calendar.
+const festivalDocs = FESTIVALS.map((f) => ({
+  href: `/rail/festival-booking-dates/${f.slug}`,
+  title: `${f.name} train ticket booking dates`,
+  type: 'tool',
+  category: 'booking',
+  categoryLabel: categoryLabel('booking'),
+  blurb: f.blurb,
+  keywords: [f.name, f.shortName, ...f.aliases, 'festival', 'booking date', 'special train', 'when to book'],
+  icon: 'PartyPopper',
+  boost: TOOL_BOOST,
+}));
+
+// Per-class cancellation pages and glossary terms, keyed on the codes and
+// spellings people type. Glossary terms sit at guide weight: "RAC" should
+// find the definition, but "RAC refund" should still find the calculator.
+const cancellationDocs = CLASS_PAGES.map((p) => ({
+  href: `/rail/cancellation-charges/${p.slug}`,
+  title: `${p.name} cancellation charges`,
+  type: 'tool',
+  category: 'refunds',
+  categoryLabel: categoryLabel('refunds'),
+  blurb: `Flat charge, the 72, 24 and 8 hour slabs, and worked examples for ${p.shortName}.`,
+  keywords: [...p.aliases, ...p.covers, 'cancellation charges', 'refund', 'cancel'],
+  icon: 'Receipt',
+  boost: TOOL_BOOST,
+}));
+
+const glossaryDocs = TERMS.map((t) => ({
+  href: `/rail/glossary/${t.slug}`,
+  title: t.fullForm ? `${t.term} — ${t.fullForm}` : t.term,
+  type: 'page',
+  category: t.category,
+  categoryLabel: glossaryCategoryLabel(t.category),
+  blurb: t.short,
+  keywords: [t.term, ...(t.fullForm ? [t.fullForm] : []), ...t.aliases, 'meaning', 'full form', 'glossary'],
+  icon: 'BookMarked',
+  boost: 0,
+}));
+
 const pageDocs = [
   {
     href: '/guides',
@@ -173,7 +217,7 @@ const pageDocs = [
   },
 ].map((page) => ({ ...page, boost: -2 }));
 
-export const SEARCH_DOCUMENTS = [...toolDocs, ...hindiDocs, ...guideDocs, ...updateDocs, ...pageDocs];
+export const SEARCH_DOCUMENTS = [...toolDocs, ...festivalDocs, ...cancellationDocs, ...hindiDocs, ...guideDocs, ...glossaryDocs, ...updateDocs, ...pageDocs];
 
 const INDEX = createIndex(SEARCH_DOCUMENTS);
 

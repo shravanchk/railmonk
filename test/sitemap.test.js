@@ -14,6 +14,18 @@ const ROOT = path.join(__dirname, '..');
 // device-local, and search results are generated from a query string.
 const EXCLUDED = new Set(['/rail/saved-journeys', '/search']);
 
+// Dynamic routes expand to the pages `getStaticPaths` will actually export,
+// from the same data the page reads. A dynamic route not listed here is left
+// unexpanded, which fails the checks below loudly rather than being skipped.
+const { FESTIVALS } = require('../utils/festivals');
+const { CLASS_PAGES } = require('../utils/cancellationCharges');
+const { TERMS } = require('../utils/glossary');
+const DYNAMIC_ROUTES = {
+  '/rail/festival-booking-dates/[festival]': FESTIVALS.map((f) => `/rail/festival-booking-dates/${f.slug}`),
+  '/rail/cancellation-charges/[class]': CLASS_PAGES.map((p) => `/rail/cancellation-charges/${p.slug}`),
+  '/rail/glossary/[term]': TERMS.map((t) => `/rail/glossary/${t.slug}`),
+};
+
 const sitemapUrls = () => {
   const xml = fs.readFileSync(path.join(ROOT, 'public/sitemap.xml'), 'utf8');
   return new Set([...xml.matchAll(/<loc>https:\/\/railmonk\.com(\/[^<]*)<\/loc>/g)].map((m) => m[1]));
@@ -37,7 +49,9 @@ const pageRoutes = () => {
         const base = entry.name.replace(/\.(js|jsx|ts|tsx)$/, '');
         if (base.startsWith('_') || base === '404') continue;
         // pages/index.js → "/", pages/guides/index.js → "/guides".
-        routes.push(base === 'index' ? prefix || '/' : `${prefix}/${base}`);
+        const route = base === 'index' ? prefix || '/' : `${prefix}/${base}`;
+        if (base.startsWith('[')) routes.push(...(DYNAMIC_ROUTES[route] || [route]));
+        else routes.push(route);
       }
     }
   };

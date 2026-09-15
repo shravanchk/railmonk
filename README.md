@@ -21,6 +21,9 @@
 | `/rail/penalty-calculator` | Penalties and excess fare under the Railways Act |
 | `/rail/concession-calculator` | Child fares and the surviving concessions |
 | `/rail/rule-updates` | Dated log of rule changes |
+| `/rail/cancellation-charges` | Cancellation charges by class — hub plus one page per charge class, computed from the refund engine |
+| `/rail/glossary` | Glossary — hub plus one page per term, from `utils/glossary.js` |
+| `/rail/festival-booking-dates` | Festival booking calendar — hub plus one page per festival (`/rail/festival-booking-dates/<slug>`), generated from `utils/festivals.js` |
 
 `luggageAllowance.js` and `penalties.js` are deliberately coupled to what already
 exists: the penalty engine imports `trainFare.js` for every fare it needs and
