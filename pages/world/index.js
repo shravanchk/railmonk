@@ -1,7 +1,7 @@
 import React from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
-import { ArrowRight, Clock3, Globe2, Scale } from 'lucide-react';
+import { ArrowRight, Clock3, Globe2, Mountain, Scale } from 'lucide-react';
 import { CalcLayout } from '../../components/calculator/CalcLayout';
 import Breadcrumbs from '../../components/ui/Breadcrumbs';
 import Card from '../../components/ui/Card';
@@ -16,6 +16,7 @@ const WORLD_TOOLS = toolsInCategory('world');
 const ICONS = {
   '/world/delay-compensation': Scale,
   '/world/booking-windows': Clock3,
+  '/world/swiss-travel-pass-calculator': Mountain,
 };
 
 const itemListSchema = {

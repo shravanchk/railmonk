@@ -88,6 +88,7 @@ the site's India focus stays legible.
 | `/world/booking-windows` | Booking window calculator — when tickets go on sale, by operator |
 | `/world/reservation-required` | Which trains force a compulsory seat reservation, and what it costs |
 | `/world/rail-pass-calculator` | Interrail/Eurail pass vs point-to-point tickets, reservation fees included |
+| `/world/swiss-travel-pass-calculator` | Swiss Travel Pass (consecutive and Flex) vs Half Fare Card vs tickets, per-journey mountain discounts |
 
 Two things these engines do deliberately. `delayCompensation.js` refuses to
 produce a number for the US and Australia, because no statutory entitlement
