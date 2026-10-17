@@ -123,8 +123,9 @@ export default function QuotasVikalpBreakJourneyGuide() {
           passenger takes a lower berth and an escort the one above. Original certification must be carried.
         </li>
         <li>
-          <strong>Foreign Tourist (FT)</strong> — a small pool for foreign passport holders, and the one quota
-          still bookable a full <strong>365 days</strong> ahead rather than 60.
+          <strong>Foreign Tourist (FT)</strong> — a small pool for foreign tourists and NRIs with a valid
+          passport, and the one quota still bookable a full <strong>365 days</strong> ahead rather than 60. See{' '}
+          <a href="/rail/guides/foreign-tourist-nri-train-booking">booking as a foreign tourist or NRI</a>.
         </li>
         <li>
           <strong>Duty Pass (DP)</strong> and <strong>Defence (DF)</strong> — for railway staff on duty passes

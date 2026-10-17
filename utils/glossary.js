@@ -394,10 +394,10 @@ const TERMS = [
     term: 'FT quota',
     fullForm: 'Foreign Tourist quota',
     category: 'booking',
-    short: 'Berths reserved for foreign passport holders, bookable 365 days ahead, at a fare paid in foreign currency or its rupee equivalent.',
+    short: 'Berths reserved for foreign tourists and NRIs with a valid passport, bookable 365 days ahead from an international IRCTC account.',
     body: [
-      'The Foreign Tourist quota is a small allotment on many long-distance trains for passengers travelling on a foreign passport. It keeps a 365-day advance reservation period, far longer than the general 60 days, and can be booked online through IRCTC with a passport number or at the International Tourist Bureaux at major stations.',
-      'The berths are released to general passengers if unsold close to departure. NRIs holding a foreign passport are eligible; Indian passport holders living abroad are not.',
+      'The Foreign Tourist quota is a small allotment on many long-distance trains for visitors to India. It keeps a 365-day advance reservation period, far longer than the general 60 days, and is booked online through IRCTC with each passenger’s passport number.',
+      'IRCTC opens it to foreign tourists including NRIs, booked from an account registered with a non-Indian mobile number and paid by international card. It carries a ₹200 + GST service charge per ticket, and cancelling deducts 50% of the fare on top of the normal charges.',
     ],
     aliases: ['foreign tourist quota', 'FT quota', 'tourist quota', 'foreigner train booking'],
     tool: { href: '/rail/irctc-calculator', label: 'The 365-day window on the booking calculator' },

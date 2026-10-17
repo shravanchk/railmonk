@@ -535,6 +535,24 @@ export const GUIDES = [
     isNew: true,
   },
   {
+    href: '/rail/guides/foreign-tourist-nri-train-booking',
+    title: 'Booking Indian Trains as a Foreign Tourist or NRI',
+    blurb:
+      'Register on IRCTC with a foreign number, book the Foreign Tourist quota up to 365 days ahead with an international card, and the 50% cancellation and Aadhaar rules that catch visitors out.',
+    keywords: [
+      'foreign tourist quota', 'FT quota', 'foreigner train booking', 'NRI train booking', 'NRI IRCTC',
+      'IRCTC foreign mobile number', 'international mobile', 'IRCTC registration abroad', 'international card',
+      'foreign card IRCTC', 'tourist quota', 'passport train ticket', 'OCI train ticket', 'book train from abroad',
+      'India train for tourists', 'how to book Indian train from USA', 'IRCTC from UK', 'Tatkal foreigner',
+      'Aadhaar foreigner', 'videshi', '365 days advance booking',
+    ],
+    category: 'booking',
+    updated: '2026-10-17',
+    readingMinutes: 8,
+    relatedTools: ['/rail/irctc-calculator', '/rail/train-fare-calculator', '/rail/irctc-cancellation-calculator'],
+    isNew: true,
+  },
+  {
     href: '/rail/guides/cancellation-refund-tdr',
     title: 'Cancellation Charges, Refunds & TDR',
     blurb:
