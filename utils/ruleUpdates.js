@@ -63,6 +63,23 @@ export const RULE_UPDATES = [
     ],
   },
   {
+    id: 'boarding-point-final-chart',
+    title: 'Boarding station can be changed up to the final chart',
+    effective: '2026-04-01',
+    effectiveLabel: '1 April 2026',
+    category: 'planning',
+    confidence: 'reported',
+    summary:
+      'Confirmed and RAC passengers can change their boarding station, once per PNR, until the second (final) reservation chart about 30 minutes before departure — online on IRCTC or at a PRS counter.',
+    whatChanged:
+      'The request used to have to be made 24 hours before departure so it could reach the first chart. It now goes into the final chart instead, so a same-day change of plan no longer means losing the berth.',
+    affects: ['/rail/ticket-changes'],
+    sources: [
+      { label: 'Southern Railway press release 02/2026-27 (2 April 2026)', url: 'https://sr.indianrailways.gov.in/view_detail.jsp?lang=0&dcd=19594&id=0,4,268' },
+      { label: 'News on AIR — Railways Minister announces the reform (24 March 2026)', url: 'https://www.newsonair.gov.in/railways-minister-ashwini-vaishnaw-launches-five-reforms-in-railways-52-reforms-in-52-weeks-drive' },
+    ],
+  },
+  {
     id: 'cancellation-slabs-april-2026',
     title: 'Cancellation refund slabs revised',
     effective: '2026-04-01',

@@ -3,6 +3,7 @@ import Head from 'next/head';
 import LocaleHead from '../i18n/LocaleHead';
 import Link from 'next/link';
 import {
+  ArrowLeftRight,
   ArrowRight,
   BadgeIndianRupee,
   BadgePercent,
@@ -35,6 +36,7 @@ import { recentRuleUpdates } from '../../utils/ruleUpdates';
 import { furthestBookableDate } from '../../utils/engines/bookingWindow';
 
 const ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
+  ArrowLeftRight,
   CalendarClock,
   TicketX,
   ClipboardList,

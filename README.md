@@ -20,6 +20,7 @@
 | `/rail/luggage-allowance` | Luggage allowance, size limits and excess charges |
 | `/rail/penalty-calculator` | Penalties and excess fare under the Railways Act |
 | `/rail/concession-calculator` | Child fares and the surviving concessions |
+| `/rail/ticket-changes` | Boarding station, name, date, upgrade and extension changes |
 | `/rail/rule-updates` | Dated log of rule changes |
 | `/rail/cancellation-charges` | Cancellation charges by class — hub plus one page per charge class, computed from the refund engine |
 | `/rail/glossary` | Glossary — hub plus one page per term, from `utils/glossary.js` |
@@ -62,6 +63,26 @@ refuses it with a reason rather than silently returning the full fare:
 and Rajdhani/Shatabdi services. Categories withdrawn in March 2020 — senior
 citizens above all — are carried in `WITHDRAWN` and rendered, because "it no
 longer exists" is the answer most people arrive looking for.
+
+`ticketChanges.js` evaluates all five changes a reserved ticket allows against
+one ticket and one clock, because they are almost always described separately
+and people cancel tickets that could simply have been moved. It does not
+restate anything another engine owns: chart times come from
+`chartPreparation.js` (the boarding change closes at the final chart), clerkage
+from `irctcCancellation.js`, fare differences from `trainFare.js`, and the "done
+without asking" comparison for upgrades and extensions from `penalties.js`.
+
+Its confidence labels mark where each rule was actually read. Name transfer
+(the Passengers (Change of Names) Rules 1990), postponement/preponement (Rule
+213.9 as revised in January 2006) and the Tatkal exclusion are `'rule'`, read
+from the pages indianrail.gov.in publishes. The April 2026 boarding change is
+`'notice'`, from the Southern Railway press release, not a circular. Upgrade
+and extension procedure is `'reported'`. The online e-ticket date change the
+Minister announced for January 2026 is `'announced'` and is never shown as
+available, because we found no official notice that it went live. A confirmed
+counter ticket inside 48 hours can still be postponed, but at a cancellation
+charge rather than the reservation fee, so the engine changes the cost and does
+not mark it closed.
 
 ## Guides (`/rail/guides`)
 
