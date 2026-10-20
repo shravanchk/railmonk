@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import Head from 'next/head';
 import SiteFooter from '../components/home/SiteFooter';
 import Navbar from '../components/home/Navbar';
+import ServiceWorker from '../components/rail/ServiceWorker';
 import '../styles/globals.css';
 import '../styles/common.css';
 import '../styles/adsense.css';
@@ -54,6 +55,7 @@ export default function App({ Component, pageProps }) {
         <meta key="twitter:image" name="twitter:image" content="https://railmonk.com/og-image.png" />
         <meta key="twitter:image:alt" name="twitter:image:alt" content="Railmonk — free IRCTC &amp; Indian Railways tools" />
       </Head>
+      <ServiceWorker />
       {!hideChrome && <Navbar />}
       <Component {...pageProps} />
       {!hideChrome && <SiteFooter />}

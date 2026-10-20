@@ -21,6 +21,7 @@
 | `/rail/penalty-calculator` | Penalties and excess fare under the Railways Act |
 | `/rail/concession-calculator` | Child fares and the surviving concessions |
 | `/rail/ticket-changes` | Boarding station, name, date, upgrade and extension changes |
+| `/rail/ticket-reader` | Ticket reader — an e-ticket PDF or booking SMS, read on the device, into one journey card (also `/hi/rail/ticket-reader`) |
 | `/rail/rule-updates` | Dated log of rule changes |
 | `/rail/cancellation-charges` | Cancellation charges by class — hub plus one page per charge class, computed from the refund engine |
 | `/rail/glossary` | Glossary — hub plus one page per term, from `utils/glossary.js` |
@@ -83,6 +84,56 @@ available, because we found no official notice that it went live. A confirmed
 counter ticket inside 48 hours can still be postponed, but at a cancellation
 charge rather than the reservation fee, so the engine changes the cost and does
 not mark it closed.
+
+## Ticket reader and the installable app
+
+`/rail/ticket-reader` takes an IRCTC e-ticket (the ERS PDF) or a booking SMS and
+shows one journey card: the refund if cancelled now and at every cut-off still
+ahead, chart times, TDR deadlines, an `.ics` with the journey, the chart and the
+next refund drop, and "save to saved journeys". **Nothing is uploaded.** The
+PDF is opened by pdf.js in the browser, and the SMS by the same page.
+
+- `utils/engines/ticketParser.js` reads both ERS layouts (header row over value
+  row, and the older `Label : value`) and the SMS variants into one ticket
+  shape. What it cannot find goes in `missing` and the page asks for it. Quota
+  is never assumed: an SMS does not say Tatkal, and a confirmed Tatkal refund is
+  nil. A `TQWL`/`CKWL` waitlist is the one thing that proves it.
+- `utils/pdfLines.js` rebuilds pdf.js text items into lines. Column gaps become
+  two spaces, which is how the parser pairs a header row with its values.
+  pdf.js marks wide gaps with whitespace-only items; those are dropped and the
+  gap is measured geometrically, otherwise columns merge.
+- `utils/engines/journeyCard.js` restates no rule. Refunds come from
+  `irctcCancellation.js` (per status group, fare split evenly and flagged),
+  charts from `chartPreparation.js`, and deadlines from the `tdrRules.js` table.
+  Charts count from the train's origin, so a train boarded mid-route is flagged
+  (the ERS start date is earlier than the departure), and the card takes an
+  optional origin departure. Classes without a sourced charge (FC, EV, VS) are
+  left unpriced.
+- No live PNR status, deliberately: statuses are as printed on the ticket.
+- Saved tickets go through `utils/storedTicket.js`, which drops names, ages and
+  genders and validates every field on the way back.
+
+Tests: `test/ticketParser.test.js`, `test/journeyCard.test.js`, and
+`test/ticketPdf.test.js`, which builds real PDFs from the fixture text
+(`test/fixtures/makePdf.js`) and runs them through pdf.js's text layer. The
+samples are invented and laid out like real tickets, but **the parser has not
+yet been checked against a genuine ERS PDF** — the first one tried is worth
+keeping as a (redacted) fixture.
+
+**Installable app and share target.** `public/manifest.json` declares a
+`share_target` (`title`, `text`, `url` and `files` for PDF and text). The
+service worker `public/sw.js` answers `POST /share-target` on the device, parks
+the share in the `railmonk-share` cache and opens the reader with `?shared=1`
+(`utils/shared.js` picks it up, then empties the cache). It also caches the
+reader and the pdf.js worker for offline use. If the worker was not running,
+the Pages Function `functions/share-target.js` redirects to `?shared=lost`
+without reading the body, so the reader asks for the ticket again. Install
+prompt: `utils/install.js` + `components/rail/InstallApp.js` (iPhone gets Add
+to Home Screen instructions, since iOS has no share target for web apps).
+`npm run icons` writes the PNG and maskable icons from the SVG logo.
+`scripts/copy-vendor.mjs` copies the pdf.js legacy worker into
+`public/vendor/` (gitignored) before dev and build. The Play Store wrapper is
+in `android/`; see `android/README.md`.
 
 ## Guides (`/rail/guides`)
 
@@ -158,7 +209,9 @@ registry and the files on disk ever disagree, or if an hreflang points at a page
 that does not exist.
 
 Currently translated: the home hub plus the booking-date, cancellation-refund,
-waitlist-chances and Tatkal-charges calculators. To add another, write the page
+waitlist-chances and Tatkal-charges calculators, and the ticket reader (whose
+interface copy lives in `components/rail/ticketReader/copy.js`, both languages
+side by side). To add another, write the page
 under `pages/hi/…` and add one line to `TRANSLATED`.
 
 Hindi copy lives in the page's own file in one block rather than in a key-value

@@ -1,7 +1,7 @@
 import React from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
-import { ArrowRight, BadgeIndianRupee, CalendarClock, ListOrdered, Zap } from 'lucide-react';
+import { ArrowRight, BadgeIndianRupee, CalendarClock, ListOrdered, ScanLine, Zap } from 'lucide-react';
 import { CalcLayout } from '../../components/calculator/CalcLayout';
 import Breadcrumbs from '../../components/ui/Breadcrumbs';
 import Card from '../../components/ui/Card';
@@ -18,6 +18,7 @@ const TRANSLATED_TOOLS = TOOLS.filter((tool) => TRANSLATED.includes(tool.href));
 const ENGLISH_ONLY = TOOLS.filter((tool) => !TRANSLATED.includes(tool.href));
 
 const ICONS = {
+  '/rail/ticket-reader': ScanLine,
   '/rail/irctc-calculator': CalendarClock,
   '/rail/irctc-cancellation-calculator': BadgeIndianRupee,
   '/rail/waitlist-confirmation-chances': ListOrdered,

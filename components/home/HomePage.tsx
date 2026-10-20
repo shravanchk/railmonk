@@ -18,6 +18,7 @@ import {
   MapPin,
   PartyPopper,
   Receipt,
+  ScanLine,
   ScrollText,
   ShieldCheck,
   TicketX,
@@ -37,6 +38,7 @@ import { furthestBookableDate } from '../../utils/engines/bookingWindow';
 
 const ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
   ArrowLeftRight,
+  ScanLine,
   CalendarClock,
   TicketX,
   ClipboardList,

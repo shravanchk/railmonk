@@ -1,0 +1,91 @@
+{
+  "packageId": "com.railmonk.app",
+  "host": "railmonk.com",
+  "name": "Railmonk",
+  "launcherName": "Railmonk",
+  "display": "standalone",
+  "themeColor": "#1A2332",
+  "themeColorDark": "#1A2332",
+  "navigationColor": "#1A2332",
+  "navigationColorDark": "#0F172A",
+  "navigationDividerColor": "#1A2332",
+  "navigationDividerColorDark": "#0F172A",
+  "backgroundColor": "#FFFFFF",
+  "enableNotifications": false,
+  "startUrl": "/",
+  "iconUrl": "https://railmonk.com/icon-512.png",
+  "maskableIconUrl": "https://railmonk.com/icon-maskable-512.png",
+  "splashScreenFadeOutDuration": 300,
+  "signingKey": {
+    "path": "./android.keystore",
+    "alias": "upload"
+  },
+  "appVersionName": "1.0.0",
+  "appVersionCode": 1,
+  "shortcuts": [
+    {
+      "name": "Read a ticket",
+      "shortName": "Ticket",
+      "url": "https://railmonk.com/rail/ticket-reader",
+      "chosenIconUrl": "https://railmonk.com/icon-192.png"
+    },
+    {
+      "name": "Saved journeys",
+      "shortName": "Journeys",
+      "url": "https://railmonk.com/rail/saved-journeys",
+      "chosenIconUrl": "https://railmonk.com/icon-192.png"
+    },
+    {
+      "name": "Cancellation refund",
+      "shortName": "Refund",
+      "url": "https://railmonk.com/rail/irctc-cancellation-calculator",
+      "chosenIconUrl": "https://railmonk.com/icon-192.png"
+    },
+    {
+      "name": "Chart preparation time",
+      "shortName": "Chart",
+      "url": "https://railmonk.com/rail/chart-preparation-time",
+      "chosenIconUrl": "https://railmonk.com/icon-192.png"
+    }
+  ],
+  "generatorApp": "bubblewrap-cli",
+  "webManifestUrl": "https://railmonk.com/manifest.json",
+  "fallbackType": "customtabs",
+  "features": {},
+  "alphaDependencies": {
+    "enabled": false
+  },
+  "enableSiteSettingsShortcut": true,
+  "isChromeOSOnly": false,
+  "isMetaQuest": false,
+  "fullScopeUrl": "https://railmonk.com/",
+  "minSdkVersion": 21,
+  "shareTarget": {
+    "action": "https://railmonk.com/share-target",
+    "method": "POST",
+    "enctype": "multipart/form-data",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url",
+      "files": [
+        {
+          "name": "files",
+          "accept": [
+            "application/pdf",
+            "text/plain"
+          ]
+        }
+      ]
+    }
+  },
+  "orientation": "portrait",
+  "fingerprints": [],
+  "additionalTrustedOrigins": [],
+  "retainedBundles": [],
+  "protocolHandlers": [],
+  "fileHandlers": [],
+  "launchHandlerClientMode": "",
+  "displayOverride": [],
+  "appVersion": "1.0.0"
+}

@@ -3,8 +3,12 @@
 // Deliberately localStorage and nothing else: no account, no sync, no server
 // copy. A saved journey is a date, a quota and an optional label — the whole
 // point of the feature is a countdown, and none of that needs to leave the
-// device. If sync is ever added it should be opt-in and explicit, not a
+// device. A journey saved from the ticket reader also carries `ticket`, the
+// booked ticket without passenger names (utils/storedTicket.js), so its card
+// can be rebuilt against a fresh clock. If sync is ever added it should be opt-in and explicit, not a
 // silent upgrade of data people already stored under this promise.
+
+import { toStored, fromStored } from './storedTicket';
 
 const STORAGE_KEY = 'railmonk.savedJourneys.v1';
 const MAX_JOURNEYS = 20;
@@ -27,6 +31,7 @@ const sanitize = (entry) => {
     label: typeof entry.label === 'string' ? entry.label.slice(0, LABEL_MAX) : '',
     departureTime: /^\d{2}:\d{2}$/.test(entry.departureTime) ? entry.departureTime : '',
     savedAt: typeof entry.savedAt === 'string' ? entry.savedAt : new Date().toISOString(),
+    ...(entry.ticket && fromStored(entry.ticket) ? { ticket: toStored(fromStored(entry.ticket)) } : {}),
   };
 };
 
@@ -65,7 +70,9 @@ const makeId = () => `j_${Date.now().toString(36)}_${Math.random().toString(36).
 export const saveJourney = ({ journeyDate, quotaId = 'general', label = '', departureTime = '' }) => {
   if (!isIsoDate(journeyDate)) return null;
   const existing = loadJourneys();
-  const match = existing.find((j) => j.journeyDate === journeyDate && j.quotaId === quotaId);
+  // Booked tickets are matched by PNR, not by date: two tickets on one day
+  // are two journeys.
+  const match = existing.find((j) => !j.ticket && j.journeyDate === journeyDate && j.quotaId === quotaId);
   const entry = sanitize({
     id: match ? match.id : makeId(),
     journeyDate,
@@ -78,6 +85,33 @@ export const saveJourney = ({ journeyDate, quotaId = 'general', label = '', depa
   const next = [...existing.filter((j) => j.id !== entry.id), entry].sort((a, b) => a.journeyDate.localeCompare(b.journeyDate));
   return persist(next) ? next : null;
 };
+
+/**
+ * Save a booked ticket read by the ticket reader. Re-saving the same PNR
+ * replaces the earlier copy, so a ticket re-read after charting updates its
+ * statuses. Returns { list, id }, or null if storage is unavailable.
+ */
+export const saveTicketJourney = (ticket, label = '') => {
+  const stored = toStored(ticket);
+  if (!stored) return null;
+  const existing = loadJourneys();
+  const match = existing.find((j) => j.ticket && stored.pnr && j.ticket.pnr === stored.pnr);
+  const tatkal = stored.quota && stored.quota.tatkal;
+  const entry = sanitize({
+    id: match ? match.id : makeId(),
+    journeyDate: stored.departure.date,
+    quotaId: tatkal ? 'tatkal-ac' : 'general',
+    label,
+    departureTime: stored.departure.time || '',
+    savedAt: new Date().toISOString(),
+    ticket: stored,
+  });
+  if (!entry) return null;
+  const next = [...existing.filter((j) => j.id !== entry.id), entry].sort((a, b) => a.journeyDate.localeCompare(b.journeyDate));
+  return persist(next) ? { list: next, id: entry.id } : null;
+};
+
+export const getJourney = (id) => loadJourneys().find((j) => j.id === id) || null;
 
 export const removeJourney = (id) => {
   const next = loadJourneys().filter((j) => j.id !== id);

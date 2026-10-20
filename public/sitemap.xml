@@ -129,6 +129,10 @@
     <lastmod>2026-07-31</lastmod>
   </url>
   <url>
+    <loc>https://railmonk.com/hi/rail/ticket-reader</loc>
+    <lastmod>2026-10-20</lastmod>
+  </url>
+  <url>
     <loc>https://railmonk.com/world</loc>
     <lastmod>2026-07-31</lastmod>
   </url>
@@ -459,5 +463,9 @@
   <url>
     <loc>https://railmonk.com/rail/ticket-changes</loc>
     <lastmod>2026-10-18</lastmod>
+  </url>
+  <url>
+    <loc>https://railmonk.com/rail/ticket-reader</loc>
+    <lastmod>2026-10-20</lastmod>
   </url>
 </urlset>

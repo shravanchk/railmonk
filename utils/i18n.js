@@ -36,6 +36,7 @@ const TRANSLATED = [
   '/rail/irctc-cancellation-calculator',
   '/rail/waitlist-confirmation-chances',
   '/rail/tatkal-charges-calculator',
+  '/rail/ticket-reader',
 ];
 
 const TRANSLATED_SET = new Set(TRANSLATED);

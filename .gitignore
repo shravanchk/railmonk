@@ -11,3 +11,22 @@ pnpm-debug.log*
 .claude/settings.local.json
 tsconfig.tsbuildinfo
 next-env.d.ts
+
+# copied from node_modules by scripts/copy-vendor.mjs
+/public/vendor/
+
+# Android (Play Store app, see android/README.md). The signing key never
+# goes in git: lose it and lose the ability to update the app.
+*.keystore
+*.jks
+android/.gradle/
+android/.idea/
+android/local.properties
+android/build/
+android/app/build/
+android/app/release/
+*.aab
+*.apk
+*.idsig
+# written by scripts/assetlinks.mjs from android/twa-manifest.json
+/public/.well-known/

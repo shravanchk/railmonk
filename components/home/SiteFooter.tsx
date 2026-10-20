@@ -1,7 +1,11 @@
 import React from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import Container from '../ui/Container';
+import InstallApp from '../rail/InstallApp';
+import { COPY } from '../rail/ticketReader/copy';
 import { TOOLS, GUIDES } from '../../utils/catalog';
+import { localeFromPath } from '../../utils/i18n';
 
 type Col = { heading: string; links: { label: string; href: string; external?: boolean }[] };
 
@@ -30,6 +34,8 @@ const COLUMNS: Col[] = [
 ];
 
 export default function SiteFooter() {
+  const { pathname } = useRouter();
+  const locale = localeFromPath(pathname) as 'en' | 'hi';
   return (
     <footer className="border-t border-slate-200/80 bg-slate-100 dark:border-slate-800 dark:bg-slate-900">
       <Container className="py-12">
@@ -66,7 +72,8 @@ export default function SiteFooter() {
         </div>
         <div className="mt-10 flex flex-col items-center justify-between gap-3 border-t border-slate-100 pt-6 text-xs text-ink-muted dark:border-slate-800 dark:text-slate-500 sm:flex-row">
           <p>© {new Date().getFullYear()} Railmonk. All rights reserved.</p>
-          <div className="flex items-center gap-4">
+          <div className="flex flex-wrap items-center justify-center gap-4">
+            <InstallApp t={COPY[locale].install} className="text-xs" />
             <Link href="/terms-of-service" className="hover:text-brand-700 dark:hover:text-white">Terms</Link>
             <Link href="/privacy-policy" className="hover:text-brand-700 dark:hover:text-white">Privacy</Link>
             <Link href="/cookie-policy" className="hover:text-brand-700 dark:hover:text-white">Cookies</Link>

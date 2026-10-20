@@ -52,21 +52,8 @@ const foldLine = (line) => {
   return parts.join('\r\n');
 };
 
-/**
- * Build an RFC 5545 VEVENT with an optional alarm.
- *
- * @param {object} o
- * @param {string} o.title          Event summary.
- * @param {string} o.startWallIst   `YYYY-MM-DDTHH:MM` in IST.
- * @param {number} [o.durationMinutes=30]
- * @param {string} [o.description]
- * @param {string} [o.url]          Appended to the description; calendars vary on URL support.
- * @param {string} [o.location]
- * @param {number[]} [o.alarmMinutesBefore=[]]  One VALARM per entry.
- * @param {string} [o.uid]          Supply a stable id to make re-imports idempotent.
- * @returns {string|null} ICS document with CRLF line endings.
- */
-const buildIcsEvent = ({
+/** The VEVENT lines for one event, or null if it has no title or valid start. */
+const veventLines = ({
   title,
   startWallIst,
   durationMinutes = 30,
@@ -85,11 +72,6 @@ const buildIcsEvent = ({
   const body = description && url ? `${description}\n\n${url}` : description || url;
 
   const lines = [
-    'BEGIN:VCALENDAR',
-    'VERSION:2.0',
-    'PRODID:-//Railmonk//Rail reminders//EN',
-    'CALSCALE:GREGORIAN',
-    'METHOD:PUBLISH',
     'BEGIN:VEVENT',
     `UID:${escapeIcsText(uid || `${toCompactUtc(start)}-${Math.random().toString(36).slice(2, 10)}@railmonk.com`)}`,
     `DTSTAMP:${toCompactUtc(dtStamp)}`,
@@ -112,8 +94,41 @@ const buildIcsEvent = ({
       );
     });
 
-  lines.push('END:VEVENT', 'END:VCALENDAR');
-  return lines.map(foldLine).join('\r\n');
+  lines.push('END:VEVENT');
+  return lines;
+};
+
+const CALENDAR_HEAD = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Railmonk//Rail reminders//EN', 'CALSCALE:GREGORIAN', 'METHOD:PUBLISH'];
+
+/**
+ * Build an RFC 5545 VEVENT with an optional alarm.
+ *
+ * @param {object} o
+ * @param {string} o.title          Event summary.
+ * @param {string} o.startWallIst   `YYYY-MM-DDTHH:MM` in IST.
+ * @param {number} [o.durationMinutes=30]
+ * @param {string} [o.description]
+ * @param {string} [o.url]          Appended to the description; calendars vary on URL support.
+ * @param {string} [o.location]
+ * @param {number[]} [o.alarmMinutesBefore=[]]  One VALARM per entry.
+ * @param {string} [o.uid]          Supply a stable id to make re-imports idempotent.
+ * @returns {string|null} ICS document with CRLF line endings.
+ */
+const buildIcsEvent = (event) => {
+  const vevent = veventLines(event);
+  if (!vevent) return null;
+  return [...CALENDAR_HEAD, ...vevent, 'END:VCALENDAR'].map(foldLine).join('\r\n');
+};
+
+/**
+ * Several events in one calendar file, so one tap adds a whole journey's
+ * reminders. Events without a title or a valid start are skipped; returns
+ * null if none are left.
+ */
+const buildIcsCalendar = (events) => {
+  const vevents = (events || []).map(veventLines).filter(Boolean);
+  if (!vevents.length) return null;
+  return [...CALENDAR_HEAD, ...vevents.flat(), 'END:VCALENDAR'].map(foldLine).join('\r\n');
 };
 
 /** Google Calendar "add event" URL for the same event shape. */
@@ -172,6 +187,7 @@ module.exports = {
   toCompactUtc,
   escapeIcsText,
   buildIcsEvent,
+  buildIcsCalendar,
   buildGoogleCalendarUrl,
   buildOutlookCalendarUrl,
   downloadIcs,

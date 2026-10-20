@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
-import { Bookmark, CalendarPlus, Laptop, Trash2 } from 'lucide-react';
+import { Bookmark, CalendarPlus, Laptop, ScanLine, Trash2 } from 'lucide-react';
 import { CalcLayout } from '../../components/calculator/CalcLayout';
 import Breadcrumbs from '../../components/ui/Breadcrumbs';
 import Card from '../../components/ui/Card';
@@ -11,6 +11,11 @@ import { formatIsoDate } from '../../components/rail/UpdatedStamp';
 import { loadJourneys, removeJourney, clearJourneys } from '../../utils/savedJourneys';
 import { computeBookingWindow, getQuota } from '../../utils/engines/bookingWindow';
 import { buildGoogleCalendarUrl } from '../../utils/reminders';
+import { fromStored } from '../../utils/storedTicket';
+import { buildJourneyCard } from '../../utils/engines/journeyCard';
+import { effectiveStatus } from '../../utils/engines/ticketParser';
+import { istWallNow } from '../../utils/engines/ticketChanges';
+import { formatWallDate, formatWallTime } from '../../utils/engines/chartPreparation';
 import { buildFaqSchema } from '../../utils/faqSchema';
 
 const HREF = '/rail/saved-journeys';
@@ -41,6 +46,82 @@ const STATUS_STYLES = {
   'journey-passed': 'border-slate-200 bg-slate-50 text-ink-muted dark:border-slate-700 dark:bg-slate-800/60 dark:text-slate-400',
 };
 
+const wallText = (d) => `${formatWallTime(d)}, ${formatWallDate(d)}`;
+const rupees = (n) => `₹${Number(n).toLocaleString('en-IN', { maximumFractionDigits: 2 })}`;
+
+/**
+ * A journey saved from the ticket reader. It is already booked, so instead of
+ * a booking-window countdown it shows what matters next: the chart, and what
+ * cancelling would return right now.
+ */
+function TicketJourney({ journey, now, onRemove }) {
+  const ticket = fromStored(journey.ticket);
+  if (!ticket) return null;
+  const card = buildJourneyCard(ticket, { now });
+  const statuses = ticket.passengers.map((p) => effectiveStatus(p)).filter(Boolean);
+  const title = journey.label || (ticket.train ? `${ticket.train.number} ${ticket.train.name || ''}`.trim() : 'Train journey');
+  const chartDone = card.charts && now && now.getTime() >= card.charts.firstChart.getTime();
+
+  return (
+    <Card className="flex h-full flex-col p-5">
+      <div className="flex items-start justify-between gap-3">
+        <div className="min-w-0">
+          <h2 className="font-display text-base font-bold text-ink dark:text-white">{title}</h2>
+          <p className="mt-0.5 text-sm text-ink-muted dark:text-slate-400">
+            {card.departure ? <time dateTime={journey.journeyDate}>{wallText(card.departure)}</time> : formatIsoDate(journey.journeyDate)}
+          </p>
+        </div>
+        <button
+          type="button"
+          onClick={() => onRemove(journey.id)}
+          aria-label={`Remove ${title} on ${formatIsoDate(journey.journeyDate)}`}
+          className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-slate-200 text-ink-muted transition hover:border-rose-300 hover:text-rose-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-400 dark:border-slate-700 dark:text-slate-400"
+        >
+          <Trash2 aria-hidden="true" className="h-4 w-4" />
+        </button>
+      </div>
+
+      <p className="mt-3 text-xs font-medium text-ink-muted dark:text-slate-500">
+        Booked{ticket.pnr ? ` · PNR ${ticket.pnr}` : ''}
+        {ticket.classCode ? ` · ${ticket.classCode}` : ''}
+        {ticket.quota ? ` · ${ticket.quota.label}` : ''}
+      </p>
+      <p className="mt-2 inline-flex w-fit rounded-lg border border-brand-200 bg-brand-50 px-2.5 py-1 text-xs font-semibold text-brand-800 dark:border-brand-800/60 dark:bg-brand-900/20 dark:text-brand-300">
+        {statuses.map((s) => s.raw).join(' · ') || 'Status not on ticket'}
+      </p>
+
+      <div className="mt-3 flex-1 space-y-1 text-sm text-ink-soft dark:text-slate-300">
+        {card.departed ? (
+          <p>This train has left.</p>
+        ) : (
+          <>
+            {card.charts ? (
+              <p>
+                {chartDone ? 'Chart was due' : 'Chart due'} <strong className="text-ink dark:text-white">{wallText(card.charts.firstChart)}</strong>
+              </p>
+            ) : null}
+            {card.refundNow ? (
+              <p>
+                Cancel now: <strong className="text-ink dark:text-white">{rupees(card.refundNow.refund)}</strong> back
+                {card.nextDrop && !card.allWaitlisted ? ` until ${wallText(card.refundNow.ends)}` : ''}
+              </p>
+            ) : null}
+          </>
+        )}
+        <p className="text-xs text-ink-muted dark:text-slate-500">Statuses as printed on the ticket you read.</p>
+      </div>
+
+      <Link
+        href={`/rail/ticket-reader?saved=${encodeURIComponent(journey.id)}`}
+        className="mt-4 inline-flex min-h-[44px] items-center gap-2 text-sm font-semibold text-brand-700 hover:underline dark:text-brand-300"
+      >
+        <ScanLine aria-hidden="true" className="h-4 w-4" />
+        Open the journey card
+      </Link>
+    </Card>
+  );
+}
+
 const statusText = (w) => {
   if (!w) return '';
   if (w.status === 'journey-passed') return 'Journey date has passed';
@@ -55,8 +136,10 @@ export default function SavedJourneysPage() {
   // flash of the empty state for people who do have journeys saved.
   const [journeys, setJourneys] = useState(null);
   const [today, setToday] = useState('');
+  const [now, setNow] = useState(null);
 
   useEffect(() => {
+    setNow(istWallNow());
     const now = new Date();
     setToday(`${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`);
     setJourneys(loadJourneys());
@@ -94,7 +177,7 @@ export default function SavedJourneysPage() {
       <CalcLayout
         eyebrow="Train planning"
         title="Saved journeys"
-        subtitle="Your upcoming trips with a countdown to each booking window. Everything here lives in this browser on this device — there is no account and nothing is sent to Railmonk."
+        subtitle="Your upcoming trips: a countdown to each booking window, and for booked tickets the chart time and what cancelling would return. Everything here lives in this browser on this device — there is no account and nothing is sent to Railmonk."
       >
         <Breadcrumbs
           className="-mt-4 mb-6"
@@ -110,7 +193,9 @@ export default function SavedJourneysPage() {
               <h2 className="mt-4 font-display text-lg font-bold text-ink dark:text-white">No journeys saved yet</h2>
               <p className="mt-2 max-w-md text-sm leading-relaxed text-ink-muted dark:text-slate-400">
                 Set a booking reminder for a trip and choose &ldquo;Save this journey&rdquo; — it will appear here
-                with a countdown to the minute its booking window opens.
+                with a countdown to the minute its booking window opens. Already booked? Read the ticket with the{' '}
+                <Link href="/rail/ticket-reader" className="font-medium text-brand-700 underline dark:text-brand-300">ticket reader</Link>{' '}
+                and save it from there.
               </p>
               <Link
                 href="/rail/booking-reminder"
@@ -124,6 +209,13 @@ export default function SavedJourneysPage() {
             <>
               <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {journeys.map((j) => {
+                  if (j.ticket) {
+                    return (
+                      <li key={j.id}>
+                        <TicketJourney journey={j} now={now} onRemove={handleRemove} />
+                      </li>
+                    );
+                  }
                   const w = computeBookingWindow({ journeyDate: j.journeyDate, quotaId: j.quotaId, today });
                   const quota = getQuota(j.quotaId);
                   return (

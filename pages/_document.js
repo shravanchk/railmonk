@@ -22,7 +22,7 @@ export default function Document({ locale = 'en' }) {
         <meta name="theme-color" content="#1a2332" />
         <link rel="icon" type="image/svg+xml" href="/railmonk-logo.svg?v=1" />
         <link rel="shortcut icon" type="image/svg+xml" href="/railmonk-logo.svg?v=1" />
-        <link rel="apple-touch-icon" href="/railmonk-logo.svg?v=1" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <link rel="manifest" href="/manifest.json" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
